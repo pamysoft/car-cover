@@ -142,7 +142,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <Links />
       </head>
       <body>
-        <div className="text-yellow-600">Hello </div>
+        <div className="text-yellow-600">Hello 2222</div>
         {data ? (
           <Analytics.Provider
             cart={data.cart}
