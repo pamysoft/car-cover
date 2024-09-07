@@ -1,19 +1,21 @@
-import {Await, Link} from '@remix-run/react';
-import {Suspense} from 'react';
+import { Await, Link } from '@remix-run/react';
+import { Suspense } from 'react';
 import type {
   CartApiQueryFragment,
   FooterQuery,
   HeaderQuery,
 } from 'storefrontapi.generated';
-import {Aside} from '~/components/Aside';
-import {Footer} from '~/components/Footer';
-import {Header, HeaderMenu} from '~/components/Header';
-import {CartMain} from '~/components/CartMain';
+import { Aside } from '~/components/Aside';
+import { Footer } from '~/components/Footer';
+import { Header, HeaderMenu } from '~/components/Header';
+import { CartMain } from '~/components/CartMain';
 import {
   SEARCH_ENDPOINT,
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
-import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import { SearchResultsPredictive } from '~/components/SearchResultsPredictive';
+import { AnnouncementBar } from './carcovers/AnnouncementBar';
+import { TopBar } from './carcovers/TopBar';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -37,6 +39,10 @@ export function PageLayout({
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+      
+      <AnnouncementBar />
+      <TopBar />
+
       {header && (
         <Header
           header={header}
@@ -55,7 +61,7 @@ export function PageLayout({
   );
 }
 
-function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
+function CartAside({ cart }: { cart: PageLayoutProps['cart'] }) {
   return (
     <Aside type="cart" heading="CART">
       <Suspense fallback={<p>Loading cart ...</p>}>
@@ -75,7 +81,7 @@ function SearchAside() {
       <div className="predictive-search">
         <br />
         <SearchFormPredictive>
-          {({fetchResults, goToSearch, inputRef}) => (
+          {({ fetchResults, goToSearch, inputRef }) => (
             <>
               <input
                 name="q"
@@ -92,8 +98,8 @@ function SearchAside() {
         </SearchFormPredictive>
 
         <SearchResultsPredictive>
-          {({items, total, term, state, inputRef, closeSearch}) => {
-            const {articles, collections, pages, products, queries} = items;
+          {({ items, total, term, state, inputRef, closeSearch }) => {
+            const { articles, collections, pages, products, queries } = items;
 
             if (state === 'loading' && term.current) {
               return <div>Loading...</div>;

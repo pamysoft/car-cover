@@ -40,6 +40,26 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 export function links() {
   return [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
+    },
     {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: customStyles},
@@ -142,7 +162,6 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <Links />
       </head>
       <body>
-        <div className="text-yellow-600">Hello update</div>
         {data ? (
           <Analytics.Provider
             cart={data.cart}
