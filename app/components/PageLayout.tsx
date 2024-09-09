@@ -6,7 +6,7 @@ import type {
   HeaderQuery,
 } from 'storefrontapi.generated';
 import { Aside } from '~/components/Aside';
-import { Footer } from '~/components/Footer';
+// import { Footer } from '~/components/Footer';
 import { HeaderMenu } from '~/components/Header';
 import { CartMain } from '~/components/CartMain';
 import {
@@ -14,9 +14,10 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import { SearchResultsPredictive } from '~/components/SearchResultsPredictive';
-import { AnnouncementBar } from './carcovers/AnnouncementBar';
-import { TopBar } from './carcovers/TopBar';
-import { Header } from './carcovers/Header';
+import { AnnouncementBar } from './header/AnnouncementBar';
+import { TopBar } from './header/TopBar';
+import { Header } from './header/Header';
+import { Footer } from './footer/Footer';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -54,11 +55,13 @@ export function PageLayout({
       )}
 
       <main>{children}</main>
-      <Footer
+      {/* <Footer
         footer={footer}
         header={header}
         publicStoreDomain={publicStoreDomain}
-      />
+      /> */}
+      <Footer />
+
     </Aside.Provider>
   );
 }

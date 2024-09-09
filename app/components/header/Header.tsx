@@ -30,7 +30,20 @@ export function Header({
             <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
         </div>
         <PromotionBoxes />
+        <div className='mb-[30px] hidden items-center bg-[#4e4e4e] lg:block'>
+            <DesktopMenu menu={menu} />
+        </div>
     </div>;
+}
+
+function DesktopMenu({ menu }: {menu: HeaderProps['header']['menu']}) {
+    return (
+        <div className="flex justify-center">
+            <ul className="up flex flex-wrap font-[Oswald] text-[14px] uppercase leading-[55px] tracking-tight text-white">
+                {menu?.items.map(item => <li className="mb-0 px-[16px] xl:px-[25px]"><NavLink to={item.url} title={item.title}>{item.title}</NavLink></li>)}
+            </ul>
+        </div>
+    )
 }
 
 function HeaderCtas({
@@ -39,7 +52,7 @@ function HeaderCtas({
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
     return (
         <div>
-            <nav className='grid grid-cols-[40px_1fr_40px] items-center justify-between py-[20px] lg:grid-cols-[170px_1fr_100px]' role="navigation">
+            <nav className='grid grid-cols-[40px_1fr_40px] items-center justify-between py-[20px] lg:grid-cols-[170px_1fr_50px]' role="navigation">
                 <div className='lg:hidden'>
                     <HeaderMenuMobileToggle />
                 </div>
@@ -47,8 +60,10 @@ function HeaderCtas({
                 <div className='hidden lg:block'>
                     <HeaderInfo />
                 </div>
-                <CartToggle cart={cart} />
-            </nav>            
+                <div className='flex justify-end'>
+                    <CartToggle cart={cart} />
+                </div>
+            </nav>
         </div>
     );
 }
