@@ -17,6 +17,7 @@ import appStyles from '~/styles/app.css?url';
 import customStyles from '~/styles/custom.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import { l } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 
 export type RootLoader = typeof loader;
 
@@ -42,11 +43,19 @@ export function links() {
   return [
     {
       rel: 'preconnect',
+      href: 'https://cdnjs.cloudflare.com',
+    },
+    {
+      rel: 'preconnect',
       href: 'https://fonts.googleapis.com',
     },
     {
       rel: 'preconnect',
       href: 'https://fonts.gstatic.com',
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
     },
     {
       rel: 'stylesheet',
@@ -60,9 +69,9 @@ export function links() {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
     },
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: appStyles},
-    {rel: 'stylesheet', href: customStyles},
+    {rel: 'stylesheet', href: resetStyles, as: 'style'},
+    {rel: 'stylesheet', href: appStyles, as: 'style'},
+    {rel: 'stylesheet', href: customStyles, as: 'style'},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -78,10 +87,15 @@ export function links() {
 export async function loader(args: LoaderFunctionArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
+  console.log('deferredData::')
+  console.log(JSON.stringify(deferredData))
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
+  console.log('criticalData::')
+  console.log(JSON.stringify(criticalData))
+  
   const {storefront, env} = args.context;
 
   return defer({
@@ -98,6 +112,8 @@ export async function loader(args: LoaderFunctionArgs) {
     },
   });
 }
+
+
 
 /**
  * Load data necessary for rendering content above the fold. This is the critical data

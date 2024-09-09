@@ -11,16 +11,16 @@ export default async function handleRequest(
   remixContext: EntryContext,
   context: AppLoadContext,
 ) {
-  console.log('context.env.PUBLIC_CHECKOUT_DOMAIN')
-  console.log(context.env.PUBLIC_CHECKOUT_DOMAIN)
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     fontSrc: [
       "'self'",
       'https://fonts.gstatic.com',
+      'https://cdnjs.cloudflare.com',
     ],
     styleSrc: [
       "'self'",
       'https://fonts.googleapis.com',
+      'https://cdnjs.cloudflare.com',
     ],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
