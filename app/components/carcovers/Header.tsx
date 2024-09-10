@@ -4,8 +4,8 @@ import { type CartViewPayload, useAnalytics } from '@shopify/hydrogen';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
 import logoUrl from '~/assets/logo.png';
-import HamburgerIcon from '../icons/HamburgerIcon';
-import CartIcon from '../icons/CartIcon';
+import HamburgerIcon from './icons/HamburgerIcon';
+import CartIcon from './icons/CartIcon';
 import { PromotionBoxes } from './PromotionBoxes';
 import { HeaderInfo } from './HeaderInfo';
 
@@ -40,7 +40,7 @@ function DesktopMenu({ menu }: {menu: HeaderProps['header']['menu']}) {
     return (
         <div className="flex justify-center">
             <ul className="up flex flex-wrap font-[Oswald] text-[14px] uppercase leading-[55px] tracking-tight text-white">
-                {menu?.items.map(item => <li className="mb-0 px-[16px] xl:px-[25px]"><NavLink to={item.url} title={item.title}>{item.title}</NavLink></li>)}
+                {menu?.items.map(item => <li key={item.id} className="mb-0 px-[16px] xl:px-[25px]"><NavLink to={item.url} title={item.title}>{item.title}</NavLink></li>)}
             </ul>
         </div>
     )
@@ -56,7 +56,9 @@ function HeaderCtas({
                 <div className='lg:hidden'>
                     <HeaderMenuMobileToggle />
                 </div>
-                <Logo />
+                <NavLink to={'/'}>
+                    <Logo />
+                </NavLink>
                 <div className='hidden lg:block'>
                     <HeaderInfo />
                 </div>

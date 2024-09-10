@@ -14,10 +14,10 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import { SearchResultsPredictive } from '~/components/SearchResultsPredictive';
-import { AnnouncementBar } from './header/AnnouncementBar';
-import { TopBar } from './header/TopBar';
-import { Header } from './header/Header';
-import { Footer } from './footer/Footer';
+import { AnnouncementBar } from './carcovers/AnnouncementBar';
+import { TopBar } from './carcovers/TopBar';
+import { Header } from './carcovers/Header';
+import { Footer } from './carcovers/Footer';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -54,7 +54,7 @@ export function PageLayout({
         />
       )}
 
-      <main>{children}</main>
+      <main className='m-0 p-0'>{children}</main>
       {/* <Footer
         footer={footer}
         header={header}
