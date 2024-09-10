@@ -9,6 +9,8 @@ import type {
 import { SearchBox } from '~/components/carcovers/SearchBox';
 import { Slideshow } from '~/components/carcovers/Slideshow';
 import { FeaturedCollection } from '~/components/carcovers/FeaturedCollection';
+import { HeroSection } from '~/components/carcovers/HeroSection';
+import { ValueProposition } from '~/components/carcovers/ValuePropostion';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -69,6 +71,8 @@ export default function Homepage() {
           </div>
         </div>
         <FeaturedCollection />
+        <HeroSection />
+        <ValueProposition />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
