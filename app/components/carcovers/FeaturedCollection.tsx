@@ -25,7 +25,7 @@ export function FeaturedCollection(props) {
         <div className="container">
             <div className="mt-[15px] grid grid-cols-2 gap-[15px] md:grid-cols-3">
                 {images.map((imageUrl) => (    
-                    <div>
+                    <div key={imageUrl}>
                         <a className="block" target="_self" href="#">
                             <img src={imageUrl} width="100%" height="100%" />
                         </a>

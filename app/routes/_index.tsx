@@ -11,6 +11,8 @@ import { Slideshow } from '~/components/carcovers/Slideshow';
 import { FeaturedCollection } from '~/components/carcovers/FeaturedCollection';
 import { HeroSection } from '~/components/carcovers/HeroSection';
 import { ValueProposition } from '~/components/carcovers/ValuePropostion';
+import { CarCoverTypes } from '~/components/carcovers/CarCoverTypes';
+import { CarCoverComparison } from '~/components/carcovers/CarCoverComparison';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -64,7 +66,7 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
-        <div className='container mt-[20px]'>
+        <div className='container mt-[20px] lg:mt-0'>
           <div className='md:gap-0 ml:flex'>
             <SearchBox className="ml:w-1/4" />
             <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
@@ -73,6 +75,8 @@ export default function Homepage() {
         <FeaturedCollection />
         <HeroSection />
         <ValueProposition />
+        <CarCoverTypes />
+        <CarCoverComparison />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>

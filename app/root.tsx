@@ -87,15 +87,10 @@ export function links() {
 export async function loader(args: LoaderFunctionArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-  console.log('deferredData::')
-  console.log(JSON.stringify(deferredData))
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  console.log('criticalData::')
-  console.log(JSON.stringify(criticalData))
-  
   const {storefront, env} = args.context;
 
   return defer({

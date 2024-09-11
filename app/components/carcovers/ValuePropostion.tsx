@@ -44,7 +44,7 @@ export function ValueProposition() {
             <div className="container">
                 <h2 className="mb-[20px] mt-10 text-[28px] font-medium">CarCover.com True Difference</h2>
                 <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 lg:grid-cols-3">
-                    {features.map(feature => <div className="flex flex-col items-center justify-center border-[1px] border-dotted border-[#c2c2c2] p-[20px]">
+                    {features.map(feature => <div key={feature.title} className="flex flex-col items-center justify-center border-[1px] border-dotted border-[#c2c2c2] p-[20px]">
                         <div className="tracking-[-0.5px]">
                             <h6 className="mb-[25px] mt-[20px] text-center text-[20px] font-medium">{feature.title}</h6>
                             <div className="mb-[5px] flex justify-center">
