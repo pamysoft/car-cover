@@ -484,3 +484,20 @@ button.reset:hover:not(:has(> *)) {
 .account-logout {
   display: inline-block;
 }
+
+
+@font-face {
+  font-family: 'icon-dukamarket';
+  src: url('/icon-dukamarket.eot');
+  src: url('/icon-dukamarket.eot#iefix') format('embedded-opentype'),url('/icon-dukamarket.ttf') format('truetype'),url('/icon-dukamarket.woff') format('woff'),url('/icon-dukamarket.svg#icon-dukamarket') format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block
+}
+@font-face {
+  font-family: 'icons-blank-theme';
+  src: url('/Blank-Theme-Icons.woff2') format('woff2'),url('/Blank-Theme-Icons.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block
+}
