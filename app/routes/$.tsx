@@ -5,34 +5,34 @@ import { useEffect } from 'react';
 import { useInView } from "react-intersection-observer";
 
 
-const PRODUCT_CARD_FRAGMENT = `#graphql
-  fragment ProductCard on Product {
-    id
-    title
-  }
-`;
+// const PRODUCT_CARD_FRAGMENT = `#graphql
+//   fragment ProductCard on Product {
+//     id
+//     title
+//   }
+// `;
 
-const QUERY_PRODUCTS = `#graphql
-  query FilteredProducts(
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-  ) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
-      nodes {
-        ...ProductCard
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-  ${PRODUCT_CARD_FRAGMENT}
-`;
+// const QUERY_PRODUCTS = `#graphql
+//   query FilteredProducts(
+//     $first: Int
+//     $last: Int
+//     $startCursor: String
+//     $endCursor: String
+//   ) {
+//     products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+//       nodes {
+//         ...ProductCard
+//       }
+//       pageInfo {
+//         hasPreviousPage
+//         hasNextPage
+//         startCursor
+//         endCursor
+//       }
+//     }
+//   }
+//   ${PRODUCT_CARD_FRAGMENT}
+// `;
 
 
 const ALL_PRODUCTS_QUERY = `#graphql
