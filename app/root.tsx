@@ -47,6 +47,10 @@ export function links() {
     },
     {
       rel: 'preconnect',
+      href: 'https://cdn.shopify.com',
+    },
+    {
+      rel: 'preconnect',
       href: 'https://fonts.googleapis.com',
     },
     {

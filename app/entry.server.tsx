@@ -16,6 +16,7 @@ export default async function handleRequest(
       "'self'",
       'https://fonts.gstatic.com',
       'https://cdnjs.cloudflare.com',
+      'https://cdn.shopify.com',
     ],
     styleSrc: [
       "'self'",
