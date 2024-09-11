@@ -97,59 +97,67 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   console.log(variables)
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
-  if (pathParts.length === 4) {
-    const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
 
-    const { storefront } = context
-    const { products } = await storefront.query(ALL_PRODUCTS_QUERY, {
-      variables
-    })
+  const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
 
-    const theFilter =  {make: urlMake, year: urlYear, model: urlModel, trim: urlTrim}
+  const { storefront } = context
+  const { products } = await storefront.query(ALL_PRODUCTS_QUERY, {
+    variables
+  })
 
-    return json({products, theFilter});
-  } else {
-    throw new Response(`${new URL(request.url).pathname} not found`, {
-      status: 404,
-    });
-  }
+  const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
+
+  return json({ products, theFilter });
+
+  // if (pathParts.length === 4) {
+  // } else {
+  //   throw new Response(`${new URL(request.url).pathname} not found`, {
+  //     status: 404,
+  //   });
+  // }
 }
 
 export default function () {
   const { products, theFilter } = useLoaderData();
   const { ref, inView, entry } = useInView();
-  
 
   return (
-    <div className="container">
-      <div>
-        <h2 className='mb-5'>Filter:</h2>
-        <div>Year: {theFilter.year}</div>
-        <div>Make: {theFilter.make}</div>
-        <div>Model: {theFilter.model}</div>
-        <div>Trim: {theFilter.trim}</div>
-      </div>
-      <h1 className='mb-5 mt-10'>Results:</h1>
-      <Pagination connection={products}>
-        {({ nodes, isLoading, PreviousLink, NextLink, hasNextPage, nextPageUrl, state }) => (
-          <>
-            <ProductsLoadedOnScroll
-              nodes={nodes}
-              inView={inView}
-              hasNextPage={hasNextPage}
-              nextPageUrl={nextPageUrl}
-              state={state}
-            />
+    <div>
+      <Breadcrumbs theFilter={theFilter} />
 
-            <div className='mt-5'>
-              <PreviousLink>
-                {isLoading ? "Loading..." : "Load previous products"}
-              </PreviousLink>
-              <NextLink ref={ref}>Load more</NextLink>
-            </div>
-          </>
-        )}
-      </Pagination>
+      {theFilter.trim &&
+      <div className="container">
+        <div>
+          <h2 className='mb-5'>Filter:</h2>
+          <div>Year: {theFilter.year}</div>
+          <div>Make: {theFilter.make}</div>
+          <div>Model: {theFilter.model}</div>
+          <div>Trim: {theFilter.trim}</div>
+        </div>
+        <h1 className='mb-5 mt-10'>Results:</h1>
+        <Pagination connection={products}>
+          {({ nodes, isLoading, PreviousLink, NextLink, hasNextPage, nextPageUrl, state }) => (
+            <>
+              <ProductsLoadedOnScroll
+                nodes={nodes}
+                inView={inView}
+                hasNextPage={hasNextPage}
+                nextPageUrl={nextPageUrl}
+                state={state}
+              />
+              <div className='mt-5'>
+                <PreviousLink>
+                  {isLoading ? "Loading..." : "Load previous products"}
+                </PreviousLink>
+                <NextLink ref={ref}>Load more</NextLink>
+              </div>
+            </>
+          )}
+        </Pagination>
+      </div>
+      }
+
+      {!theFilter.trim && <div className='container'>Category static text</div>}
     </div>
   );
 }
@@ -176,4 +184,45 @@ function ProductsLoadedOnScroll({ nodes, inView, hasNextPage, nextPageUrl, state
       </Link>
     </div>
   ));
+}
+
+function Breadcrumbs({ theFilter }) {
+
+  return <div className="container font-[Oswald] text-[#666]">
+    <ul className="mb-[20px] flex">
+      <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
+        <a href="/" title="Go to Home Page">Car Covers</a>
+      </li>
+      {theFilter.make &&
+        <>
+          <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
+            <a href={'/' + theFilter.make}>{theFilter.make}</a>
+          </li>
+          {theFilter.model &&
+            <>
+              <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
+                <a href={'/' + theFilter.make + '/' + theFilter.model}>{theFilter.model}</a>
+              </li>
+              {theFilter.year &&
+                <>
+                  <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
+                    <a href={'/' + theFilter.make + '/' + theFilter.model + '/' + theFilter.year}>{theFilter.year}</a>
+                  </li>
+                  {theFilter.year &&
+                    <>
+                      <li className="flex items-center">
+                        <strong>
+                          {theFilter.trim}
+                        </strong>
+                      </li>
+                    </>
+                  }
+                </>
+              }
+            </>
+          }
+        </>
+      }
+    </ul>
+  </div>
 }
