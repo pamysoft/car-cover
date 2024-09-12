@@ -297,7 +297,7 @@ export type AllProductsQueryVariables = StorefrontAPI.Exact<{
 export type AllProductsQuery = {
   products: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
         variants: {
           nodes: Array<
             Pick<StorefrontAPI.ProductVariant, 'id'> & {
@@ -329,7 +329,7 @@ export type AllProductsQuery = {
 
 export type ProductCardFragment = Pick<
   StorefrontAPI.Product,
-  'id' | 'title'
+  'id' | 'title' | 'handle'
 > & {
   variants: {
     nodes: Array<
@@ -1280,7 +1280,7 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCard\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCard\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
     return: AllProductsQuery;
     variables: AllProductsQueryVariables;
   };
