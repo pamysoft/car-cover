@@ -22,6 +22,7 @@ export default async function handleRequest(
       "'self'",
       'https://fonts.googleapis.com',
       'https://cdnjs.cloudflare.com',
+      'https://cdn.shopify.com',
     ],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,

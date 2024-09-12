@@ -225,3 +225,59 @@ export const FOOTER_QUERY = `#graphql
   }
   ${MENU_FRAGMENT}
 ` as const;
+
+
+
+
+export const ALL_PRODUCTS_QUERY = `#graphql
+  query AllProducts(
+      $first: Int
+      $last: Int
+      $startCursor: String
+      $endCursor: String
+    ) {
+    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+      nodes {
+        ...ProductCard
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+  fragment ProductCard on Product {
+    id
+    title
+    handle
+    variants(first: 1) {
+      nodes {
+        id
+        image {
+          url
+          altText
+          width
+          height
+        }
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        selectedOptions {
+          name
+          value
+        }
+        product {
+          handle
+          title
+        }
+      }
+    }
+  }
+`;
