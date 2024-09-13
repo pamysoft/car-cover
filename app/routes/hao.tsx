@@ -1,5 +1,9 @@
 import { useLoaderData } from "@remix-run/react"
 import { LoaderFunctionArgs } from "@remix-run/server-runtime";
+// import { PrismaClient } from '@prisma/client'
+// ​import { Database } from 'sqlite3';
+
+
 
 const GET_MENU = `#graphql 
     query GetTopMenus($handle: String!) {
@@ -20,6 +24,24 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
         },
         cache: storefront.CacheLong()
     })
+
+    // console.log(Database)
+
+    // const db = await open({
+    //     filename: './prisma/data.db',
+    //     driver: sqlite3.Database,
+    //   })
+    
+
+    // console.log(PrismaClient)
+
+    // let year = await prisma.year.findFirst()
+    // const prisma = new PrismaClient()
+    // const users = await prisma.year.findMany()
+    // console.log('year')
+    // console.log(year)
+    // console.log(users)
+
     return data
 }
 

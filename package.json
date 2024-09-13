@@ -10,21 +10,26 @@
     "preview": "shopify hydrogen preview --build",
     "lint": "eslint --no-error-on-unmatched-pattern --ext .js,.ts,.jsx,.tsx .",
     "typecheck": "tsc --noEmit",
-    "codegen": "shopify hydrogen codegen"
+    "codegen": "shopify hydrogen codegen",
+    "setup": "prisma generate && prisma migrate deploy"
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {
+    "@prisma/client": "^5.19.1",
     "@remix-run/react": "^2.10.1",
     "@remix-run/server-runtime": "^2.10.1",
     "@shopify/cli-hydrogen": "*",
     "@shopify/hydrogen": "^2024.7.4",
     "@shopify/remix-oxygen": "^2.0.6",
+    "better-sqlite3": "^11.3.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "isbot": "^3.8.0",
+    "mongodb": "^6.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-intersection-observer": "^9.13.1"
+    "react-intersection-observer": "^9.13.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.2",
@@ -45,6 +50,7 @@
     "eslint-plugin-hydrogen": "0.12.2",
     "postcss": "^8.4.45",
     "prettier": "^2.8.4",
+    "prisma": "^5.19.1",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.2.2",
     "vite": "^5.1.0",

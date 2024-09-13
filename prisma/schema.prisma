@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"  // or "postgresql" if you're using Postgres
+  url      = "file:./data.db"  // adjust as needed
+  // provider = "mysql"
+  // url      = "mysql://root:@localhost:3306/remix"
+}
+
+model Year {
+  id     Int      @id  // no auto-increment
+  title  String
+  handle String   
+  makes  Make[]
+  models Model[]
+  trims  Trim[]
+  @@map("years")
+}
+
+model Make {
+  id      Int     @id  // no auto-increment
+  title   String
+  handle  String  
+  yearId  Int @map("year_id")
+  year    Year    @relation(fields: [yearId], references: [id], onDelete: Cascade)
+  models  Model[]
+  trims   Trim[]
+  @@map("makes")
+}
+
+model Model {
+  id      Int     @id  // no auto-increment
+  title   String
+  handle  String  
+  makeId  Int @map("make_id")
+  make    Make    @relation(fields: [makeId], references: [id], onDelete: Cascade)
+  yearId  Int @map("year_id")
+  year    Year    @relation(fields: [yearId], references: [id], onDelete: Cascade)
+  trims   Trim[]
+  @@map("models")
+}
+
+model Trim {
+  id      Int     @id  // no auto-increment
+  title   String
+  handle  String  
+  modelId Int @map("model_id")
+  model   Model   @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  makeId  Int @map("make_id")
+  make    Make    @relation(fields: [makeId], references: [id], onDelete: Cascade)
+  yearId  Int @map("year_id")
+  year    Year    @relation(fields: [yearId], references: [id], onDelete: Cascade)
+  @@map("trims")
+}
