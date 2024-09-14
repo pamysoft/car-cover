@@ -752,6 +752,34 @@ export type GetTopMenusQuery = {
   }>;
 };
 
+export type CollectionCardFragment = Pick<
+  StorefrontAPI.Collection,
+  'id' | 'title'
+> & {
+  metafields: Array<
+    StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
+  >;
+};
+
+export type GetCollectionsQueryVariables = StorefrontAPI.Exact<{
+  after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+}>;
+
+export type GetCollectionsQuery = {
+  collections: {
+    edges: Array<
+      Pick<StorefrontAPI.CollectionEdge, 'cursor'> & {
+        node: Pick<StorefrontAPI.Collection, 'id' | 'title'> & {
+          metafields: Array<
+            StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
+          >;
+        };
+      }
+    >;
+    pageInfo: Pick<StorefrontAPI.PageInfo, 'hasNextPage'>;
+  };
+};
+
 export type PageQueryVariables = StorefrontAPI.Exact<{
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
@@ -1327,6 +1355,10 @@ interface GeneratedQueryTypes {
   '#graphql \n    query GetTopMenus($handle: String!) {\n        menu(handle: $handle) {\n            items {\n                title\n                url\n            }\n        }\n    }\n': {
     return: GetTopMenusQuery;
     variables: GetTopMenusQueryVariables;
+  };
+  '#graphql\n    query GetCollections($after: String = null) {\n    collections(first: 250, after: $after) {\n        edges {\n            cursor\n            node {\n                ...CollectionCard\n            }\n        }\n        pageInfo {\n            hasNextPage\n        }\n    }\n    }\n    #graphql\n    fragment CollectionCard on Collection {\n        id\n        title\n        metafields(\n        identifiers: [\n            { key: "level_1", namespace: "cat_filter" }\n            { key: "level_1_url", namespace: "cat_filter" }\n            { key: "level_2", namespace: "cat_filter" }\n            { key: "level_2_url", namespace: "cat_filter" }\n            { key: "level_3", namespace: "cat_filter" }\n            { key: "level_3_url", namespace: "cat_filter" }\n            { key: "level_4", namespace: "cat_filter" }\n            { key: "level_4_url", namespace: "cat_filter" }\n            { key: "level_5", namespace: "cat_filter" }\n            { key: "level_5_url", namespace: "cat_filter" }\n        ]\n        ) {\n        value\n        }\n    } \n\n': {
+    return: GetCollectionsQuery;
+    variables: GetCollectionsQueryVariables;
   };
   '#graphql\n  query Page(\n    $language: LanguageCode,\n    $country: CountryCode,\n    $handle: String!\n  )\n  @inContext(language: $language, country: $country) {\n    page(handle: $handle) {\n      id\n      title\n      body\n      seo {\n        description\n        title\n      }\n    }\n  }\n': {
     return: PageQuery;
