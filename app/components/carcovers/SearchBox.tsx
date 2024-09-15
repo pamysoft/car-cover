@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
+import { useCollections } from './PageWrapper';
+import { CollectionInfo, LevelInfo } from '~/lib/types';
+import { getMakes, getModels, getTrims, getYears } from '~/lib/functions';
 
-interface FilterItem {
-    level1: string; // Make
-    level2: string; // Model
-    level3: string; // Year
-    level4: string; // Type (SUV, Sedan, etc.)
-}
+// interface FilterItem {
+//     level1: string; // Make
+//     level2: string; // Model
+//     level3: string; // Year
+//     level4: string; // Type (SUV, Sedan, etc.)
+// }
 
-const filterData: FilterItem[] = [
-    { level1: 'acura', level2: 'mdx', level3: '2025', level4: 'suv' },
-    { level1: 'bmw', level2: '335i', level3: '2025', level4: 'sedan' },
-    { level1: 'honda', level2: 'civic', level3: '2025', level4: 'coupe' },
-    { level1: 'honda', level2: 'civic', level3: '2025', level4: 'sedan' },
-    { level1: 'jeep', level2: 'wrangler', level3: '2024', level4: 'suv' },
-    { level1: 'audi', level2: 's3', level3: '2024', level4: 'sedan' },
-    { level1: 'land rover', level2: 'range rover sport', level3: '2024', level4: 'suv' },
-    { level1: 'vinfast', level2: 'vf9', level3: '2024', level4: 'suv' }
-];
+// const filterData: FilterItem[] = [
+//     { level1: 'acura', level2: 'mdx', level3: '2025', level4: 'suv' },
+//     { level1: 'bmw', level2: '335i', level3: '2025', level4: 'sedan' },
+//     { level1: 'honda', level2: 'civic', level3: '2025', level4: 'coupe' },
+//     { level1: 'honda', level2: 'civic', level3: '2025', level4: 'sedan' },
+//     { level1: 'jeep', level2: 'wrangler', level3: '2024', level4: 'suv' },
+//     { level1: 'audi', level2: 's3', level3: '2024', level4: 'sedan' },
+//     { level1: 'land rover', level2: 'range rover sport', level3: '2024', level4: 'suv' },
+//     { level1: 'vinfast', level2: 'vf9', level3: '2024', level4: 'suv' }
+// ];
+
+
+const filterData: CollectionInfo[] = []
+
 
 const DependentDropdowns: React.FC<{
     selectedYear: string;
@@ -28,20 +35,18 @@ const DependentDropdowns: React.FC<{
     setSelectedModel: React.Dispatch<React.SetStateAction<string>>;
     setSelectedTrim: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ selectedYear, selectedMake, selectedModel, selectedTrim, setSelectedYear, setSelectedMake, setSelectedModel, setSelectedTrim }) => {
-    const [availableMakes, setAvailableMakes] = useState<string[]>([]);
-    const [availableModels, setAvailableModels] = useState<string[]>([]);
-    const [availableTrims, setAvailableTrims] = useState<string[]>([]);
+    const [availableMakes, setAvailableMakes] = useState<LevelInfo[]>([]);
+    const [availableModels, setAvailableModels] = useState<LevelInfo[]>([]);
+    const [availableTrims, setAvailableTrims] = useState<LevelInfo[]>([]);
+
+    const filterData: CollectionInfo[] = useCollections();
 
     const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const year = event.target.value;
-        setSelectedYear(year);
+        const yearHandle = event.target.value;
+        setSelectedYear(yearHandle);
 
-        if (year) {
-            const makes = Array.from(new Set(
-                filterData
-                    .filter(item => item.level3 === year)
-                    .map(item => item.level1)
-            ));
+        if (yearHandle) {
+            const makes = getMakes(filterData, yearHandle);
             setAvailableMakes(makes);
         } else {
             setAvailableMakes([]);
@@ -52,15 +57,11 @@ const DependentDropdowns: React.FC<{
     };
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const make = event.target.value;
-        setSelectedMake(make);
+        const makeHandle = event.target.value;        
+        setSelectedMake(makeHandle);
 
-        if (make && selectedYear) {
-            const models = Array.from(new Set(
-                filterData
-                    .filter(item => item.level3 === selectedYear && item.level1 === make)
-                    .map(item => item.level2)
-            ));
+        if (makeHandle && selectedYear) {
+            const models = getModels(filterData, selectedYear, makeHandle)
             setAvailableModels(models);
         } else {
             setAvailableModels([]);
@@ -70,15 +71,11 @@ const DependentDropdowns: React.FC<{
     };
 
     const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const model = event.target.value;
-        setSelectedModel(model);
+        const modelHandle = event.target.value;
+        setSelectedModel(modelHandle);
 
-        if (model && selectedMake && selectedYear) {
-            const trims = Array.from(new Set(
-                filterData
-                    .filter(item => item.level3 === selectedYear && item.level1 === selectedMake && item.level2 === model)
-                    .map(item => item.level4)
-            ));
+        if (modelHandle && selectedMake && selectedYear) {
+            const trims =  getTrims(filterData, selectedYear, selectedMake, modelHandle)
             setAvailableTrims(trims);
         } else {
             setAvailableTrims([]);
@@ -86,9 +83,11 @@ const DependentDropdowns: React.FC<{
     };
 
     const handleTrimChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const trim = event.target.value;
-        setSelectedTrim(trim);
+        const trimHandle = event.target.value;
+        setSelectedTrim(trimHandle);
     }
+
+    const availableYears = getYears(filterData)
 
     return (
         <div>
@@ -98,16 +97,15 @@ const DependentDropdowns: React.FC<{
                     1. | Select Year
                 </label>
                 <select 
-                    id="search_rv_type654909998"
-                    className="mt-[3px] h-[33px] w-full border-[2px] border-solid border-[red] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]" 
                     value={selectedYear} 
                     onChange={handleYearChange}
+                    className="mt-[3px] h-[33px] w-full border-[2px] border-solid border-[red] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
                 >
                     <option value="">Select Year</option>
-                    {Array.from(new Set(filterData.map(item => item.level3)))
-                        .map(year => (
-                            <option key={year} value={year}>
-                                {year}
+                    {availableYears
+                        .map(({ handle, title }) => (
+                            <option key={handle} value={handle}>
+                                {title}
                             </option>
                         ))}
                 </select>
@@ -119,16 +117,15 @@ const DependentDropdowns: React.FC<{
                     2. | Select Make
                 </label>
                 <select 
-                    id="search_rv_make654909998" 
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]" 
                     value={selectedMake} 
-                    onChange={handleMakeChange} 
+                    onChange={handleMakeChange}
                     disabled={!availableMakes.length}
+                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
                 >
                     <option value="">Select Make</option>
-                    {availableMakes.map(make => (
-                        <option key={make} value={make}>
-                            {make}
+                    {availableMakes.map(({ handle, title }) => (
+                        <option key={handle} value={handle}>
+                            {title}
                         </option>
                     ))}
                 </select>
@@ -140,16 +137,15 @@ const DependentDropdowns: React.FC<{
                     3. | Select Model
                 </label>
                 <select 
-                    id="search_rv_model654909998" 
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]" 
                     value={selectedModel} 
-                    onChange={handleModelChange} 
+                    onChange={handleModelChange}
                     disabled={!availableModels.length}
+                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
                 >
                     <option value="">Select Model</option>
-                    {availableModels.map(model => (
-                        <option key={model} value={model}>
-                            {model}
+                    {availableModels.map(({ handle, title }) => (
+                        <option key={handle} value={handle}>
+                            {title}
                         </option>
                     ))}
                 </select>
@@ -161,16 +157,15 @@ const DependentDropdowns: React.FC<{
                     4. | Select Trim
                 </label>
                 <select 
-                    id="search_rv_trim654909998" 
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]" 
-                    value={selectedTrim}
+                    value={selectedTrim} 
                     onChange={handleTrimChange}
                     disabled={!availableTrims.length}
+                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
                 >
                     <option value="">Select Trim</option>
-                    {availableTrims.map(trim => (
-                        <option key={trim} value={trim}>
-                            {trim}
+                    {availableTrims.map(({ handle, title }) => (
+                        <option key={handle} value={handle}>
+                            {title}
                         </option>
                     ))}
                 </select>
@@ -178,6 +173,7 @@ const DependentDropdowns: React.FC<{
         </div>
     );
 };
+
 
 interface SearchBoxProps {
     className: string;

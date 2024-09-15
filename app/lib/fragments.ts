@@ -281,3 +281,44 @@ export const ALL_PRODUCTS_QUERY = `#graphql
     }
   }
 `;
+
+
+const COLLECTION_CARD_QUERY_FRAGMENT = `#graphql
+    fragment CollectionCard on Collection {
+        id
+        title
+        metafields(
+        identifiers: [
+            { key: "level_1", namespace: "cat_filter" }
+            { key: "level_1_url", namespace: "cat_filter" }
+            { key: "level_2", namespace: "cat_filter" }
+            { key: "level_2_url", namespace: "cat_filter" }
+            { key: "level_3", namespace: "cat_filter" }
+            { key: "level_3_url", namespace: "cat_filter" }
+            { key: "level_4", namespace: "cat_filter" }
+            { key: "level_4_url", namespace: "cat_filter" }
+            { key: "level_5", namespace: "cat_filter" }
+            { key: "level_5_url", namespace: "cat_filter" }
+        ]
+        ) {
+        value
+        }
+    } 
+`
+
+export const GET_COLLECTIONS_QUERY = `#graphql
+    query GetCollections($after: String = null) {
+    collections(first: 250, after: $after) {
+        edges {
+            cursor
+            node {
+                ...CollectionCard
+            }
+        }
+        pageInfo {
+            hasNextPage
+        }
+    }
+    }
+    ${COLLECTION_CARD_QUERY_FRAGMENT}
+`

@@ -18,6 +18,8 @@ import { AnnouncementBar } from './carcovers/AnnouncementBar';
 import { TopBar } from './carcovers/TopBar';
 import { Header } from './carcovers/Header';
 import { Footer } from './carcovers/Footer';
+import { CollectionInfo } from '~/lib/types';
+import { PageWrapper } from './carcovers/PageWrapper';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -26,6 +28,7 @@ interface PageLayoutProps {
   isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
   children?: React.ReactNode;
+  collections: CollectionInfo[];
 }
 
 export function PageLayout({
@@ -35,34 +38,37 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
+  collections
 }: PageLayoutProps) {
   return (
-    <Aside.Provider>
-      <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      
-      <AnnouncementBar />
-      <TopBar />
+    <PageWrapper.Provider collections={collections}>
+      <Aside.Provider>
+        <CartAside cart={cart} />
+        <SearchAside />
+        <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
 
-      {header && (
-        <Header
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
+        <AnnouncementBar />
+        <TopBar />
 
-      <main className='m-0 p-0'>{children}</main>
-      {/* <Footer
+        {header && (
+          <Header
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+
+        <main className='m-0 p-0'>{children}</main>
+        {/* <Footer
         footer={footer}
         header={header}
         publicStoreDomain={publicStoreDomain}
       /> */}
-      <Footer />
+        <Footer />
 
-    </Aside.Provider>
+      </Aside.Provider>
+    </PageWrapper.Provider>
   );
 }
 

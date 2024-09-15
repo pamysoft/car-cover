@@ -18,6 +18,8 @@ import customStyles from '~/styles/custom.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import { l } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
+import { CollectionInfo } from './lib/types';
+import { loadCollections } from './lib/functions';
 
 export type RootLoader = typeof loader;
 
@@ -131,8 +133,12 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
+  let collections: CollectionInfo[] = [];
+  await loadCollections(storefront, collections);
+
   return {
     header,
+    collections
   };
 }
 
