@@ -13,14 +13,13 @@ export function toTitleCase(str: string): string {
 
 // Corrected loadCollections function
 export const loadCollections = async (storefront: any, allCollections: CollectionInfo[], after?: string): Promise<void> => {
-    console.log('after:', after);
-
+    
     // Adjust the query to possibly include 'after'
     const result = await storefront.query(GET_COLLECTIONS_QUERY, {
         variables: {
             after: after || null,
         },
-        cache: storefront.CacheLong()
+        // cache: storefront.CacheLong()
     });
 
     // Iterate over the result and build CollectionInfo objects
@@ -89,6 +88,14 @@ export function getYears(collections: CollectionInfo[]): LevelInfo[] {
             }
         }
     }
+
+    // Sort years in descending order based on the numeric value of 'handle'
+    years.sort((a, b) => {
+        const yearA = parseInt(a.handle, 10);
+        const yearB = parseInt(b.handle, 10);
+        return yearB - yearA; // For descending order
+    });
+
     return years;
 }
 
@@ -96,7 +103,7 @@ export function getMakes(collections: CollectionInfo[], year: string): LevelInfo
     let makes: LevelInfo[] = [];
     for (const info of collections) {
         if (info.level_3_url === year && info.level_1 && info.level_1_url) {
-            const make = {
+            const make: LevelInfo = {
                 title: info.level_1,
                 handle: info.level_1_url,
             };
@@ -107,6 +114,10 @@ export function getMakes(collections: CollectionInfo[], year: string): LevelInfo
             }
         }
     }
+
+    // Sort makes by title in ascending order
+    makes.sort((a, b) => a.title.localeCompare(b.title));
+
     return makes;
 }
 
@@ -126,6 +137,7 @@ export function getModels(collections: CollectionInfo[], year: string, make: str
             }
         }
     }
+    models.sort((a, b) => a.title.localeCompare(b.title));
     return models;
 }
 
@@ -144,5 +156,6 @@ export function getTrims(collections: CollectionInfo[], year: string, make: stri
             }
         }
     }
+    trims.sort((a, b) => a.title.localeCompare(b.title));
     return trims;
 }

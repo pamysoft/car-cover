@@ -1,26 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCollections } from './PageWrapper';
 import { CollectionInfo, LevelInfo } from '~/lib/types';
 import { getMakes, getModels, getTrims, getYears } from '~/lib/functions';
-
-// interface FilterItem {
-//     level1: string; // Make
-//     level2: string; // Model
-//     level3: string; // Year
-//     level4: string; // Type (SUV, Sedan, etc.)
-// }
-
-// const filterData: FilterItem[] = [
-//     { level1: 'acura', level2: 'mdx', level3: '2025', level4: 'suv' },
-//     { level1: 'bmw', level2: '335i', level3: '2025', level4: 'sedan' },
-//     { level1: 'honda', level2: 'civic', level3: '2025', level4: 'coupe' },
-//     { level1: 'honda', level2: 'civic', level3: '2025', level4: 'sedan' },
-//     { level1: 'jeep', level2: 'wrangler', level3: '2024', level4: 'suv' },
-//     { level1: 'audi', level2: 's3', level3: '2024', level4: 'sedan' },
-//     { level1: 'land rover', level2: 'range rover sport', level3: '2024', level4: 'suv' },
-//     { level1: 'vinfast', level2: 'vf9', level3: '2024', level4: 'suv' }
-// ];
-
 
 const filterData: CollectionInfo[] = []
 
@@ -38,6 +19,7 @@ const DependentDropdowns: React.FC<{
     const [availableMakes, setAvailableMakes] = useState<LevelInfo[]>([]);
     const [availableModels, setAvailableModels] = useState<LevelInfo[]>([]);
     const [availableTrims, setAvailableTrims] = useState<LevelInfo[]>([]);
+    const [invalidSelect, setInvalidSelect] = useState<string | null>(null);
 
     const filterData: CollectionInfo[] = useCollections();
 
@@ -88,6 +70,23 @@ const DependentDropdowns: React.FC<{
     }
 
     const availableYears = getYears(filterData)
+    const selectClassName = (fieldValue: string, fieldName: string) =>
+        `outline-none mt-[3px] h-[33px] w-full px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] ${
+          invalidSelect === fieldName && !fieldValue ? 'border-[2px] border-red-500' : 'border-[1px] border-[#ccc]'
+        } xl:h-[41px] 2xl:h-[45px]`;
+
+    useEffect(() => {
+        if (!selectedYear) {
+            setInvalidSelect('year');
+        } else if (!selectedMake) {
+            setInvalidSelect('make');
+        } else if (!selectedModel) {
+            setInvalidSelect('model');
+        } else if (!selectedTrim) {
+            setInvalidSelect('trim');
+        }
+    }, [selectedYear, selectedMake, selectedModel, selectedTrim]);
+
 
     return (
         <div>
@@ -99,7 +98,7 @@ const DependentDropdowns: React.FC<{
                 <select 
                     value={selectedYear} 
                     onChange={handleYearChange}
-                    className="mt-[3px] h-[33px] w-full border-[2px] border-solid border-[red] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
+                    className={selectClassName(selectedYear, 'year')}
                 >
                     <option value="">Select Year</option>
                     {availableYears
@@ -120,7 +119,7 @@ const DependentDropdowns: React.FC<{
                     value={selectedMake} 
                     onChange={handleMakeChange}
                     disabled={!availableMakes.length}
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
+                    className={selectClassName(selectedMake, 'make')}
                 >
                     <option value="">Select Make</option>
                     {availableMakes.map(({ handle, title }) => (
@@ -140,7 +139,7 @@ const DependentDropdowns: React.FC<{
                     value={selectedModel} 
                     onChange={handleModelChange}
                     disabled={!availableModels.length}
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
+                    className={selectClassName(selectedModel, 'model')}
                 >
                     <option value="">Select Model</option>
                     {availableModels.map(({ handle, title }) => (
@@ -160,7 +159,7 @@ const DependentDropdowns: React.FC<{
                     value={selectedTrim} 
                     onChange={handleTrimChange}
                     disabled={!availableTrims.length}
-                    className="mt-[3px] h-[33px] w-full border-[1px] border-[#ccc] bg-white px-[12px] pb-[4px] pt-[6px] font-[Rubik] text-[13px] text-[#666] xl:h-[41px] 2xl:h-[45px]"
+                    className={selectClassName(selectedTrim, 'trim')}
                 >
                     <option value="">Select Trim</option>
                     {availableTrims.map(({ handle, title }) => (

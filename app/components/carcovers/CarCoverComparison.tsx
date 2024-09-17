@@ -9,13 +9,13 @@ export function CarCoverComparison() {
                             <th className="text-white"><span className="text-white">Product Name</span></th>
                             <th className="px-[60px]">
                                 <div className="flex items-center justify-center gap-[20px]">
-                                    <img src="//www.rvcovercanada.ca/cdn/shop/files/nohat_bg_removed_956468f7.png?v=1723254209" width="44" height="55" />
+                                    <img src="" width="44" height="55" />
                                         <span className="text-white">Gold Shield 5L - RV Cover</span>
                                 </div>
                             </th>
                             <th className="px-[60px]">
                                 <div className="flex items-center justify-center gap-[20px]">
-                                    <img src="//www.rvcovercanada.ca/cdn/shop/files/nohat_bg_removed_c67a438c.png?v=1723254209" width="44" height="55" />
+                                    <img src="" width="44" height="55" />
                                         <span className="text-white">Silver Shield 3L - RV Cover</span>
                                 </div>
                             </th>
@@ -32,7 +32,7 @@ export function CarCoverComparison() {
                                         <div>Regular Price: CA$949.99</div>
                                         <div>You Save: CA$570.00 (60% Off)</div>
                                     </div>
-                                    <a href="javascript:void(0)" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
+                                    <a href="#" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
                                 </div>
                             </div></td>
                             <td><div className="flex items-center justify-center">
@@ -43,7 +43,7 @@ export function CarCoverComparison() {
                                         <div>Regular Price: CA$849.99</div>
                                         <div>You Save: CA$510.00 (60% Off)</div>
                                     </div>
-                                    <a href="javascript:void(0)" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
+                                    <a href="#" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
                                 </div>
                             </div></td>
                         </tr>
