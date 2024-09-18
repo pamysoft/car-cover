@@ -13,7 +13,7 @@ export function toTitleCase(str: string): string {
 
 // Corrected loadCollections function
 export const loadCollections = async (storefront: any, allCollections: CollectionInfo[], after?: string): Promise<void> => {
-    
+
     // Adjust the query to possibly include 'after'
     const result = await storefront.query(GET_COLLECTIONS_QUERY, {
         variables: {
@@ -158,4 +158,35 @@ export function getTrims(collections: CollectionInfo[], year: string, make: stri
     }
     trims.sort((a, b) => a.title.localeCompare(b.title));
     return trims;
+}
+
+
+const PROXY_URL = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/'
+// const PROXY_URL = 'http://localhost:51994/proxy/'
+export const getCarCoverHierarchy = async (parentId?: number) => {
+    let appProxyUrl = PROXY_URL + `?shop=1`;
+
+    if (parentId) {
+        appProxyUrl = appProxyUrl + `&parentId=${parentId}`
+    }
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (err) {
+        console.log('callproxyerror:', err.message);
+    } finally {
+        console.log('callproxydone');
+    }
+    return []
 }

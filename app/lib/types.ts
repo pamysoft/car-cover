@@ -16,6 +16,7 @@ export type CollectionInfo = {
 }
 
 export type LevelInfo = {
+    id: string
     handle: string;
-    title: string;
+    name: string;
 }

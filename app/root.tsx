@@ -176,33 +176,34 @@ export function Layout({children}: {children?: React.ReactNode}) {
   const data = useRouteLoaderData<RootLoader>('root');
 
   // const appProxyUrl = 'http://localhost:64231/proxy?shop=1'; // same as before
-  const appProxyUrl = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/?shop=123'; // same as before
-  console.log('start effect')
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(appProxyUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+  // const appProxyUrl = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/?shop=123'; // same as before
+  // console.log('start effect')
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(appProxyUrl, {
+  //         method: 'GET',
+          
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
   
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`Error: ${response.statusText}`);
+  //       }
   
-        const result = await response.json();
-        console.log('callproxyresult:', result);
-      } catch (err) {
-        console.log('callproxyerror:',err.message);
-      } finally {
-        console.log('callproxydone');
-      }
-    };
+  //       const result = await response.json();
+  //       console.log('callproxyresult:', result);
+  //     } catch (err) {
+  //       console.log('callproxyerror:',err.message);
+  //     } finally {
+  //       console.log('callproxydone');
+  //     }
+  //   };
   
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <html lang="en">
