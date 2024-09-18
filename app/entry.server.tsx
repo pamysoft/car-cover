@@ -24,6 +24,10 @@ export default async function handleRequest(
       'https://cdnjs.cloudflare.com',
       'https://cdn.shopify.com',
     ],
+    connectSrc: [
+      "'self'",
+      "https://car-cover-app-575e2d27ff99.herokuapp.com"
+    ],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,

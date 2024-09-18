@@ -135,7 +135,7 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
   ]);
 
   let collections: CollectionInfo[] = [];
-  await loadCollections(storefront, collections);
+  // await loadCollections(storefront, collections);
 
   return {
     header,
@@ -175,7 +175,8 @@ export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
 
-  const appProxyUrl = 'https://c3229c-3f.myshopify.com/apps/hao'; // same as before
+  // const appProxyUrl = 'http://localhost:64231/proxy?shop=1'; // same as before
+  const appProxyUrl = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/?shop=123'; // same as before
   console.log('start effect')
   useEffect(() => {
     const fetchData = async () => {
