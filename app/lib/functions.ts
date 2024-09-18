@@ -19,7 +19,7 @@ export const loadCollections = async (storefront: any, allCollections: Collectio
         variables: {
             after: after || null,
         },
-        // cache: storefront.CacheLong()
+        cache: storefront.CacheLong()
     });
 
     // Iterate over the result and build CollectionInfo objects

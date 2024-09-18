@@ -85,6 +85,23 @@ const DependentDropdowns: React.FC<{
         } else if (!selectedTrim) {
             setInvalidSelect('trim');
         }
+
+        let parts = []
+        let collectionUrl = ''
+        if (selectedMake && selectedModel && selectedYear) {
+            parts.push(selectedMake)
+            parts.push(selectedModel)
+            parts.push(selectedYear)
+            
+            if (selectedTrim) {
+                parts.push(selectedTrim)
+            } else {
+                console.log('has trim: ', availableTrims.length)
+            }
+            collectionUrl = parts.join('/')
+        }
+
+        console.log('collectionUrl=', collectionUrl)
     }, [selectedYear, selectedMake, selectedModel, selectedTrim]);
 
 

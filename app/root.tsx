@@ -20,6 +20,7 @@ import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import { l } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 import { CollectionInfo } from './lib/types';
 import { loadCollections } from './lib/functions';
+import { useEffect } from 'react';
 
 export type RootLoader = typeof loader;
 
@@ -173,6 +174,34 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
+
+  const appProxyUrl = 'https://c3229c-3f.myshopify.com/apps/hao'; // same as before
+  console.log('start effect')
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(appProxyUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log('callproxyresult:', result);
+      } catch (err) {
+        console.log('callproxyerror:',err.message);
+      } finally {
+        console.log('callproxydone');
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   return (
     <html lang="en">
