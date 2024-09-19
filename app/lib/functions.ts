@@ -162,7 +162,7 @@ export function getTrims(collections: CollectionInfo[], year: string, make: stri
 
 
 const PROXY_URL = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/'
-// const PROXY_URL = 'http://localhost:51994/proxy/'
+// const PROXY_URL = 'http://localhost:51229/proxy/'
 export const getCarCoverHierarchy = async (parentId?: number) => {
     let appProxyUrl = PROXY_URL + `?shop=1`;
 
