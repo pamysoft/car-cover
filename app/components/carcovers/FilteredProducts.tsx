@@ -28,10 +28,7 @@ export function FilteredProducts({ products, theFilter }) {
               <InnerFilteredProducts products={products} />
             </div>
           </div>
-        </div>
-        <div className='ml:order-1 ml:min-w-[31.5rem]'>
-          <SearchBox className='' />
-        </div>
+        </div>        
       </div>
     </div>
   </>
