@@ -1,5 +1,5 @@
 import { GET_COLLECTIONS_QUERY } from "./fragments";
-import { CollectionInfo, LevelInfo } from "./types";
+import { CollectionInfo, isPathwayInfo, LevelInfo, PathwayInfo } from "./types";
 
 export function toTitleCase(str: string): string {
     if (!(str)) return str;
@@ -182,6 +182,42 @@ export const getCarCoverHierarchy = async (parentId?: number) => {
         }
 
         return await response.json();
+
+    } catch (err) {
+        console.log('callproxyerror:', err.message);
+    } finally {
+        console.log('callproxydone');
+    }
+    return []
+}
+
+export const getCarCoverHierarchyByHandle = async (path: string) => {
+    let appProxyUrl = PROXY_URL + `by_path/?shop=1`;
+
+    appProxyUrl = appProxyUrl + `&path=${path}`
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        if (Array.isArray(result)) {
+            // Optionally check if the array contains items of type PathwayInfo
+            if (result.every(item => isPathwayInfo(item))) {
+                return result as PathwayInfo[];
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
 
     } catch (err) {
         console.log('callproxyerror:', err.message);

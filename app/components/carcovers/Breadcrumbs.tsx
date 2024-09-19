@@ -1,0 +1,42 @@
+import { useEffect, useState } from "react"
+import { getCarCoverHierarchyByHandle } from "~/lib/functions"
+import { PathwayInfo } from "~/lib/types"
+
+export function Breadcrumbs({ path }) {
+    const [pathway, setPathway] = useState<PathwayInfo[]>([])
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getCarCoverHierarchyByHandle(path)
+            let pathwayData: PathwayInfo[] = []
+            let currentUrl = '/'
+
+            data.forEach((item, index) => {
+                if (index == data.length-1) {
+                    currentUrl = ''
+                } else {
+                    currentUrl = currentUrl + item.handle + '/'
+                }
+                pathwayData.push({
+                    name: item.name,
+                    handle: currentUrl
+                })
+            })
+            setPathway(pathwayData)
+        }
+        fetchData()
+    }, [])
+
+    return <>{pathway && <div className="container font-[Oswald] text-[#666]">
+        <ul className="mb-[20px] flex">
+            <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
+                <a href="/" title="Go to Home Page">Car Covers</a>
+            </li>
+            {pathway.map(item => <>
+                {item.handle && <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']"><a href={item.handle} title={item.name}>{item.name}</a></li>}
+                {!item.handle && <li className="flex items-center"><strong title={item.name}>{item.name}</strong></li>}
+                </>
+            )}
+        </ul>
+    </div>}
+    </>
+}

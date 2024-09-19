@@ -20,3 +20,14 @@ export type LevelInfo = {
     handle: string;
     name: string;
 }
+
+export type PathwayInfo = {
+    handle: string;
+    name: string;
+}
+
+export function isPathwayInfo(item: any): item is PathwayInfo {
+    return typeof item === 'object' && 
+           typeof item.handle === 'string' && 
+           typeof item.name === 'string';
+}

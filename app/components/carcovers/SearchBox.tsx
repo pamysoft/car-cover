@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useCollections } from './PageWrapper';
 import { CollectionInfo, LevelInfo } from '~/lib/types';
-import { getCarCoverHierarchy, getModels, getModels, getTrims, getYears } from '~/lib/functions';
+import { getCarCoverHierarchy } from '~/lib/functions';
 
 const filterData: CollectionInfo[] = []
 
