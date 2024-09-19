@@ -4,8 +4,10 @@ import { PathwayInfo } from "~/lib/types"
 
 export function Breadcrumbs({ path }) {
     const [pathway, setPathway] = useState<PathwayInfo[]>([])
+    const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true)
             const data = await getCarCoverHierarchyByHandle(path)
             let pathwayData: PathwayInfo[] = []
             let currentUrl = '/'
@@ -22,6 +24,8 @@ export function Breadcrumbs({ path }) {
                 })
             })
             setPathway(pathwayData)
+
+            setIsLoading(false)
         }
         fetchData()
     }, [])
@@ -31,11 +35,14 @@ export function Breadcrumbs({ path }) {
             <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
                 <a href="/" title="Go to Home Page">Car Covers</a>
             </li>
-            {pathway.map(item => <>
+            <>
+            {isLoading && <li className="flex items-center">Loading..</li>}
+            {!isLoading && pathway.map(item => <>
                 {item.handle && <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']"><a href={item.handle} title={item.name}>{item.name}</a></li>}
                 {!item.handle && <li className="flex items-center"><strong title={item.name}>{item.name}</strong></li>}
                 </>
             )}
+            </>
         </ul>
     </div>}
     </>

@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useContext } from 'react';
 import { CollectionInfo } from '~/lib/types';
 
 type PageWrapperContextValue = {
-    collections: CollectionInfo[]
+    breadcrumbs: CollectionInfo[]
 };
 
 export function PageWrapper({children}: {children?: React.ReactNode}) {
@@ -10,11 +10,11 @@ export function PageWrapper({children}: {children?: React.ReactNode}) {
 }
 
 const PageWrapperContext = createContext<PageWrapperContextValue | null>(null);
-PageWrapper.Provider = function PageWrapperProvider({children, collections}: {children: ReactNode, collections: CollectionInfo[]}) {
+PageWrapper.Provider = function PageWrapperProvider({children, data}: {children: ReactNode, data: any}) {
     return (
         <PageWrapperContext.Provider
           value={{
-            collections
+            data
           }}
         >
           {children}
@@ -29,3 +29,4 @@ export function useCollections() {
   }
   return wrapper.collections;
 }
+

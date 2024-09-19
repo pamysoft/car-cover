@@ -7,13 +7,18 @@ import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
 import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
 import { FilteredProducts } from '~/components/carcovers/FilteredProducts';
 import { ALL_PRODUCTS_QUERY } from '~/lib/fragments';
+import { removeSlashes } from '~/lib/functions';
+
+
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const pathname = new URL(request.url).pathname
+  const pathname = removeSlashes(new URL(request.url).pathname)
+  
   const variables = getPaginationVariables(request, {
     pageBy: 2,
   });
 
+  
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
   const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
@@ -35,16 +40,18 @@ enum DisplayLayout {
 
 export default function () {
   const { products, theFilter, pathname } = useLoaderData();
+  const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
+
   const { ref, inView, entry } = useInView();
   let layout: DisplayLayout = DisplayLayout.ListProducts
 
-  layout = (theFilter.trim)?DisplayLayout.ListProducts:DisplayLayout.StaticContent;
+  layout = (pathParts.length>2)?DisplayLayout.ListProducts:DisplayLayout.StaticContent;
 
   return (
     <>
       <Breadcrumbs path={pathname} />
       {/* Decide the layout */}
-      {(layout == DisplayLayout.ListProducts) ? <FilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent theFilter={theFilter} />}
+      {(layout == DisplayLayout.ListProducts) ? <FilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
     </>
   );
 }

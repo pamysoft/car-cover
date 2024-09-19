@@ -226,3 +226,33 @@ export const getCarCoverHierarchyByHandle = async (path: string) => {
     }
     return []
 }
+
+export const getCarCoverDataByPath = async (path: string) => {
+    let appProxyUrl = PROXY_URL + `get_data/?shop=1`;
+
+    appProxyUrl = appProxyUrl + `&path=${path}`
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (err) {
+        console.log('callproxyerror:', err.message);
+    } finally {
+        console.log('callproxydone');
+    }
+    return null
+}
+
+export function removeSlashes(text: string): string {
+    return text.replace(/^\/+|\/+$/g, '');
+}

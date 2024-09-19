@@ -1,22 +1,34 @@
-import { toTitleCase } from '~/lib/functions';
+import { getCarCoverHierarchyByHandle, toTitleCase } from '~/lib/functions';
 import { CarCoverComparison } from './CarCoverComparison';
 import { CarCoverTypes } from './CarCoverTypes';
 import { HeroSection } from './HeroSection';
 import { SearchBox } from './SearchBox';
 import { Slideshow } from './Slideshow';
 import { ValueProposition } from './ValuePropostion';
+import { PathwayInfo } from '~/lib/types';
+import { useEffect, useState } from 'react';
+import { CarModelYearSelector } from './CarModelYearSelector';
 
-export function CategoryStaticContent({theFilter}) {
-    let parts: string[] = [];
+export function CategoryStaticContent({path}) {
+    const [dynamicText, setDynamicText] = useState('')
 
-    parts.push(toTitleCase(theFilter.make));
-    if (theFilter.model) {
-        parts.push(toTitleCase(theFilter.model));
-        if (theFilter.year) {
-            parts.push(toTitleCase(theFilter.year));
+    console.log('path',path)
+    const [isLoading, setIsLoading] = useState(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true)
+            const data = await getCarCoverHierarchyByHandle(path)
+            let parts: string[] = []
+            data.forEach(item => parts.push(item.name))
+            setDynamicText(parts.join(' '))
+            setIsLoading(false)
         }
-    }
-    let dynamicText: String = parts.join(' ')
+        fetchData()
+    }, [])
+
+
+
+
     return <>
         <div className='container mt-[20px] lg:mt-0'>
             <div className='md:gap-0 ml:flex'>
@@ -28,6 +40,7 @@ export function CategoryStaticContent({theFilter}) {
         <ValueProposition />
         <CarCoverTypes />
         <CarCoverComparison />
+        <CarModelYearSelector path={path} />
     </>
 }
 
