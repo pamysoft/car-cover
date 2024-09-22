@@ -2,7 +2,8 @@ import React, { createContext, ReactNode, useContext } from 'react';
 import { CollectionInfo } from '~/lib/types';
 
 type PageWrapperContextValue = {
-    breadcrumbs: CollectionInfo[]
+    breadcrumbs: CollectionInfo[],
+    proxyUrl: string,
 };
 
 export function PageWrapper({children}: {children?: React.ReactNode}) {
@@ -22,11 +23,10 @@ PageWrapper.Provider = function PageWrapperProvider({children, data}: {children:
       );
 }
 
-export function useCollections() {
+export function useProxyUrl() {
   const wrapper = useContext(PageWrapperContext);
   if (!wrapper) {
     throw new Error('useCollections must be used within an PageWrapperProvider');
   }
-  return wrapper.collections;
+  return wrapper.proxyUrl;
 }
-

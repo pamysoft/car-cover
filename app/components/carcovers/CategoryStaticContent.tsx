@@ -1,23 +1,24 @@
-import { getCarCoverHierarchyByHandle, toTitleCase } from '~/lib/functions';
+import { fetchCarCoverHierarchyByHandle, toTitleCase } from '~/lib/functions';
 import { CarCoverComparison } from './CarCoverComparison';
 import { CarCoverTypes } from './CarCoverTypes';
-import { HeroSection } from './HeroSection';
 import { SearchBox } from './SearchBox';
 import { Slideshow } from './Slideshow';
 import { ValueProposition } from './ValuePropostion';
 import { PathwayInfo } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { CarModelYearSelector } from './CarModelYearSelector';
+import { useProxyUrl } from './PageWrapper';
 
 export function CategoryStaticContent({path}) {
     const [dynamicText, setDynamicText] = useState('')
+    const proxyUrl = useProxyUrl();
 
     console.log('path',path)
     const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
-            const data = await getCarCoverHierarchyByHandle(path)
+            const data = await fetchCarCoverHierarchyByHandle(proxyUrl, path)
             let parts: string[] = []
             data.forEach(item => parts.push(item.name))
             setDynamicText(parts.join(' '))

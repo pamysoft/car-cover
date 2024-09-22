@@ -16,10 +16,15 @@ declare global {
   /**
    * A global `process` object is only available during build to access NODE_ENV.
    */
-  const process: {env: {NODE_ENV: 'production' | 'development'}};
+  const process: {
+    env: {
+      NODE_ENV: 'production' | 'development',
+    }
+  };
 
   interface Env extends HydrogenEnv {
     // declare additional Env parameter use in the fetch handler and Remix loader context here
+      PROXY_URL: 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/',
   }
 }
 

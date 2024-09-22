@@ -17,10 +17,7 @@ import appStyles from '~/styles/app.css?url';
 import customStyles from '~/styles/custom.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
-import { l } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 import { CollectionInfo } from './lib/types';
-import { loadCollections } from './lib/functions';
-import { useEffect } from 'react';
 
 export type RootLoader = typeof loader;
 
@@ -124,6 +121,8 @@ export async function loader(args: LoaderFunctionArgs) {
 async function loadCriticalData({context}: LoaderFunctionArgs) {
   const {storefront} = context;
 
+  const proxyUrl = context.env.PROXY_URL;
+  
   const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
@@ -134,12 +133,9 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
-  let collections: CollectionInfo[] = [];
-  // await loadCollections(storefront, collections);
-
   return {
     header,
-    collections
+    proxyUrl
   };
 }
 
@@ -174,36 +170,6 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
-
-  // const appProxyUrl = 'http://localhost:64231/proxy?shop=1'; // same as before
-  // const appProxyUrl = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/?shop=123'; // same as before
-  // console.log('start effect')
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(appProxyUrl, {
-  //         method: 'GET',
-          
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-  
-  //       if (!response.ok) {
-  //         throw new Error(`Error: ${response.statusText}`);
-  //       }
-  
-  //       const result = await response.json();
-  //       console.log('callproxyresult:', result);
-  //     } catch (err) {
-  //       console.log('callproxyerror:',err.message);
-  //     } finally {
-  //       console.log('callproxydone');
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, []);
 
   return (
     <html lang="en">

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-import { getCarCoverHierarchyByHandle } from "~/lib/functions"
+import { fetchCarCoverHierarchyByHandle } from "~/lib/functions"
 import { PathwayInfo } from "~/lib/types"
+import { useProxyUrl } from "./PageWrapper"
 
 export function Breadcrumbs({ path }) {
     const [pathway, setPathway] = useState<PathwayInfo[]>([])
     const [isLoading, setIsLoading] = useState(false)
+    const proxyUrl = useProxyUrl();
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
-            const data = await getCarCoverHierarchyByHandle(path)
+            const data = await fetchCarCoverHierarchyByHandle(proxyUrl, path)
             let pathwayData: PathwayInfo[] = []
             let currentUrl = '/'
 

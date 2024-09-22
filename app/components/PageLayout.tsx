@@ -28,7 +28,7 @@ interface PageLayoutProps {
   isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
   children?: React.ReactNode;
-  collections: CollectionInfo[];
+  proxyUrl: string;
 }
 
 export function PageLayout({
@@ -38,10 +38,10 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
-  collections
+  proxyUrl
 }: PageLayoutProps) {
   return (
-    <PageWrapper.Provider collections={collections}>
+    <PageWrapper.Provider proxyUrl={proxyUrl}>
       <Aside.Provider>
         <CartAside cart={cart} />
         <SearchAside />
