@@ -226,6 +226,42 @@ export const FOOTER_QUERY = `#graphql
   ${MENU_FRAGMENT}
 ` as const;
 
+export const FETCH_PRODUCTS_QUERY = `#graphql
+  query fetchProducts($ids: [ID!]!) {
+      nodes(ids: $ids) {
+        ...ProductCard
+      }
+  }
+  fragment ProductCard on Product {
+    id
+    title
+    handle
+    descriptionHtml
+    variants(first: 1) {
+      nodes {
+        id
+        image {
+          url
+          altText
+          width
+          height
+        }
+        price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        selectedOptions {
+          name
+          value
+        }
+      }
+    }
+  }
+`;
 
 
 

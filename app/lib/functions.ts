@@ -10,8 +10,6 @@ export function toTitleCase(str: string): string {
 }
 
 
-// const PROXY_URL = 'https://car-cover-app-575e2d27ff99.herokuapp.com/proxy/'
-// const PROXY_URL = 'http://localhost:63038/proxy/'
 export const fetchCarCoverHierarchy = async (proxyUrl: string, parentId?: number) => {
     let appProxyUrl = proxyUrl + `vehicle-hierarchy-by-parent-id/?shop=1`;
 
@@ -100,6 +98,39 @@ export const fetchCarCoverDataByPath = async (proxyUrl: string, path: string) =>
         console.log('callproxydone');
     }
     return null
+}
+
+function isArrayOfStrings(variable: any): variable is string[] {
+    return Array.isArray(variable) && variable.every(item => typeof item === 'string');
+}
+
+export const fetchShopifyProductsByPath = async (proxyUrl: string, path: string): Promise<string[]> => {
+    let appProxyUrl = proxyUrl + `shopify-products-by-path/?shop=1`;
+
+    appProxyUrl = appProxyUrl + `&path=${path}`
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        if (isArrayOfStrings(result)) {
+            return result
+        }
+
+    } catch (err) {
+        console.log('callproxyerror:', err.message);
+    } finally {
+        console.log('callproxydone');
+    }
+    return []
 }
 
 export function removeSlashes(text: string): string {

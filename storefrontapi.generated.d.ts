@@ -283,6 +283,26 @@ export type FooterQuery = {
   >;
 };
 
+export type FetchProductsQueryVariables = StorefrontAPI.Exact<{
+  ids:
+    | Array<StorefrontAPI.Scalars['ID']['input']>
+    | StorefrontAPI.Scalars['ID']['input'];
+}>;
+
+export type FetchProductsQuery = {
+  nodes: Array<
+    StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'descriptionHtml'> & {
+        variants: {
+          edges: Array<{
+            node: Pick<StorefrontAPI.ProductVariant, 'id' | 'title'>;
+          }>;
+        };
+      }
+    >
+  >;
+};
+
 export type AllProductsQueryVariables = StorefrontAPI.Exact<{
   first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
   last?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
@@ -1297,6 +1317,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Footer(\n    $country: CountryCode\n    $footerMenuHandle: String!\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    menu(handle: $footerMenuHandle) {\n      ...Menu\n    }\n  }\n  #graphql\n  fragment MenuItem on MenuItem {\n    id\n    resourceId\n    tags\n    title\n    type\n    url\n  }\n  fragment ChildMenuItem on MenuItem {\n    ...MenuItem\n  }\n  fragment ParentMenuItem on MenuItem {\n    ...MenuItem\n    items {\n      ...ChildMenuItem\n    }\n  }\n  fragment Menu on Menu {\n    id\n    items {\n      ...ParentMenuItem\n    }\n  }\n\n': {
     return: FooterQuery;
     variables: FooterQueryVariables;
+  };
+  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ... on Product {\n          id\n          title\n          descriptionHtml\n          variants(first: 5) {\n            edges {\n              node {\n                id\n                title\n              }\n            }\n          }\n        }\n      }\n    }\n': {
+    return: FetchProductsQuery;
+    variables: FetchProductsQueryVariables;
   };
   '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCard\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
     return: AllProductsQuery;

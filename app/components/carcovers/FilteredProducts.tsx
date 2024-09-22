@@ -5,6 +5,10 @@ import { useInView } from 'react-intersection-observer';
 import { SearchBox } from './SearchBox';
 import { urlWithTrackingParams } from '~/lib/search';
 import { toTitleCase } from '~/lib/functions';
+import { ProductPrice } from '../ProductPrice';
+import { LoopProductPrice } from './LoopProductPrice';
+import { ProductInfoBottom } from './ProductInfoBottom';
+import { StarRating } from './StarRating';
 
 export function FilteredProducts({ products, theFilter }) {
   let parts: string[] = [];
@@ -25,12 +29,24 @@ export function FilteredProducts({ products, theFilter }) {
           <h1 className="mt-[10px] text-[30px] font-medium tracking-tight">{dynamicText} Car Covers</h1>
           <div className='flex flex-col'>
             <div className='mt-[30px]'>
-              <InnerFilteredProducts products={products} />
+              <LoopProducts products={products} />
             </div>
           </div>
-        </div>        
+        </div>
       </div>
     </div>
+  </>
+}
+
+function LoopProducts({ products }) {
+  console.log('products', products)
+  if (products.length ===0) {
+    return <>There is no product.</>
+  }
+  return <>
+    {products && products.map(product =>
+      <ProductCard key={product.id} product={product} />
+    )}
   </>
 }
 
@@ -85,51 +101,47 @@ function ProductCard({ product }) {
 
   return <>
     <div className='border-[1px] border-solid border-[#ebebeb] p-[15px]'>
-      <div className='font-[Oswald] text-[22px] font-medium leading-[1.4] tracking-tight hover:text-[red]'><Link key={product.id} to={productUrl}>{product.title}</Link></div>
-
-      {/* <div className='mr-10'><img src={product.variants.nodes[0].image?.url} width={100} /></div> */}
+      <div className='font-[Oswald] text-[22px] font-medium leading-[1.4] tracking-tight hover:text-[red]'>
+        <Link key={product.id} to={productUrl}>{product.title}</Link>
+      </div>
+      <StarRating></StarRating>
+      <div className="mt-[10px]">
+        <span className="mr-[2px] font-['icon-dukamarket'] text-[15px] leading-4 before:content-['\e951']"></span>100% Water-Resistant Fabric for Extreme Weather Conditions
+      </div>
 
       <div className='w-full nw:table'>
         <div className='nw:table-row nw:gap-[30px]'>
           <div className='max-w-full nw:table-cell nw:w-[230px] nw:align-middle'>
             <Link key={product.id} to={productUrl}><img src={imageurl} width="400" height="auto" /></Link>
           </div>
-        </div>
-        <div className='nw:table-cell nw:pl-[25px] nw:pt-[25px] nw:align-top'>
-          <div className='xl:flex xl:gap-[20px]'>
-            <div className="wysiwyg xl:grow">
-              <div className="metafield-rich_text_field"><p>Experience superior protection for your RV with our top-of-the-line Gold Shield 5L RV Cover.</p><ul><li>This cover is expertly crafted to withstand all weather extremities, from desert heat to severe snow storms, ensuring your RV is well-protected.</li><li>This Premium RV Cover exclusively offers a thick 5-ply fabric on the top and a 3-ply fabric on the sides, making sure to protect your RV's paint and finish.</li><li>Its standout feature is the 100% breathable, water-resistant material, which offers robust defense against the elements while maintaining the right balance of air circulation to keep your RV in prime condition.</li><li>The Gold Shield 5L RV Cover is designed to accommodate up to three AC units on its roof, featuring zippered panels for convenient access at any time and, air vents.</li><li>Our commitment to quality is backed by our full&nbsp;<strong>Lifetime Warranty</strong>.</li><li><strong>Included with your purchase</strong>:&nbsp;Free Shipping, Lifetime Warranty, Storage Bag, Buckles and Straps (front, rear and bottom), Free Patch kit for quick repairs, rain gutter covers, a ladder cap, toss bag and much more!</li></ul><p>Take advantage of our current special pricing and free shipping by ordering now!</p></div>
-            </div>
-          </div>
-          <div className="md:min-w-[245px] md:max-w-[245px]">
-            <div className="mt-[45px] nw:mt-0">
-              <div className="mb-[15px] text-[30px] font-medium text-[#ff0000]">
-                $299.99
+          <div className='nw:table-cell nw:pl-[25px] nw:pt-[25px] nw:align-top'>
+            <div className='xl:flex xl:gap-[20px]'>
+              <div className="wysiwyg xl:grow">
+                <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+                <ProductInfoBottom />
               </div>
-              <div>
-                Regular Price: <span className="text-[18px] font-semibold text-black">$749.99</span>
+              <div className="md:min-w-[245px] md:max-w-[245px]">
+                <div className="mt-[45px] nw:mt-0">
+                  <LoopProductPrice price={product.variants.nodes[0].price} compareAtPrice={product.variants.nodes[0].compareAtPrice}></LoopProductPrice>
+                </div>
+                <div className="mt-[15px]">
+                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                    <span className="text-[red]">Free</span> Shipping
+                  </div>
+                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                    <span className="text-[red]">In</span> Stock
+                  </div>
+                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                    <span className="text-[red]">Lifetime</span> Warranty
+                  </div>
+                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                    Ships <span className="text-[red]">Same</span> Business Day
+                  </div>
+                </div>
+                <div className="mt-[20px] flex flex-col gap-[10px]">
+                  <Link key={product.id} to={productUrl} className="block bg-black px-[20px] py-[10px] text-center text-[13px] uppercase text-white">View Details</Link>
+                </div>
               </div>
-              <div className="mt-[7px]">
-                You save <span className="text-[18px] font-semibold text-black">$450.00</span>
-                <span className="text-[#ff0000]">(60% Off)</span>
-              </div>
-            </div>
-            <div className="mt-[15px]">
-              <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                <span className="text-[red]">Free</span> Shipping
-              </div>
-              <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                <span className="text-[red]">In</span> Stock
-              </div>
-              <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                <span className="text-[red]">Lifetime</span> Warranty
-              </div>
-              <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                Ships <span className="text-[red]">Same</span> Business Day
-              </div>
-            </div>
-            <div className="mt-[20px] flex flex-col gap-[10px]">
-              <Link key={product.id} to={productUrl} className="block bg-black px-[20px] py-[10px] text-center text-[13px] uppercase text-white">View Details</Link>
             </div>
           </div>
         </div>
