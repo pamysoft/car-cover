@@ -11,12 +11,12 @@ export function PageWrapper({children}: {children?: React.ReactNode}) {
 }
 
 const PageWrapperContext = createContext<PageWrapperContextValue | null>(null);
-PageWrapper.Provider = function PageWrapperProvider({children, data}: {children: ReactNode, data: any}) {
+PageWrapper.Provider = function PageWrapperProvider({children, data}: {children: ReactNode, data: PageWrapperContextValue}) {
     return (
         <PageWrapperContext.Provider
-          value={{
+          value={
             data
-          }}
+          }
         >
           {children}
         </PageWrapperContext.Provider>
@@ -26,7 +26,7 @@ PageWrapper.Provider = function PageWrapperProvider({children, data}: {children:
 export function useProxyUrl() {
   const wrapper = useContext(PageWrapperContext);
   if (!wrapper) {
-    throw new Error('useCollections must be used within an PageWrapperProvider');
+    throw new Error('useProxyUrl must be used within an PageWrapperProvider');
   }
   return wrapper.proxyUrl;
 }

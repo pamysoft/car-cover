@@ -41,7 +41,7 @@ export function PageLayout({
   proxyUrl
 }: PageLayoutProps) {
   return (
-    <PageWrapper.Provider proxyUrl={proxyUrl}>
+    <PageWrapper.Provider data={{"breadcrumbs":[], "proxyUrl":proxyUrl}}>
       <Aside.Provider>
         <CartAside cart={cart} />
         <SearchAside />

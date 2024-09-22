@@ -20,7 +20,7 @@ export function CarModelYearSelector({ path }) {
             setIsLoading(false)
         }
         fetchData()
-    }, [])
+    }, [proxyUrl])
 
     return <div className="mb-[20px] mt-10">
         {isLoading && <div>Loading..</div>}

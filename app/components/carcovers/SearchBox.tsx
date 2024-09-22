@@ -29,6 +29,7 @@ const DependentDropdowns: React.FC<{
     const [isTrimDropdownLoading, setIsTrimDropdownLoading] = useState(false);
 
     const proxyUrl = useProxyUrl();
+    console.log('proxyUrl', proxyUrl)
 
     useEffect(() => {
         setIsYearDropdownLoading(true);
@@ -38,7 +39,7 @@ const DependentDropdowns: React.FC<{
             setIsYearDropdownLoading(false);
         }
         fetchYearData()
-    }, [])
+    }, [proxyUrl])
 
     useEffect(() => {
         setSelectedMake('');
@@ -54,7 +55,7 @@ const DependentDropdowns: React.FC<{
             }
             fetchMakeData()
         }
-    }, [selectedYear])
+    }, [selectedYear, proxyUrl])
 
     useEffect(() => {
         setSelectedModel('');
@@ -71,7 +72,7 @@ const DependentDropdowns: React.FC<{
             }
             fetchModelData()
         }
-    }, [selectedMake])
+    }, [selectedMake, proxyUrl])
 
     useEffect(() => {
         setSelectedTrim('');
@@ -86,7 +87,7 @@ const DependentDropdowns: React.FC<{
             }
             fetchTrimData()
         }
-    }, [selectedModel])
+    }, [selectedModel, proxyUrl])
 
     useEffect(() => {
         if (selectedTrim) {
