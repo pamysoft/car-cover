@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { getCarCoverDataByPath } from "~/lib/functions"
+import { fetchCarCoverDataByPath } from "~/lib/functions"
+import { useProxyUrl } from "./PageWrapper"
 
 export function CarModelYearSelector({ path }) {
     const [data, setData] = useState({
@@ -7,11 +8,13 @@ export function CarModelYearSelector({ path }) {
         results: []
     })
 
+    const proxyUrl = useProxyUrl();
+
     const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
-            const result = await getCarCoverDataByPath(path)
+            const result = await fetchCarCoverDataByPath(proxyUrl, path)
             setData(result)
 
             setIsLoading(false)

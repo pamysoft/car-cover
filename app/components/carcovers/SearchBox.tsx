@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CollectionInfo, LevelInfo } from '~/lib/types';
-import { getCarCoverHierarchy } from '~/lib/functions';
+import { fetchCarCoverHierarchy } from '~/lib/functions';
+import { useProxyUrl } from './PageWrapper';
 
 const filterData: CollectionInfo[] = []
 
@@ -27,10 +28,12 @@ const DependentDropdowns: React.FC<{
     const [isModelDropdownLoading, setIsModelDropdownLoading] = useState(false);
     const [isTrimDropdownLoading, setIsTrimDropdownLoading] = useState(false);
 
+    const proxyUrl = useProxyUrl();
+
     useEffect(() => {
         setIsYearDropdownLoading(true);
         const fetchYearData = async () => {
-            const results = await getCarCoverHierarchy()
+            const results = await fetchCarCoverHierarchy(proxyUrl)
             setAvailableYears(results)
             setIsYearDropdownLoading(false);
         }
@@ -45,7 +48,7 @@ const DependentDropdowns: React.FC<{
         if (selectedYear) {
             setIsMakeDropdownLoading(true)
             const fetchMakeData = async () => {
-                const results = await getCarCoverHierarchy(parseInt(selectedYear.id))
+                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedYear.id))
                 setAvailableMakes(results)
                 setIsMakeDropdownLoading(false);
             }
@@ -62,7 +65,7 @@ const DependentDropdowns: React.FC<{
         if (selectedMake) {
             setIsModelDropdownLoading(true)
             const fetchModelData = async () => {
-                const results = await getCarCoverHierarchy(parseInt(selectedMake.id))
+                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedMake.id))
                 setAvailableModels(results)
                 setIsModelDropdownLoading(false);
             }
@@ -76,7 +79,7 @@ const DependentDropdowns: React.FC<{
         if (selectedModel) {
             setIsTrimDropdownLoading(true)
             const fetchTrimData = async () => {
-                const results = await getCarCoverHierarchy(parseInt(selectedModel.id))
+                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedModel.id))
                 setAvailableTrims(results)
                 setIsTrimDropdownLoading(false);
                 maybeRedirect(results.length)
