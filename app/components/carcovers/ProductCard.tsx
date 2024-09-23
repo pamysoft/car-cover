@@ -42,14 +42,13 @@ export function ProductCard({ product }) {
   
         <div className='w-full nw:table'>
           <div className='nw:table-row nw:gap-[30px]'>
-            <div className='mt-[20px] w-full max-w-[400px] nw:mt-0 nw:table-cell nw:w-[300px] nw:pt-[40px] nw:align-top md:w-[400px]'>
+            <div className='mt-[20px] w-full max-w-[400px] nw:mt-0 nw:table-cell nw:w-[250px] nw:pt-[40px] nw:align-top md:w-[320px] lg:w-[400px]'>
               <Link key={product.id} to={productUrl}><img src={imageurl} height="auto" className="w-full" /></Link>
             </div>
             <div className='nw:table-cell nw:pl-[25px] nw:pt-[25px] nw:align-top'>
               <div className='xl:flex xl:gap-[20px]'>
                 <div className="wysiwyg text-black xl:grow">
-                  <div dangerouslySetInnerHTML={{ __html: product.shortDescription }} />
-                  <ProductInfoBottom productSku={product.sku} />
+                  <div dangerouslySetInnerHTML={{ __html: product.shortDescription }} />                  
                 </div>
                 <div className="md:min-w-[245px] md:max-w-[245px]">
                   <div className="mt-[45px] nw:mt-0">
@@ -90,6 +89,7 @@ export function ProductCard({ product }) {
             </div>
           </div>
         </div>
+        <ProductInfoBottom productSku={product.sku} />
       </div>
     </>
   
