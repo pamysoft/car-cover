@@ -28,8 +28,6 @@ export function ProductCard({ product }) {
     // const {linesAdd, status} = useOptimisticCart();
 
 
-    console.log('product', product)
-  
     return <>
       <div className='border-[1px] border-solid border-[#ebebeb] p-[15px]'>
         <div className='font-[Oswald] text-[22px] font-medium leading-[1.4] tracking-tight hover:text-[red]'>
@@ -69,19 +67,12 @@ export function ProductCard({ product }) {
                     </div>
                   </div>
                   <div className="mt-[20px] flex flex-col gap-[10px]">
-                    <Link key={product.id} to={productUrl} className="block bg-black px-[20px] py-[10px] text-center text-[13px] uppercase text-white">View Details</Link>
+                    <Link key={product.id} to={productUrl} className="block bg-black px-[20px] py-[10px] text-center text-[13px] uppercase text-white hover:no-underline">View Details</Link>
                     {/* <LoopProductAddToCartButton product={product} /> */}
 
-                    {/* <CartProvider
-                      onLineAdd={() => {
-                        console.log('a line is being added');
-                      }}
-                      onLineAddComplete={() => {
-                        console.log('a line has been added');
-                      }}
-                    >
+                    
                       	<LoopProductAddToCartButton product={product}></LoopProductAddToCartButton>
-                    </CartProvider>; */}
+                    
 
                   </div>
                 </div>

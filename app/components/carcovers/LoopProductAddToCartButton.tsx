@@ -1,13 +1,27 @@
 import { AddToCartButton } from "../AddToCartButton";
+import { useAside } from "../Aside";
 
 
 export default function LoopProductAddToCartButton({product}) {
-  console.log('product', product)
-  const variantId = product.variants.nodes[0].id;
+  const {open} = useAside();
+  const selectedVariant = product.variants.nodes[0];
 
-  if (!variantId) {
-    return null;
+  return <AddToCartButton 
+  onClick={() => {
+    open('cart');
+  }}
+  lines={
+    selectedVariant
+      ? [
+          {
+            merchandiseId: selectedVariant.id,
+            quantity: 1,
+            selectedVariant,
+          },
+        ]
+      : []
   }
-
-  return <AddToCartButton variantId={variantId}>Add to cart</AddToCartButton>;
+  >
+    <span>Add to cart</span>
+  </AddToCartButton>;
 }

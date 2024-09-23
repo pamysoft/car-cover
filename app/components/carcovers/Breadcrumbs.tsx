@@ -39,10 +39,10 @@ export function Breadcrumbs({ path }) {
             </li>
             <>
             {isLoading && <li className="flex items-center">Loading..</li>}
-            {!isLoading && pathway.map(item => <>
+            {!isLoading && pathway.map(item => <div key={item.handle}>
                 {item.handle && <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']"><a href={item.handle} title={item.name}>{item.name}</a></li>}
                 {!item.handle && <li className="flex items-center"><strong title={item.name}>{item.name}</strong></li>}
-                </>
+                </div>
             )}
             </>
         </ul>

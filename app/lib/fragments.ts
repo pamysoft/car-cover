@@ -226,6 +226,45 @@ export const FOOTER_QUERY = `#graphql
   ${MENU_FRAGMENT}
 ` as const;
 
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment ProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
+    }
+    id
+    image {
+      __typename
+      id
+      url
+      altText
+      width
+      height
+    }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
+    }
+  }
+` as const;
+
+
+
 export const FETCH_PRODUCTS_QUERY = `#graphql
   query fetchProducts($ids: [ID!]!) {
       nodes(ids: $ids) {
@@ -239,26 +278,7 @@ export const FETCH_PRODUCTS_QUERY = `#graphql
     descriptionHtml
     variants(first: 1) {
       nodes {
-        sku
-        id
-        image {
-          url
-          altText
-          width
-          height
-        }
-        price {
-          amount
-          currencyCode
-        }
-        compareAtPrice {
-          amount
-          currencyCode
-        }
-        selectedOptions {
-          name
-          value
-        }
+        ...ProductVariant
       }
     }
     metafields(identifiers: [
@@ -268,47 +288,5 @@ export const FETCH_PRODUCTS_QUERY = `#graphql
         value
       }
   }
+  ${PRODUCT_VARIANT_FRAGMENT}
 `;
-
-
-
-
-const COLLECTION_CARD_QUERY_FRAGMENT = `#graphql
-    fragment CollectionCard on Collection {
-        id
-        title
-        metafields(
-        identifiers: [
-            { key: "level_1", namespace: "cat_filter" }
-            { key: "level_1_url", namespace: "cat_filter" }
-            { key: "level_2", namespace: "cat_filter" }
-            { key: "level_2_url", namespace: "cat_filter" }
-            { key: "level_3", namespace: "cat_filter" }
-            { key: "level_3_url", namespace: "cat_filter" }
-            { key: "level_4", namespace: "cat_filter" }
-            { key: "level_4_url", namespace: "cat_filter" }
-            { key: "level_5", namespace: "cat_filter" }
-            { key: "level_5_url", namespace: "cat_filter" }
-        ]
-        ) {
-        value
-        }
-    } 
-`
-
-export const GET_COLLECTIONS_QUERY = `#graphql
-    query GetCollections($after: String = null) {
-    collections(first: 250, after: $after) {
-        edges {
-            cursor
-            node {
-                ...CollectionCard
-            }
-        }
-        pageInfo {
-            hasNextPage
-        }
-    }
-    }
-    ${COLLECTION_CARD_QUERY_FRAGMENT}
-`
