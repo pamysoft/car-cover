@@ -66,7 +66,7 @@ function getValidProducts(productsResponse)
   return validProducts
 }
 
-function getProductShortDescription(productSku) {
+function getProductShortDescription(productSku: string) {
   let productDescription = '';  // Default value for description
 
   // Check the start of the SKU and return appropriate description
@@ -125,7 +125,7 @@ function getProductShortDescription(productSku) {
 }
 
 
-function getProductTagLine(productSku) {
+function getProductTagLine(productSku: string) {
   let productTagline = '';  // Default value for tagline
 
   // Check the start of the SKU and assign appropriate tagline

@@ -29,7 +29,6 @@ const DependentDropdowns: React.FC<{
     const [isTrimDropdownLoading, setIsTrimDropdownLoading] = useState(false);
 
     const proxyUrl = useProxyUrl();
-    console.log('proxyUrl', proxyUrl)
 
     useEffect(() => {
         setIsYearDropdownLoading(true);
@@ -98,7 +97,7 @@ const DependentDropdowns: React.FC<{
     const maybeRedirect = (totalTrims?: number) => {
         let parts = []
         let collectionUrl = ''
-        if (selectedMake && selectedModel && selectedYear) {
+        if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
             parts.push(selectedMake.handle)
             parts.push(selectedModel.handle)
             parts.push(selectedYear.handle)
@@ -109,7 +108,7 @@ const DependentDropdowns: React.FC<{
                 collectionUrl = '/' + parts.join('/')
                 window.location.href = collectionUrl
             } else {
-                if (selectedTrim) {
+                if (selectedTrim.handle) {
                     parts.push(selectedTrim.handle)
                     collectionUrl = '/' + parts.join('/')
                     window.location.href = collectionUrl
@@ -149,13 +148,13 @@ const DependentDropdowns: React.FC<{
         } xl:h-[41px] 2xl:h-[45px]`;
 
     useEffect(() => {
-        if (!selectedYear) {
+        if (!selectedYear.handle) {
             setInvalidSelect('year');
-        } else if (!selectedMake) {
+        } else if (!selectedMake.handle) {
             setInvalidSelect('make');
-        } else if (!selectedModel) {
+        } else if (!selectedModel.handle) {
             setInvalidSelect('model');
-        } else if (!selectedTrim) {
+        } else if (!selectedTrim.handle) {
             setInvalidSelect('trim');
         }
 
@@ -257,19 +256,19 @@ interface SearchBoxProps {
 }
 
 export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
-    const [selectedYear, setSelectedYear] = useState<string>('');
-    const [selectedMake, setSelectedMake] = useState<string>('');
-    const [selectedModel, setSelectedModel] = useState<string>('');
-    const [selectedTrim, setSelectedTrim] = useState<string>('');
+    const [selectedYear, setSelectedYear] = useState<LevelInfo>({id: '', handle: '', name: ''});
+    const [selectedMake, setSelectedMake] = useState<LevelInfo>({id: '', handle: '', name: ''});
+    const [selectedModel, setSelectedModel] = useState<LevelInfo>({id: '', handle: '', name: ''});
+    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>({id: '', handle: '', name: ''});
 
     const handleSubmit = () => {
-        if (!selectedYear || !selectedModel || !selectedModel || !selectedTrim) {
+        if (!selectedYear.handle || !selectedModel.handle || !selectedModel.handle || !selectedTrim.handle) {
             alert('Please select all options before searching.');
             return;
         }
 
         // Construct the URL based on the selected options
-        const url = `/${selectedModel}/${selectedModel}/${selectedYear}/${selectedTrim}`;
+        const url = `/${selectedMake.handle}/${selectedModel.handle}/${selectedYear.handle}/${selectedTrim.handle}`;
 
         // Redirect to the constructed URL
         window.location.href = url;

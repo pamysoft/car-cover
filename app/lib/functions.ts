@@ -30,11 +30,14 @@ export const fetchCarCoverHierarchy = async (proxyUrl: string, parentId?: number
 
         return await response.json();
 
-    } catch (err) {
-        console.log('callproxyerror:', err.message);
-    } finally {
-        console.log('callproxydone');
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
     }
+
     return []
 }
 
@@ -66,11 +69,14 @@ export const fetchCarCoverHierarchyByHandle = async (proxyUrl: string, path: str
             return [];
         }
 
-    } catch (err) {
-        console.log('callproxyerror:', err.message);
-    } finally {
-        console.log('callproxydone');
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
     }
+    
     return []
 }
 
@@ -92,11 +98,14 @@ export const fetchCarCoverDataByPath = async (proxyUrl: string, path: string) =>
 
         return await response.json();
 
-    } catch (err) {
-        console.log('callproxyerror:', err.message);
-    } finally {
-        console.log('callproxydone');
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
     }
+    
     return null
 }
 
@@ -125,11 +134,14 @@ export const fetchShopifyProductsByPath = async (proxyUrl: string, path: string)
             return result
         }
 
-    } catch (err) {
-        console.log('callproxyerror:', err.message);
-    } finally {
-        console.log('callproxydone');
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
     }
+    
     return []
 }
 
