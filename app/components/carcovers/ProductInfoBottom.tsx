@@ -73,7 +73,7 @@ export function ProductInfoBottom({ productSku }) {
 
     return (
         <div className="flex justify-center">
-            <div className="mb-[10px] mt-[20px] grid grid-cols-1 flex-col items-center justify-center gap-x-[20px] sm:grid-cols-2">
+            <div className="mb-[10px] mt-[20px] grid grid-cols-1 flex-col items-center justify-center gap-x-[40px] sm:grid-cols-2">
                 {ratings.map((rating, index) => (
                     <RatingRow
                         key={index}
