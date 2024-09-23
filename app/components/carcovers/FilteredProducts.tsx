@@ -111,7 +111,7 @@ function ProductCard({ product }) {
 
       <div className='w-full nw:table'>
         <div className='nw:table-row nw:gap-[30px]'>
-          <div className='max-w-full nw:table-cell nw:w-[230px] nw:align-middle'>
+          <div className='max-w-full nw:table-cell nw:w-[400px] nw:pt-[40px] nw:align-top'>
             <Link key={product.id} to={productUrl}><img src={imageurl} width="400" height="auto" /></Link>
           </div>
           <div className='nw:table-cell nw:pl-[25px] nw:pt-[25px] nw:align-top'>
