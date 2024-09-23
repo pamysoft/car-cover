@@ -274,7 +274,7 @@ export const ALL_PRODUCTS_QUERY = `#graphql
     ) {
     products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
       nodes {
-        ...ProductCard
+        ...ProductCardX
       }
       pageInfo {
         hasPreviousPage
@@ -284,7 +284,7 @@ export const ALL_PRODUCTS_QUERY = `#graphql
       }
     }
   }
-  fragment ProductCard on Product {
+  fragment ProductCardX on Product {
     id
     title
     handle
