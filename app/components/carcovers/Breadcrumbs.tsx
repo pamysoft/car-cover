@@ -33,7 +33,7 @@ export function Breadcrumbs({ path }) {
     }, [])
 
     return <>{pathway && <div className="container font-[Oswald] text-[#666]">
-        <ul className="mb-[20px] flex">
+        <ul className="mb-[20px] mt-[20px] flex flex-wrap lg:mt-0">
             <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
                 <a href="/" title="Go to Home Page">Car Covers</a>
             </li>
