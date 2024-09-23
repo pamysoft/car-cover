@@ -315,6 +315,9 @@ export type FetchProductsQuery = {
             }
           >;
         };
+        metafields: Array<
+          StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
+        >;
       }
     >
   >;
@@ -340,6 +343,9 @@ export type ProductCardFragment = Pick<
       }
     >;
   };
+  metafields: Array<
+    StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
+  >;
 };
 
 export type CollectionCardFragment = Pick<
@@ -1290,7 +1296,7 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        sku\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        sku\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n    metafields(identifiers: [\n      { key: "trim", namespace: "custom" },\n      { key: "quality", namespace: "custom" },\n      ]) {\n        value\n      }\n  }\n': {
     return: FetchProductsQuery;
     variables: FetchProductsQueryVariables;
   };
