@@ -261,6 +261,12 @@ export const FETCH_PRODUCTS_QUERY = `#graphql
         }
       }
     }
+    metafields(identifiers: [
+      { key: "trim", namespace: "custom" },
+      { key: "quality", namespace: "custom" },
+      ]) {
+        value
+      }
   }
 `;
 
