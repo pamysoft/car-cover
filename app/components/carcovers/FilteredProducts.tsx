@@ -97,7 +97,7 @@ function ProductsLoadedOnScroll({ nodes, inView, hasNextPage, nextPageUrl, state
 
 function ProductCard({ product }) {
   const productUrl = `/products/${product.handle}`
-  const imageurl = product.imageurl
+  const imageurl = product.imageurl + '?width=400'
 
   return <>
     <div className='border-[1px] border-solid border-[#ebebeb] p-[15px]'>
