@@ -292,15 +292,54 @@ export type FetchProductsQueryVariables = StorefrontAPI.Exact<{
 export type FetchProductsQuery = {
   nodes: Array<
     StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'descriptionHtml'> & {
+      Pick<
+        StorefrontAPI.Product,
+        'id' | 'title' | 'handle' | 'descriptionHtml'
+      > & {
         variants: {
-          edges: Array<{
-            node: Pick<StorefrontAPI.ProductVariant, 'id' | 'title'>;
-          }>;
+          nodes: Array<
+            Pick<StorefrontAPI.ProductVariant, 'id'> & {
+              image?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.Image,
+                  'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+              compareAtPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+              selectedOptions: Array<
+                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+              >;
+            }
+          >;
         };
       }
     >
   >;
+};
+
+export type ProductCardFragment = Pick<
+  StorefrontAPI.Product,
+  'id' | 'title' | 'handle' | 'descriptionHtml'
+> & {
+  variants: {
+    nodes: Array<
+      Pick<StorefrontAPI.ProductVariant, 'id'> & {
+        image?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+        >;
+        price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+        compareAtPrice?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+        >;
+        selectedOptions: Array<
+          Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+        >;
+      }
+    >;
+  };
 };
 
 export type AllProductsQueryVariables = StorefrontAPI.Exact<{
@@ -347,7 +386,7 @@ export type AllProductsQuery = {
   };
 };
 
-export type ProductCardFragment = Pick<
+export type ProductCardXFragment = Pick<
   StorefrontAPI.Product,
   'id' | 'title' | 'handle'
 > & {
@@ -1318,11 +1357,11 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ... on Product {\n          id\n          title\n          descriptionHtml\n          variants(first: 5) {\n            edges {\n              node {\n                id\n                title\n              }\n            }\n          }\n        }\n      }\n    }\n': {
+  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n  }\n': {
     return: FetchProductsQuery;
     variables: FetchProductsQueryVariables;
   };
-  '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCard\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCardX\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCardX on Product {\n    id\n    title\n    handle\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
     return: AllProductsQuery;
     variables: AllProductsQueryVariables;
   };

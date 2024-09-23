@@ -239,6 +239,7 @@ export const FETCH_PRODUCTS_QUERY = `#graphql
     descriptionHtml
     variants(first: 1) {
       nodes {
+        sku
         id
         image {
           url
@@ -264,59 +265,6 @@ export const FETCH_PRODUCTS_QUERY = `#graphql
 `;
 
 
-
-export const ALL_PRODUCTS_QUERY = `#graphql
-  query AllProducts(
-      $first: Int
-      $last: Int
-      $startCursor: String
-      $endCursor: String
-    ) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
-      nodes {
-        ...ProductCardX
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-  fragment ProductCardX on Product {
-    id
-    title
-    handle
-    variants(first: 1) {
-      nodes {
-        id
-        image {
-          url
-          altText
-          width
-          height
-        }
-        price {
-          amount
-          currencyCode
-        }
-        compareAtPrice {
-          amount
-          currencyCode
-        }
-        selectedOptions {
-          name
-          value
-        }
-        product {
-          handle
-          title
-        }
-      }
-    }
-  }
-`;
 
 
 const COLLECTION_CARD_QUERY_FRAGMENT = `#graphql

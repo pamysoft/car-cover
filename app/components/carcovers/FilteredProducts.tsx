@@ -102,11 +102,11 @@ function ProductCard({ product }) {
   return <>
     <div className='border-[1px] border-solid border-[#ebebeb] p-[15px]'>
       <div className='font-[Oswald] text-[22px] font-medium leading-[1.4] tracking-tight hover:text-[red]'>
-        <Link key={product.id} to={productUrl}>{product.title}</Link>
+        <Link key={product.id} to={productUrl}>{product.title} - {product.variants.nodes[0].sku}</Link>
       </div>
       <StarRating></StarRating>
       <div className="mt-[10px]">
-        <span className="mr-[2px] font-['icon-dukamarket'] text-[15px] leading-4 before:content-['\e951']"></span>100% Water-Resistant Fabric for Extreme Weather Conditions
+        <span className="mr-[2px] font-['icon-dukamarket'] text-[15px] leading-4 before:content-['\e951']"></span>{product.tagline}
       </div>
 
       <div className='w-full nw:table'>
