@@ -117,7 +117,7 @@ function ProductCard({ product }) {
           <div className='nw:table-cell nw:pl-[25px] nw:pt-[25px] nw:align-top'>
             <div className='xl:flex xl:gap-[20px]'>
               <div className="wysiwyg xl:grow">
-                <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+                <div dangerouslySetInnerHTML={{ __html: product.shortDescription }} />
                 <ProductInfoBottom />
               </div>
               <div className="md:min-w-[245px] md:max-w-[245px]">

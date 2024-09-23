@@ -298,7 +298,7 @@ export type FetchProductsQuery = {
       > & {
         variants: {
           nodes: Array<
-            Pick<StorefrontAPI.ProductVariant, 'id'> & {
+            Pick<StorefrontAPI.ProductVariant, 'sku' | 'id'> & {
               image?: StorefrontAPI.Maybe<
                 Pick<
                   StorefrontAPI.Image,
@@ -326,7 +326,7 @@ export type ProductCardFragment = Pick<
 > & {
   variants: {
     nodes: Array<
-      Pick<StorefrontAPI.ProductVariant, 'id'> & {
+      Pick<StorefrontAPI.ProductVariant, 'sku' | 'id'> & {
         image?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
         >;
@@ -337,73 +337,6 @@ export type ProductCardFragment = Pick<
         selectedOptions: Array<
           Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
         >;
-      }
-    >;
-  };
-};
-
-export type AllProductsQueryVariables = StorefrontAPI.Exact<{
-  first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
-  last?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
-  startCursor?: StorefrontAPI.InputMaybe<
-    StorefrontAPI.Scalars['String']['input']
-  >;
-  endCursor?: StorefrontAPI.InputMaybe<
-    StorefrontAPI.Scalars['String']['input']
-  >;
-}>;
-
-export type AllProductsQuery = {
-  products: {
-    nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
-        variants: {
-          nodes: Array<
-            Pick<StorefrontAPI.ProductVariant, 'id'> & {
-              image?: StorefrontAPI.Maybe<
-                Pick<
-                  StorefrontAPI.Image,
-                  'url' | 'altText' | 'width' | 'height'
-                >
-              >;
-              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-              compareAtPrice?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-              >;
-              selectedOptions: Array<
-                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-              >;
-              product: Pick<StorefrontAPI.Product, 'handle' | 'title'>;
-            }
-          >;
-        };
-      }
-    >;
-    pageInfo: Pick<
-      StorefrontAPI.PageInfo,
-      'hasPreviousPage' | 'hasNextPage' | 'startCursor' | 'endCursor'
-    >;
-  };
-};
-
-export type ProductCardXFragment = Pick<
-  StorefrontAPI.Product,
-  'id' | 'title' | 'handle'
-> & {
-  variants: {
-    nodes: Array<
-      Pick<StorefrontAPI.ProductVariant, 'id'> & {
-        image?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-        >;
-        price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-        compareAtPrice?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-        >;
-        selectedOptions: Array<
-          Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-        >;
-        product: Pick<StorefrontAPI.Product, 'handle' | 'title'>;
       }
     >;
   };
@@ -1357,13 +1290,9 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        sku\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n  }\n': {
     return: FetchProductsQuery;
     variables: FetchProductsQueryVariables;
-  };
-  '#graphql\n  query AllProducts(\n      $first: Int\n      $last: Int\n      $startCursor: String\n      $endCursor: String\n    ) {\n    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {\n      nodes {\n        ...ProductCardX\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  fragment ProductCardX on Product {\n    id\n    title\n    handle\n    variants(first: 1) {\n      nodes {\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n        product {\n          handle\n          title\n        }\n      }\n    }\n  }\n': {
-    return: AllProductsQuery;
-    variables: AllProductsQueryVariables;
   };
   '#graphql\n    query GetCollections($after: String = null) {\n    collections(first: 250, after: $after) {\n        edges {\n            cursor\n            node {\n                ...CollectionCard\n            }\n        }\n        pageInfo {\n            hasNextPage\n        }\n    }\n    }\n    #graphql\n    fragment CollectionCard on Collection {\n        id\n        title\n        metafields(\n        identifiers: [\n            { key: "level_1", namespace: "cat_filter" }\n            { key: "level_1_url", namespace: "cat_filter" }\n            { key: "level_2", namespace: "cat_filter" }\n            { key: "level_2_url", namespace: "cat_filter" }\n            { key: "level_3", namespace: "cat_filter" }\n            { key: "level_3_url", namespace: "cat_filter" }\n            { key: "level_4", namespace: "cat_filter" }\n            { key: "level_4_url", namespace: "cat_filter" }\n            { key: "level_5", namespace: "cat_filter" }\n            { key: "level_5_url", namespace: "cat_filter" }\n        ]\n        ) {\n        value\n        }\n    } \n\n': {
     return: GetCollectionsQuery;
