@@ -36,7 +36,7 @@ export function ProductCard({ product }) {
           <Link key={product.id} to={productUrl}>{product.title}</Link>
         </div>
         <StarRating></StarRating>
-        <div className="mt-[10px]">
+        <div className="mt-[10px] text-[14px]">
           <span className="mr-[2px] font-['icon-dukamarket'] text-[15px] leading-4 before:content-['\e951']"></span>{product.tagline}
         </div>
   
