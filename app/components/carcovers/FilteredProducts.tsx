@@ -102,7 +102,7 @@ function ProductCard({ product }) {
   return <>
     <div className='border-[1px] border-solid border-[#ebebeb] p-[15px]'>
       <div className='font-[Oswald] text-[22px] font-medium leading-[1.4] tracking-tight hover:text-[red]'>
-        <Link key={product.id} to={productUrl}>{product.title} - {product.variants.nodes[0].sku}</Link>
+        <Link key={product.id} to={productUrl}>{product.title}</Link>
       </div>
       <StarRating></StarRating>
       <div className="mt-[10px]">
