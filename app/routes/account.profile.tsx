@@ -97,6 +97,7 @@ export default function AccountProfile() {
         <fieldset>
           <label htmlFor="firstName">First name</label>
           <input
+            className='p-2'
             id="firstName"
             name="firstName"
             type="text"
@@ -106,8 +107,9 @@ export default function AccountProfile() {
             defaultValue={customer.firstName ?? ''}
             minLength={2}
           />
-          <label htmlFor="lastName">Last name</label>
+          <label htmlFor="lastName" className='mt-2'>Last name</label>
           <input
+            className='p-2'
             id="lastName"
             name="lastName"
             type="text"
@@ -127,7 +129,7 @@ export default function AccountProfile() {
         ) : (
           <br />
         )}
-        <button type="submit" disabled={state !== 'idle'}>
+        <button className='bg-primary px-5 py-2 text-white' type="submit" disabled={state !== 'idle'}>
           {state !== 'idle' ? 'Updating' : 'Update'}
         </button>
       </Form>
