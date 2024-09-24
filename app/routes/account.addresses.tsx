@@ -305,6 +305,7 @@ function NewAddressForm() {
       {({stateForMethod}) => (
         <div>
           <button
+            className='bg-primary px-5 py-2 text-white'
             disabled={stateForMethod('POST') !== 'idle'}
             formMethod="POST"
             type="submit"
@@ -334,6 +335,7 @@ function ExistingAddresses({
           {({stateForMethod}) => (
             <div>
               <button
+                className='bg-primary px-5 py-2 text-white'
                 disabled={stateForMethod('PUT') !== 'idle'}
                 formMethod="PUT"
                 type="submit"
@@ -341,6 +343,7 @@ function ExistingAddresses({
                 {stateForMethod('PUT') !== 'idle' ? 'Saving' : 'Save'}
               </button>
               <button
+                className='bg-secondary px-5 py-2 text-white'
                 disabled={stateForMethod('DELETE') !== 'idle'}
                 formMethod="DELETE"
                 type="submit"
@@ -376,8 +379,9 @@ export function AddressForm({
     <Form id={addressId}>
       <fieldset>
         <input type="hidden" name="addressId" defaultValue={addressId} />
-        <label htmlFor="firstName">First name*</label>
+        <label htmlFor="firstName" className="mt-2">First name*</label>
         <input
+          className='p-2'
           aria-label="First name"
           autoComplete="given-name"
           defaultValue={address?.firstName ?? ''}
@@ -387,8 +391,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="lastName">Last name*</label>
+        <label htmlFor="lastName" className="mt-2">Last name*</label>
         <input
+          className='p-2'
           aria-label="Last name"
           autoComplete="family-name"
           defaultValue={address?.lastName ?? ''}
@@ -398,8 +403,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="company">Company</label>
+        <label htmlFor="company" className="mt-2">Company</label>
         <input
+          className='p-2'
           aria-label="Company"
           autoComplete="organization"
           defaultValue={address?.company ?? ''}
@@ -408,8 +414,9 @@ export function AddressForm({
           placeholder="Company"
           type="text"
         />
-        <label htmlFor="address1">Address line*</label>
+        <label htmlFor="address1" className="mt-2">Address line*</label>
         <input
+          className='p-2'
           aria-label="Address line 1"
           autoComplete="address-line1"
           defaultValue={address?.address1 ?? ''}
@@ -419,8 +426,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="address2">Address line 2</label>
+        <label htmlFor="address2" className="mt-2">Address line 2</label>
         <input
+          className='p-2'
           aria-label="Address line 2"
           autoComplete="address-line2"
           defaultValue={address?.address2 ?? ''}
@@ -429,8 +437,9 @@ export function AddressForm({
           placeholder="Address line 2"
           type="text"
         />
-        <label htmlFor="city">City*</label>
+        <label htmlFor="city" className="mt-2">City*</label>
         <input
+          className='p-2'
           aria-label="City"
           autoComplete="address-level2"
           defaultValue={address?.city ?? ''}
@@ -440,8 +449,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="zoneCode">State / Province*</label>
+        <label htmlFor="zoneCode" className="mt-2">State / Province*</label>
         <input
+          className='p-2'
           aria-label="State/Province"
           autoComplete="address-level1"
           defaultValue={address?.zoneCode ?? ''}
@@ -451,8 +461,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="zip">Zip / Postal Code*</label>
+        <label htmlFor="zip" className="mt-2">Zip / Postal Code*</label>
         <input
+          className='p-2'
           aria-label="Zip"
           autoComplete="postal-code"
           defaultValue={address?.zip ?? ''}
@@ -462,8 +473,9 @@ export function AddressForm({
           required
           type="text"
         />
-        <label htmlFor="territoryCode">Country Code*</label>
+        <label htmlFor="territoryCode" className="mt-2">Country Code*</label>
         <input
+          className='p-2'
           aria-label="territoryCode"
           autoComplete="country"
           defaultValue={address?.territoryCode ?? ''}
@@ -474,8 +486,9 @@ export function AddressForm({
           type="text"
           maxLength={2}
         />
-        <label htmlFor="phoneNumber">Phone</label>
+        <label htmlFor="phoneNumber" className="mt-2">Phone</label>
         <input
+          className='p-2'
           aria-label="Phone Number"
           autoComplete="tel"
           defaultValue={address?.phoneNumber ?? ''}
