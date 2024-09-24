@@ -283,6 +283,27 @@ export type FooterQuery = {
   >;
 };
 
+export type ProductVariantFragment = Pick<
+  StorefrontAPI.ProductVariant,
+  'availableForSale' | 'id' | 'sku' | 'title'
+> & {
+  compareAtPrice?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+  >;
+  image?: StorefrontAPI.Maybe<
+    {__typename: 'Image'} & Pick<
+      StorefrontAPI.Image,
+      'id' | 'url' | 'altText' | 'width' | 'height'
+    >
+  >;
+  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+  selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>;
+  unitPrice?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+  >;
+};
+
 export type FetchProductsQueryVariables = StorefrontAPI.Exact<{
   ids:
     | Array<StorefrontAPI.Scalars['ID']['input']>
@@ -298,19 +319,26 @@ export type FetchProductsQuery = {
       > & {
         variants: {
           nodes: Array<
-            Pick<StorefrontAPI.ProductVariant, 'sku' | 'id'> & {
-              image?: StorefrontAPI.Maybe<
-                Pick<
-                  StorefrontAPI.Image,
-                  'url' | 'altText' | 'width' | 'height'
-                >
-              >;
-              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+            Pick<
+              StorefrontAPI.ProductVariant,
+              'availableForSale' | 'id' | 'sku' | 'title'
+            > & {
               compareAtPrice?: StorefrontAPI.Maybe<
                 Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
               >;
+              image?: StorefrontAPI.Maybe<
+                {__typename: 'Image'} & Pick<
+                  StorefrontAPI.Image,
+                  'id' | 'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+              product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
               selectedOptions: Array<
                 Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+              >;
+              unitPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
               >;
             }
           >;
@@ -329,16 +357,26 @@ export type ProductCardFragment = Pick<
 > & {
   variants: {
     nodes: Array<
-      Pick<StorefrontAPI.ProductVariant, 'sku' | 'id'> & {
-        image?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-        >;
-        price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      Pick<
+        StorefrontAPI.ProductVariant,
+        'availableForSale' | 'id' | 'sku' | 'title'
+      > & {
         compareAtPrice?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
         >;
+        image?: StorefrontAPI.Maybe<
+          {__typename: 'Image'} & Pick<
+            StorefrontAPI.Image,
+            'id' | 'url' | 'altText' | 'width' | 'height'
+          >
+        >;
+        price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+        product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
         selectedOptions: Array<
           Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+        >;
+        unitPrice?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
         >;
       }
     >;
@@ -346,34 +384,6 @@ export type ProductCardFragment = Pick<
   metafields: Array<
     StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
   >;
-};
-
-export type CollectionCardFragment = Pick<
-  StorefrontAPI.Collection,
-  'id' | 'title'
-> & {
-  metafields: Array<
-    StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
-  >;
-};
-
-export type GetCollectionsQueryVariables = StorefrontAPI.Exact<{
-  after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
-}>;
-
-export type GetCollectionsQuery = {
-  collections: {
-    edges: Array<
-      Pick<StorefrontAPI.CollectionEdge, 'cursor'> & {
-        node: Pick<StorefrontAPI.Collection, 'id' | 'title'> & {
-          metafields: Array<
-            StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>
-          >;
-        };
-      }
-    >;
-    pageInfo: Pick<StorefrontAPI.PageInfo, 'hasNextPage'>;
-  };
 };
 
 export type StoreRobotsQueryVariables = StorefrontAPI.Exact<{
@@ -845,27 +855,6 @@ export type PoliciesQuery = {
   };
 };
 
-export type ProductVariantFragment = Pick<
-  StorefrontAPI.ProductVariant,
-  'availableForSale' | 'id' | 'sku' | 'title'
-> & {
-  compareAtPrice?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-  >;
-  image?: StorefrontAPI.Maybe<
-    {__typename: 'Image'} & Pick<
-      StorefrontAPI.Image,
-      'id' | 'url' | 'altText' | 'width' | 'height'
-    >
-  >;
-  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-  selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>;
-  unitPrice?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-  >;
-};
-
 export type ProductFragment = Pick<
   StorefrontAPI.Product,
   'id' | 'title' | 'vendor' | 'handle' | 'descriptionHtml' | 'description'
@@ -1296,13 +1285,9 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        sku\n        id\n        image {\n          url\n          altText\n          width\n          height\n        }\n        price {\n          amount\n          currencyCode\n        }\n        compareAtPrice {\n          amount\n          currencyCode\n        }\n        selectedOptions {\n          name\n          value\n        }\n      }\n    }\n    metafields(identifiers: [\n      { key: "trim", namespace: "custom" },\n      { key: "quality", namespace: "custom" },\n      ]) {\n        value\n      }\n  }\n': {
+  '#graphql\n  query fetchProducts($ids: [ID!]!) {\n      nodes(ids: $ids) {\n        ...ProductCard\n      }\n  }\n  fragment ProductCard on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    variants(first: 1) {\n      nodes {\n        ...ProductVariant\n      }\n    }\n    metafields(identifiers: [\n      { key: "trim", namespace: "custom" },\n      { key: "quality", namespace: "custom" },\n      ]) {\n        value\n      }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n': {
     return: FetchProductsQuery;
     variables: FetchProductsQueryVariables;
-  };
-  '#graphql\n    query GetCollections($after: String = null) {\n    collections(first: 250, after: $after) {\n        edges {\n            cursor\n            node {\n                ...CollectionCard\n            }\n        }\n        pageInfo {\n            hasNextPage\n        }\n    }\n    }\n    #graphql\n    fragment CollectionCard on Collection {\n        id\n        title\n        metafields(\n        identifiers: [\n            { key: "level_1", namespace: "cat_filter" }\n            { key: "level_1_url", namespace: "cat_filter" }\n            { key: "level_2", namespace: "cat_filter" }\n            { key: "level_2_url", namespace: "cat_filter" }\n            { key: "level_3", namespace: "cat_filter" }\n            { key: "level_3_url", namespace: "cat_filter" }\n            { key: "level_4", namespace: "cat_filter" }\n            { key: "level_4_url", namespace: "cat_filter" }\n            { key: "level_5", namespace: "cat_filter" }\n            { key: "level_5_url", namespace: "cat_filter" }\n        ]\n        ) {\n        value\n        }\n    } \n\n': {
-    return: GetCollectionsQuery;
-    variables: GetCollectionsQueryVariables;
   };
   '#graphql\n  query StoreRobots($country: CountryCode, $language: LanguageCode)\n   @inContext(country: $country, language: $language) {\n    shop {\n      id\n    }\n  }\n': {
     return: StoreRobotsQuery;

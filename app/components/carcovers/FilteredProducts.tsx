@@ -4,24 +4,17 @@ import { useNavigate } from '@remix-run/react';
 import { useInView } from 'react-intersection-observer';
 import { toTitleCase } from '~/lib/functions';
 import { ProductCard } from './ProductCard';
+import { useBreadcrumbs } from './Breadcrumbs';
 
-export function FilteredProducts({ products, theFilter }) {
-  let parts: string[] = [];
-
-  parts.push(toTitleCase(theFilter.make));
-  if (theFilter.model) {
-    parts.push(toTitleCase(theFilter.model));
-    if (theFilter.year) {
-      parts.push(toTitleCase(theFilter.year));
-    }
-  }
-  let dynamicText: String = parts.join(' ')
-
+export function FilteredProducts({ products }) {
+  const breadcrumbs = useBreadcrumbs()
+  
   return <>
     <div className="container">
       <div className='ml:flex ml:gap-[20px]'>
         <div className='ml:order-2 ml:grow'>
-          <h1 className="mt-[10px] text-[30px] font-medium tracking-tight">{dynamicText} Car Covers</h1>
+          <h1 className="mt-[10px] text-[30px] font-medium tracking-tight">{breadcrumbs.catalogTitle} </h1>
+          {breadcrumbs.trimText?<h3 className="mt-[10px] font-heading text-[17px] font-medium"><span>Trim: </span>{breadcrumbs.trimText}</h3>:''}
           <div className='flex flex-col'>
             <div className='mt-[30px]'>
               <LoopProducts products={products} />

@@ -8,12 +8,14 @@ import { PathwayInfo } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { CarModelYearSelector } from './CarModelYearSelector';
 import { useProxyUrl } from './PageWrapper';
+import { useBreadcrumbs } from './Breadcrumbs';
 
-export function CategoryStaticContent({path}) {
+export function CategoryStaticContent() {
     const [dynamicText, setDynamicText] = useState('')
     const proxyUrl = useProxyUrl();
-
-    console.log('path',path)
+    const  breadcrumbs = useBreadcrumbs()
+    const path = breadcrumbs.relativeUrl
+    
     const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchData = async () => {

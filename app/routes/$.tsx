@@ -7,12 +7,12 @@ import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
 import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
 import { FilteredProducts } from '~/components/carcovers/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchShopifyProductsByPath, removeSlashes } from '~/lib/functions';
+import { fetchShopifyProductsByPath, stripSlashes } from '~/lib/functions';
 
 
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const pathname = removeSlashes(new URL(request.url).pathname)
+  const pathname = stripSlashes(new URL(request.url).pathname)
   
   const variables = getPaginationVariables(request, {
     pageBy: 2,
@@ -169,10 +169,10 @@ export default function () {
   layout = (pathParts.length>2)?DisplayLayout.ListProducts:DisplayLayout.StaticContent;
 
   return (
-    <>
-      <Breadcrumbs path={pathname} />
+    <Breadcrumbs.Provider>
+      <Breadcrumbs />
       {/* Decide the layout */}
       {(layout === DisplayLayout.ListProducts) ? <FilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
-    </>
+    </Breadcrumbs.Provider>
   );
 }

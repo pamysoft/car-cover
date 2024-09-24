@@ -145,6 +145,6 @@ export const fetchShopifyProductsByPath = async (proxyUrl: string, path: string)
     return []
 }
 
-export function removeSlashes(text: string): string {
+export function stripSlashes(text: string): string {
     return text.replace(/^\/+|\/+$/g, '');
 }
