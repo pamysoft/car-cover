@@ -2,7 +2,7 @@ import PaymentMethods from '~/assets/payment-methods.webp'
 
 export function Footer() {
     return (
-        <footer className="mt-[20px] bg-[#1f2024] text-[#999]">
+        <footer className="bg-[#1f2024] text-[#999]">
             <div className="container">
                 <div className="pt-[50px] lg:pt-[20px]">
                     <div className="grid grid-cols-2 gap-[10px] lg:grid-cols-4 lg:border-b-[1px] lg:border-solid lg:border-[#313135] lg:pb-[20px]">

@@ -6,7 +6,8 @@ const CartIcon = () => (
       viewBox="0 0 40 40"
       width={44}
       height={44}
-      fill="none"
+      stroke='currentColor'
+      fill='transparent'
     >
       <path
         fill="currentColor"

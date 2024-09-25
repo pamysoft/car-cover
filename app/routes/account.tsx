@@ -1,6 +1,7 @@
 import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
+import AccountIcon from '~/components/carcovers/icons/AccountIcon';
 
 export function shouldRevalidate() {
   return true;
@@ -35,54 +36,55 @@ export default function AccountLayout() {
     : 'Account Details';
 
   return (
-    <div className="account container">
-      <h1>{heading}</h1>
-      <br />
-      <AccountMenu />
-      <br />
-      <br />
-      <Outlet context={{customer}} />
-    </div>
+    <>
+      <div className='container mt-5'>
+        <h1 className='text-[30px]'>{heading}</h1>
+        <br />
+        <AccountMenu />
+      </div>
+
+      <div className='bg-[#F5F5F5]'>
+        <div className='container mt-5 py-[60px]'>
+          <Outlet context={{customer}} />
+        </div>
+      </div>
+    </>
   );
 }
 
 function AccountMenu() {
-  function isActiveStyle({
+  function isActiveClass({
     isActive,
     isPending,
   }: {
     isActive: boolean;
     isPending: boolean;
   }) {
-    return {
-      fontWeight: isActive ? 'bold' : undefined,
-      color: isPending ? 'grey' : 'black',
-    };
+    return 'text-[16px] hover:text-primary hover:no-underline font-heading' + (isActive ? ' text-primary' : '');
   }
 
   return (
-    <nav role="navigation">
-      <NavLink to="/account/orders" style={isActiveStyle}>
-        Orders &nbsp;
+    <nav role="navigation" className='flex gap-[30px]'>
+      <NavLink to="/account/orders" className={isActiveClass}>
+        Orders
       </NavLink>
-      &nbsp;|&nbsp;
-      <NavLink to="/account/profile" style={isActiveStyle}>
-        &nbsp; Profile &nbsp;
+      <NavLink to="/account/profile" className={isActiveClass}>
+        Profile
       </NavLink>
-      &nbsp;|&nbsp;
-      <NavLink to="/account/addresses" style={isActiveStyle}>
-        &nbsp; Addresses &nbsp;
-      </NavLink>
-      &nbsp;|&nbsp;
-      <Logout />
+      <NavLink to="/account/addresses" className={isActiveClass}>
+        Addresses
+      </NavLink>      
+      <Logout className={isActiveClass({isActive:false, isPending:false})} />
     </nav>
   );
 }
 
-function Logout() {
+function Logout({className}: {className: string}) {
   return (
-    <Form className="account-logout" method="POST" action="/account/logout">
-      &nbsp;<button type="submit">Sign out</button>
+    <Form className={className} method="POST" action="/account/logout">
+      <div className='flex items-center gap-[8px]'>
+        <AccountIcon className='' width={16} height={16} /><button type="submit">Sign out</button>
+      </div>
     </Form>
   );
 }

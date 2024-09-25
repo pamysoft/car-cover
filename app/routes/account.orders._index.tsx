@@ -3,14 +3,16 @@ import {
   Money,
   getPaginationVariables,
   flattenConnection,
+  Pagination,
 } from '@shopify/hydrogen';
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {json, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {CUSTOMER_ORDERS_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
 import type {
   CustomerOrdersFragment,
   OrderItemFragment,
 } from 'customer-accountapi.generated';
-import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import { toTitleCase } from '~/lib/functions';
+import noImageUrl from '~/assets/no_image.svg'
 
 export const meta: MetaFunction = () => {
   return [{title: 'Orders'}];
@@ -42,18 +44,19 @@ export default function Orders() {
   const {orders} = customer;
   return (
     <div className="orders">
-      {orders.nodes.length ? <OrdersTable orders={orders} /> : <EmptyOrders />}
+      <h2 className='mb-[30px] text-[20px]'>Orders</h2>
+      {orders.nodes.length ? <OrdersTableWrapper orders={orders} /> : <EmptyOrders />}
     </div>
   );
 }
 
-function OrdersTable({orders}: Pick<CustomerOrdersFragment, 'orders'>) {
+function OrdersTableWrapper({orders}: Pick<CustomerOrdersFragment, 'orders'>) {
   return (
     <div className="acccount-orders">
       {orders?.nodes.length ? (
-        <PaginatedResourceSection connection={orders}>
+        <OrdersTable connection={orders}>
           {({node: order}) => <OrderItem key={order.id} order={order} />}
-        </PaginatedResourceSection>
+        </OrdersTable>
       ) : (
         <EmptyOrders />
       )}
@@ -77,17 +80,79 @@ function OrderItem({order}: {order: OrderItemFragment}) {
   const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status;
   return (
     <>
-      <fieldset>
-        <Link to={`/account/orders/${btoa(order.id)}`}>
-          <strong>#{order.number}</strong>
-        </Link>
-        <p>{new Date(order.processedAt).toDateString()}</p>
-        <p>{order.financialStatus}</p>
-        {fulfillmentStatus && <p>{fulfillmentStatus}</p>}
-        <Money data={order.totalPrice} />
-        <Link to={`/account/orders/${btoa(order.id)}`}>View Order →</Link>
-      </fieldset>
-      <br />
+      <tr className='cursor-pointer text-[14px] hover:bg-[#f5f5f5]' onClick={() => redirect(`/account/orders/${btoa(order.id)}`)}>
+        <td className='p-[21px]'><img className='rounded-[50%] border-[2px] border-[#ccc]' src={noImageUrl} width={40} height={40} /></td>
+        <td className='p-[21px] pl-0'>
+            <Link className='text-primary' to={`/account/orders/${btoa(order.id)}`}>
+            <strong>#{order.number}</strong>
+          </Link>
+          <div className='flex gap-[10px]'>
+            <div className='font-bold'>{toTitleCase(order.financialStatus)}</div>
+            <div>{new Date(order.processedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+          </div>
+          {fulfillmentStatus && <p>{fulfillmentStatus}</p>}
+        </td>
+        <td className='p-[21px]'>1</td>
+        <td className='p-[21px]'>
+          <Money data={order.totalPrice} />
+        </td>
+      </tr>
     </>
+  );
+}
+
+
+function OrdersTable<NodesType>({
+  connection,
+  children,
+}: {
+  connection: React.ComponentProps<typeof Pagination<NodesType>>['connection'];
+  children: React.FunctionComponent<{node: NodesType; index: number}>;
+  resourcesClassName?: string;
+}) {
+  return (
+    <Pagination connection={connection}>
+      {({nodes, isLoading, PreviousLink, NextLink}) => {
+        const resoucesMarkup = nodes.map((node, index) =>
+          children({node, index}),
+        );
+
+        return (
+          <div>
+            <div className='overflow-hidden rounded-[10px] bg-white'>
+              <table className='w-full'>
+                <tr className="border-red border-b-[1px]">
+                  <th className='w-[130px] px-[21px] py-[14px] text-left text-[14px] font-normal text-[#707070]'>
+                  </th>
+                  <th className='w-[25%] py-[14px] pr-[21px] text-left text-[14px] font-normal text-[#707070]'>
+                    <div>
+                      <span>Order</span>
+                    </div>
+                  </th>
+                  <th className='w-[5%] px-[21px] py-[14px] text-left text-[14px] font-normal text-[#707070]'>
+                    <div>
+                      <span>Items</span>
+                    </div>
+                  </th>
+                  <th className='px-[21px] py-[14px] text-left text-[14px] font-normal text-[#707070]'>
+                    <div>
+                      <span>Total</span>
+                    </div>
+                  </th>
+                </tr>
+                {resoucesMarkup}
+              </table>
+            </div>
+
+            <PreviousLink>
+              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
+            </PreviousLink>
+            <NextLink>
+              {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+            </NextLink>
+          </div>
+        );
+      }}
+    </Pagination>
   );
 }

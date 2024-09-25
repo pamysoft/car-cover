@@ -27,9 +27,9 @@ export function PaginatedResourceSection<NodesType>({
               {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
             </PreviousLink>
             {resourcesClassName ? (
-              <div className={resourcesClassName}>{resoucesMarkup}</div>
+              <table className={resourcesClassName}>{resoucesMarkup}</table>
             ) : (
-              resoucesMarkup
+              <table>{resoucesMarkup}</table>
             )}
             <NextLink>
               {isLoading ? 'Loading...' : <span>Load more ↓</span>}
