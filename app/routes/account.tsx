@@ -70,10 +70,7 @@ function AccountMenu() {
       </NavLink>
       <NavLink to="/account/profile" className={isActiveClass}>
         Profile
-      </NavLink>
-      <NavLink to="/account/addresses" className={isActiveClass}>
-        Addresses
-      </NavLink>      
+      </NavLink>           
       <Logout className={isActiveClass({isActive:false, isPending:false})} />
     </nav>
   );
