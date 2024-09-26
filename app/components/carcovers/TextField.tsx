@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 
 type TextFieldProps = {
   id: string;
+  name: string;
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: ChangeEventHandler<HTMLInputElement>) => void;
   placeholder?: string;
   type?: 'text' | 'password' | 'email';
   required?: boolean;
@@ -13,6 +14,7 @@ type TextFieldProps = {
 
 const TextField: React.FC<TextFieldProps> = ({
   id,
+  name,
   label,
   value,
   onChange,
@@ -35,10 +37,11 @@ const TextField: React.FC<TextFieldProps> = ({
 
         <input
           id={id}
+          name={name}
           type={type}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
+          onChange={onChange}
+          placeholder={placeholder?placeholder:label}
           required={required}
           disabled={disabled}
           className={` placeholder:text-[#707070] disabled:text-[#707070] text-[14px] w-full border-none bg-white px-0 py-1 focus:outline-none ${value ? 'mt-[12px]' : 'mt-[5px]'}`}

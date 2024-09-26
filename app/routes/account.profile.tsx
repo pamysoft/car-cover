@@ -9,15 +9,17 @@ import {
 import {
   Form,
   useActionData,
+  useFetcher,
   useNavigation,
   useOutletContext,
   type MetaFunction,
 } from '@remix-run/react';
 import EditIcon from '~/components/carcovers/icons/EditIcon';
-import AddIcon from '~/components/carcovers/icons/AddIcon';
 import Modal from '~/components/carcovers/Modal';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TextField from '~/components/carcovers/TextField';
+import { Addresses } from '../components/carcovers/Addresses';
+
 
 export type ActionResponse = {
   error: string | null;
@@ -34,7 +36,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
   return json({});
 }
 
-export async function action_backup({ request, context }: ActionFunctionArgs) {
+export async function action({ request, context }: ActionFunctionArgs) {
   const { customerAccount } = context;
 
   if (request.method !== 'PUT') {
@@ -42,6 +44,7 @@ export async function action_backup({ request, context }: ActionFunctionArgs) {
   }
 
   const form = await request.formData();
+  console.log('form', form)
 
   try {
     const customer: CustomerUpdateInput = {};
@@ -102,7 +105,9 @@ export default function AccountProfile() {
 function ProfileEdit() {
   const { customer } = useOutletContext<{ customer: CustomerFragment }>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const form = useRef<HTMLFormElement>()
+  const fetcher = useFetcher();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -112,29 +117,87 @@ function ProfileEdit() {
     setIsModalOpen(false);
   };
 
-  const handleSaveModal = (event: React.FormEvent) => {
-    
+  function submitHandler(e: FormEvent) {
+    e.preventDefault();
   }
+
+  const handleSaveModal = async (event: React.FormEvent) => {
+    const formData = new FormData(formRef.current!);
+    // modify formData here
+
+    fetcher.submit(formData, {
+      method: "POST",
+      action: "/account/profile/save_profile"
+    });
+
+  }
+
+  useEffect(() => {
+    if (fetcher.state === 'submitting') {
+      setIsLoading(true)
+    }
+    if (fetcher.state === 'idle' && fetcher.data) {
+      setIsModalOpen(false);
+      const result = fetcher.data;
+      console.log('result submitted:', result);
+      setIsLoading(false);
+    }
+  }, [fetcher.state, fetcher.data]);
+
 
   function ProfileEditModal() {
     const [firstName, setFirstName] = useState(customer.firstName)
     const [lastName, setLastName] = useState(customer.lastName)
     const email = customer.emailAddress.emailAddress
+
+    useEffect(() => {
+      if (fetcher.state === 'idle' && fetcher.data?.customer) {
+        // Update the state with the fetched customer data
+        setFirstName(fetcher.data.customer.firstName);
+        setLastName(fetcher.data.customer.lastName);
+      }
+    }, [fetcher.data])
+
     return (
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Edit profile" onSave={handleSaveModal}>
-        <Form method="PUT" ref={form}>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Edit profile">
+        <Form method="post" ref={formRef} onSubmit={submitHandler} action='/account/profile/save_profile' className='max-w-none'>
           <div className='flex flex-col gap-[15px]'>
             <div className='grid grid-cols-1 gap-[15px] lg:grid-cols-2'>
-              <TextField value={firstName} id='first_name' onChange={setFirstName} label='First name' placeholder='First name'></TextField>
-              <TextField value={lastName} id='last_name' onChange={setLastName} label='Last name' placeholder='Last name'></TextField>
+              <TextField value={firstName} id='first_name' name='first_name' onChange={(e) => setFirstName(e.target.value)} label='First name' placeholder='First name'></TextField>
+              <TextField value={lastName} id='last_name' name='last_name' onChange={(e) => setLastName(e.target.value)} label='Last name' placeholder='Last name'></TextField>
             </div>
             <div>
-              <TextField disabled={true} value={email} id='email' onChange={setLastName} label='Email' placeholder='Email'></TextField>
+              <TextField disabled={true} value={email} id='email' label='Email' placeholder='Email'></TextField>
               <div className='mt-[5px] text-[12px] text-[#707070]'>Email used for login can't be changed</div>
             </div>
           </div>
-          <input type='hidden' name='action' value={'profile_edit_save'} />
+          <input type='hidden' name='action' value={'save_profile'} />
+
+
         </Form>
+
+        <div className="mt-4 flex justify-end space-x-4">
+          {/* {showDeleteButton && onDelete && (
+            <button
+              onClick={onDelete}
+              className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            >
+              Delete
+            </button>
+          )} */}
+          <button
+            onClick={handleCloseModal}
+            className="rounded bg-gray-300 px-4 py-2 text-gray-800 hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSaveModal}
+            className="rounded bg-accent px-4 py-2 text-white hover:bg-blue-600"
+          >
+            {isLoading ? 'Saving..' : 'Save'}
+          </button>
+        </div>
       </Modal>
     )
   }
@@ -158,49 +221,6 @@ function ProfileEdit() {
 }
 
 
-
-function Addresses({ className }: { className?: string }) {
-  const { customer } = useOutletContext<{ customer: CustomerFragment }>();
-  const { defaultAddress, addresses } = customer;
-
-  return (
-    <div className={className}>
-      <div className='rounded-[10px] bg-white p-[21px] text-[14px]'>
-        <div className='flex items-center gap-[10px] text-[16px]'>
-          <h2><span>Addresses</span></h2>
-          <div>
-            <button className='flex items-center gap-[5px] text-[14px]'>
-              <AddIcon className='text-primary' /> Add
-            </button>
-          </div>
-        </div>
-
-        <div className='mt-[30px] grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-4'>
-          {addresses.nodes.map((address) => (
-            <AddressItem address={address}></AddressItem>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function AddressItem({ className, address }: { className?: string, address?: any }) {
-  console.log('address', address)
-  return (
-    <div className='text-[14px] after:block after:content-[""]'>
-      <div className='flex items-center gap-[10px]'><span>{address.firstName} {address.lastName}</span><div>
-        <button>
-          <EditIcon className='text-primary' />
-        </button>
-      </div></div>
-
-      <div className='mt-[10px]'>
-        {address.formatted.map(item => <>{item}<br /></>)}
-      </div>
-    </div>
-  )
-}
 
 function AccountProfileBackup() {
   const account = useOutletContext<{ customer: CustomerFragment }>();
