@@ -15,6 +15,9 @@ import {
 } from '@remix-run/react';
 import EditIcon from '~/components/carcovers/icons/EditIcon';
 import AddIcon from '~/components/carcovers/icons/AddIcon';
+import Modal from '~/components/carcovers/Modal';
+import { useRef, useState } from 'react';
+import TextField from '~/components/carcovers/TextField';
 
 export type ActionResponse = {
   error: string | null;
@@ -31,7 +34,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
   return json({});
 }
 
-export async function action({ request, context }: ActionFunctionArgs) {
+export async function action_backup({ request, context }: ActionFunctionArgs) {
   const { customerAccount } = context;
 
   if (request.method !== 'PUT') {
@@ -97,21 +100,64 @@ export default function AccountProfile() {
 }
 
 function ProfileEdit() {
-  return (
-    <div className='rounded-[10px] bg-white p-[21px] text-[14px]'>
-      <h2 className='flex items-center gap-[10px] text-[16px]'><span>Hao Hoang</span><div>
-        <button>
-          <EditIcon className='text-primary' />
-        </button>
-      </div></h2>
+  const { customer } = useOutletContext<{ customer: CustomerFragment }>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const form = useRef<HTMLFormElement>()
 
-      <div className='mt-[25px]'>
-        Email<br />
-        test1@pamysoft.com
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveModal = (event: React.FormEvent) => {
+    
+  }
+
+  function ProfileEditModal() {
+    const [firstName, setFirstName] = useState(customer.firstName)
+    const [lastName, setLastName] = useState(customer.lastName)
+    const email = customer.emailAddress.emailAddress
+    return (
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Edit profile" onSave={handleSaveModal}>
+        <Form method="PUT" ref={form}>
+          <div className='flex flex-col gap-[15px]'>
+            <div className='grid grid-cols-1 gap-[15px] lg:grid-cols-2'>
+              <TextField value={firstName} id='first_name' onChange={setFirstName} label='First name' placeholder='First name'></TextField>
+              <TextField value={lastName} id='last_name' onChange={setLastName} label='Last name' placeholder='Last name'></TextField>
+            </div>
+            <div>
+              <TextField disabled={true} value={email} id='email' onChange={setLastName} label='Email' placeholder='Email'></TextField>
+              <div className='mt-[5px] text-[12px] text-[#707070]'>Email used for login can't be changed</div>
+            </div>
+          </div>
+          <input type='hidden' name='action' value={'profile_edit_save'} />
+        </Form>
+      </Modal>
+    )
+  }
+
+  return (
+    <div>
+      <div className='rounded-[10px] bg-white p-[21px] text-[14px]'>
+        <h2 className='flex items-center gap-[10px] text-[16px]'><span>{customer.firstName} {customer.lastName}</span><div>
+          <button onClick={handleOpenModal}>
+            <EditIcon className='text-primary' />
+          </button>
+        </div></h2>
+        <div className='mt-[25px]'>
+          Email<br />
+          {customer.emailAddress.emailAddress}
+        </div>
       </div>
+      <ProfileEditModal />
     </div>
   )
 }
+
+
 
 function Addresses({ className }: { className?: string }) {
   const { customer } = useOutletContext<{ customer: CustomerFragment }>();
@@ -131,7 +177,7 @@ function Addresses({ className }: { className?: string }) {
 
         <div className='mt-[30px] grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-4'>
           {addresses.nodes.map((address) => (
-            <AddressItem></AddressItem>
+            <AddressItem address={address}></AddressItem>
           ))}
         </div>
       </div>
@@ -139,22 +185,18 @@ function Addresses({ className }: { className?: string }) {
   )
 }
 
-function AddressItem({ className }: { className?: string }) {
+function AddressItem({ className, address }: { className?: string, address?: any }) {
+  console.log('address', address)
   return (
     <div className='text-[14px] after:block after:content-[""]'>
-      <div className='flex items-center gap-[10px]'><span>Default address</span><div>
+      <div className='flex items-center gap-[10px]'><span>{address.firstName} {address.lastName}</span><div>
         <button>
           <EditIcon className='text-primary' />
         </button>
       </div></div>
 
       <div className='mt-[10px]'>
-        Hao Hoang<br />
-        Pamysoft<br />
-        58 Tran Binh<br />
-        12/14/131 Phan Dinh Giot<br />
-        Hanoi New York 10001<br />
-        United States<br />
+        {address.formatted.map(item => <>{item}<br /></>)}
       </div>
     </div>
   )

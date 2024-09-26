@@ -13,6 +13,7 @@ export async function loader({context}: LoaderFunctionArgs) {
   );
 
   if (errors?.length || !data?.customer) {
+    console.log('errors',errors)
     throw new Error('Customer not found');
   }
 
