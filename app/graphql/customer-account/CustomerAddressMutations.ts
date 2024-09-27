@@ -22,6 +22,27 @@ export const UPDATE_ADDRESS_MUTATION = `#graphql
   }
 ` as const;
 
+export const UPDATE_ADDRESS_MUTATION_WITHOUT_DEFAULT = `#graphql
+  mutation customerAddressUpdate(
+    $address: CustomerAddressInput!
+    $addressId: ID!
+ ) {
+    customerAddressUpdate(
+      address: $address
+      addressId: $addressId
+    ) {
+      customerAddress {
+        id
+      }
+      userErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+` as const;
+
 // NOTE: https://shopify.dev/docs/api/customer/latest/mutations/customerAddressDelete
 export const DELETE_ADDRESS_MUTATION = `#graphql
   mutation customerAddressDelete(

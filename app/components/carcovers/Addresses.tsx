@@ -83,6 +83,13 @@ function NewAddress() {
         const allCountries = Country.getAllCountries()
         const allCountryOptions = allCountries.map(country => ({ label: country.name, value: country.isoCode }))
         
+        const [stateOptions, setStateOptions] = useState<{label:string,value:string}[]>([])
+
+        useEffect(() => {
+            const states = State.getStatesOfCountry(country)
+            const options = states.map(state => ({label: state.name, value: state.isoCode}))
+            setStateOptions([...options])
+        }, [country])
 
         return (
             <Modal isOpen={isAddModalOpen} onClose={handleCloseAddModal} title="Add address" >
@@ -90,7 +97,7 @@ function NewAddress() {
                     <input type="hidden" name="addressId" defaultValue={addressId} />
                     <div className='flex flex-col gap-[20px]'>
                         <CheckboxField onChange={(e) => { setIsDefaultAddress(e.target.checked) }} id="defaultAddress" name="defaultAddress" checked={isDefaultAddress} label="This is my default address" />
-                        <SelectField options={allCountryOptions} value={country} id='territoryCode' name='territoryCode' onChange={(e) => setCountry(e.target.value)} label='Country/region'></SelectField>
+                        <SelectField options={allCountryOptions}  value={country} id='territoryCode' name='territoryCode' onChange={(e) => setCountry(e.target.value)} label='Country/region'></SelectField>
                         <div className='grid grid-cols-1 gap-[15px] lg:grid-cols-2'>
                             <TextField value={firstName} id='firstName' name='firstName' onChange={(e) => setFirstName(e.target.value)} label='First name' placeholder='First name'></TextField>
                             <TextField value={lastName} id='lastName' name='lastName' onChange={(e) => setLastName(e.target.value)} label='Last name' placeholder='Last name'></TextField>
@@ -100,7 +107,9 @@ function NewAddress() {
                         <TextField value={apartment} id='address2' name='address2' onChange={(e) => setApartment(e.target.value)} label='Apartment, suite, etc (optional)'></TextField>
                         <div className='flex flex-col gap-[20px] lg:grid lg:grid-cols-3'>
                             <TextField value={city} id='city' name='city' onChange={(e) => setCity(e.target.value)} label='City' placeholder='City'></TextField>
-                            <TextField value={province} id='zoneCode' name='zoneCode' onChange={(e) => setProvince(e.target.value)} label='Province' placeholder='Province'></TextField>
+                            
+                            {stateOptions.length>0 && <SelectField options={stateOptions}  value={province} id='zoneCode' name='zoneCode' onChange={(e) => setProvince(e.target.value)} label='Province'></SelectField>}
+
                             <TextField value={postcode} id='zip' name='zip' onChange={(e) => setPostcode(e.target.value)} label='Postcode'></TextField>
                         </div>
                     </div>
@@ -202,6 +211,13 @@ function EditAddressModal({ onClose, defaultAddress, addressInfo, addressId, isE
     const allCountryOptions = allCountries.map(country => ({ label: country.name, value: country.isoCode }))
     const [isLoading, setIsLoading] = useState(false)
 
+    const [stateOptions, setStateOptions] = useState<{label:string,value:string}[]>([])
+
+    useEffect(() => {
+        const states = State.getStatesOfCountry(country)
+        const options = states.map(state => ({label: state.name, value: state.isoCode}))
+        setStateOptions([...options])
+    }, [country])
 
     const editFetcher = useFetcher({
         key: "edit-address-"+addressId
@@ -277,7 +293,7 @@ function EditAddressModal({ onClose, defaultAddress, addressInfo, addressId, isE
                         <TextField value={apartment} id='address2' name='address2' onChange={(e) => setApartment(e.target.value)} label='Apartment, suite, etc (optional)'></TextField>
                         <div className='flex flex-col gap-[20px] lg:grid lg:grid-cols-3'>
                             <TextField value={city} id='city' name='city' onChange={(e) => setCity(e.target.value)} label='City' placeholder='City'></TextField>
-                            <TextField value={province} id='zoneCode' name='zoneCode' onChange={(e) => setProvince(e.target.value)} label='Province' placeholder='Province'></TextField>
+                            {stateOptions.length>0 && <SelectField options={stateOptions}  value={province} id='zoneCode' name='zoneCode' onChange={(e) => setProvince(e.target.value)} label='Province'></SelectField>}
                             <TextField value={postcode} id='zip' name='zip' onChange={(e) => setPostcode(e.target.value)} label='Postcode'></TextField>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { CustomerAddressInput } from "@shopify/hydrogen/customer-account-api-types";
 import { ActionFunctionArgs, json } from "@shopify/remix-oxygen";
-import { CREATE_ADDRESS_MUTATION, DELETE_ADDRESS_MUTATION, UPDATE_ADDRESS_MUTATION } from "~/graphql/customer-account/CustomerAddressMutations";
+import { CREATE_ADDRESS_MUTATION, DELETE_ADDRESS_MUTATION, UPDATE_ADDRESS_MUTATION, UPDATE_ADDRESS_MUTATION_WITHOUT_DEFAULT } from "~/graphql/customer-account/CustomerAddressMutations";
 
 export async function action({ request, context }: ActionFunctionArgs) {
     const { customerAccount } = context;
@@ -27,7 +27,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 
         const defaultAddress = form.has('defaultAddress')
             ? String(form.get('defaultAddress')) === 'on'
-            : false;
+            : true;
         const address: CustomerAddressInput = {};
         const keys: (keyof CustomerAddressInput)[] = [
             'address1',
@@ -101,13 +101,21 @@ export async function action({ request, context }: ActionFunctionArgs) {
                 console.log('addressId', addressId)
                 console.log('address', address)
                 try {
-                    const { data, errors } = await customerAccount.mutate(
+                    const { data, errors } = (defaultAddress) ? await customerAccount.mutate(
                         UPDATE_ADDRESS_MUTATION,
                         {
                             variables: {
                                 address,
                                 addressId: decodeURIComponent(addressId),
                                 defaultAddress,
+                            },
+                        },
+                    ):  await customerAccount.mutate(
+                        UPDATE_ADDRESS_MUTATION_WITHOUT_DEFAULT,
+                        {
+                            variables: {
+                                address,
+                                addressId: decodeURIComponent(addressId),
                             },
                         },
                     );
