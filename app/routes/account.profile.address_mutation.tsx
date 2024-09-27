@@ -27,7 +27,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 
         const defaultAddress = form.has('defaultAddress')
             ? String(form.get('defaultAddress')) === 'on'
-            : true;
+            : false;
         const address: CustomerAddressInput = {};
         const keys: (keyof CustomerAddressInput)[] = [
             'address1',

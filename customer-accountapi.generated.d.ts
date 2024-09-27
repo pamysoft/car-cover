@@ -25,6 +25,26 @@ export type CustomerAddressUpdateMutation = {
   }>;
 };
 
+export type CustomerAddressUpdateWithoutDefaultMutationVariables =
+  CustomerAccountAPI.Exact<{
+    address: CustomerAccountAPI.CustomerAddressInput;
+    addressId: CustomerAccountAPI.Scalars['ID']['input'];
+  }>;
+
+export type CustomerAddressUpdateWithoutDefaultMutation = {
+  customerAddressUpdate?: CustomerAccountAPI.Maybe<{
+    customerAddress?: CustomerAccountAPI.Maybe<
+      Pick<CustomerAccountAPI.CustomerAddress, 'id'>
+    >;
+    userErrors: Array<
+      Pick<
+        CustomerAccountAPI.UserErrorsCustomerAddressUserErrors,
+        'code' | 'field' | 'message'
+      >
+    >;
+  }>;
+};
+
 export type CustomerAddressDeleteMutationVariables = CustomerAccountAPI.Exact<{
   addressId: CustomerAccountAPI.Scalars['ID']['input'];
 }>;
@@ -494,6 +514,10 @@ interface GeneratedMutationTypes {
   '#graphql\n  mutation customerAddressUpdate(\n    $address: CustomerAddressInput!\n    $addressId: ID!\n    $defaultAddress: Boolean\n ) {\n    customerAddressUpdate(\n      address: $address\n      addressId: $addressId\n      defaultAddress: $defaultAddress\n    ) {\n      customerAddress {\n        id\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerAddressUpdateMutation;
     variables: CustomerAddressUpdateMutationVariables;
+  };
+  '#graphql\n  mutation customerAddressUpdateWithoutDefault(\n    $address: CustomerAddressInput!\n    $addressId: ID!\n ) {\n    customerAddressUpdate(\n      address: $address\n      addressId: $addressId\n    ) {\n      customerAddress {\n        id\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CustomerAddressUpdateWithoutDefaultMutation;
+    variables: CustomerAddressUpdateWithoutDefaultMutationVariables;
   };
   '#graphql\n  mutation customerAddressDelete(\n    $addressId: ID!,\n  ) {\n    customerAddressDelete(addressId: $addressId) {\n      deletedAddressId\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerAddressDeleteMutation;
