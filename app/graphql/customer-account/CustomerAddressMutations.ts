@@ -23,7 +23,7 @@ export const UPDATE_ADDRESS_MUTATION = `#graphql
 ` as const;
 
 export const UPDATE_ADDRESS_MUTATION_WITHOUT_DEFAULT = `#graphql
-  mutation customerAddressUpdate(
+  mutation customerAddressUpdateWithoutDefault(
     $address: CustomerAddressInput!
     $addressId: ID!
  ) {
