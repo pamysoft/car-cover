@@ -5,8 +5,6 @@ type ModalProps = {
   onClose: () => void;
   title: string;
   children: ReactNode;
-  onDelete?: () => void; // Optional onDelete prop
-  onSave: (event: React.FormEvent) => void; // Required onSave prop
   showDeleteButton?: boolean; // New prop to control the visibility of the delete button
 };
 
