@@ -1,4 +1,4 @@
-import { isPathwayInfo, LevelInfo, PathwayInfo } from "./types";
+import { isPathwayInfo, LevelInfo, PathwayInfo, VehicalData } from "./types";
 
 export function toTitleCase(str: string): string {
     if (!(str)) return str;
@@ -89,6 +89,63 @@ export const fetchTrimList = async(proxyUrl: string, year: string, make: string,
 
     return []
 }
+
+export const fetchBreadcrumbs = async(proxyUrl: string, path: string) => {
+    let appProxyUrl = proxyUrl + `get-breadcrumbs/${encodeURIComponent(path)}?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return []
+}
+
+export const fetchVehicleByPath = async(proxyUrl: string, path: string): Promise<VehicalData | null> => {
+    let appProxyUrl = proxyUrl + `get-vehicle-by-path/${encodeURIComponent(path)}?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            console.log(`Error: ${response.statusText}`);
+            return null
+        }
+
+        const data = await response.json();
+        return data as VehicalData;
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return null
+}
+
 
 
 export const fetchCarCoverHierarchy = async (proxyUrl: string, parentId?: number) => {

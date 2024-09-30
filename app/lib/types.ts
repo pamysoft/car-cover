@@ -31,3 +31,15 @@ export function isPathwayInfo(item: any): item is PathwayInfo {
            typeof item.handle === 'string' && 
            typeof item.name === 'string';
 }
+
+export type VehicalData = {
+    makeHandle: string;
+    makeTitle: string;
+    modelHandle?: string;
+    modelTitle?: string;
+    year?: string;
+    trimHandle?: string;
+    trimTitle?: string;
+    level: number;
+    urlPath: string;
+}
