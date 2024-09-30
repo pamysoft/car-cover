@@ -1,4 +1,4 @@
-import { isPathwayInfo, PathwayInfo } from "./types";
+import { isPathwayInfo, LevelInfo, PathwayInfo } from "./types";
 
 export function toTitleCase(str: string): string {
     if (!(str)) return str;
@@ -7,6 +7,87 @@ export function toTitleCase(str: string): string {
         .split(' ')    // Split the string into an array of words
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
         .join(' ');    // Join the words back into a string
+}
+
+export const fetchMakeList = async(proxyUrl: string, year: string) => {
+    let appProxyUrl = proxyUrl + `get-make-list/${year}/?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return []
+}
+
+export const fetchModelList = async(proxyUrl: string, year: string, make: string) => {
+    let appProxyUrl = proxyUrl + `get-model-list/${year}/${make}?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return []
+}
+
+export const fetchTrimList = async(proxyUrl: string, year: string, make: string, model: string) => {
+    let appProxyUrl = proxyUrl + `get-trim-list/${year}/${make}/${model}?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return []
 }
 
 
@@ -148,3 +229,8 @@ export const fetchShopifyProductsByPath = async (proxyUrl: string, path: string)
 export function stripSlashes(text: string): string {
     return text.replace(/^\/+|\/+$/g, '');
 }
+
+// Function to check if a LevelInfo object is blank
+export const isBlankLevelInfo = (levelInfo: LevelInfo): boolean => {
+    return levelInfo.id === '' && levelInfo.handle === '' && levelInfo.name === '';
+};

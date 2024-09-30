@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { CollectionInfo, LevelInfo } from '~/lib/types';
-import { fetchCarCoverHierarchy } from '~/lib/functions';
+import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
 import { useProxyUrl } from './PageWrapper';
 
-const filterData: CollectionInfo[] = []
-
+const blankLevelInfo: LevelInfo = {
+    id: '',
+    handle: '',
+    name: ''
+};
 
 const DependentDropdowns: React.FC<{
     selectedYear: LevelInfo;
@@ -31,24 +34,29 @@ const DependentDropdowns: React.FC<{
     const proxyUrl = useProxyUrl();
 
     useEffect(() => {
-        setIsYearDropdownLoading(true);
-        const fetchYearData = async () => {
-            const results = await fetchCarCoverHierarchy(proxyUrl)
-            setAvailableYears(results)
-            setIsYearDropdownLoading(false);
-        }
-        fetchYearData()
-    }, [proxyUrl])
+        const nextYear = new Date().getFullYear() + 1;
+        const yearsArray: LevelInfo[] = Array.from({ length: nextYear - 1899 }, (_, i) => {
+            const year = (nextYear - i).toString();  // Start from next year and go backwards
+            return {
+                id: year,      // Assuming `id` is the year as string
+                handle: year,  // Set `handle` to the current year as string
+                name: year     // Set `name` to the current year as string
+            };
+        });
+        setAvailableYears(yearsArray);
+        setSelectedYear(blankLevelInfo);
+    }, [])
 
     useEffect(() => {
-        setSelectedMake('');
+        setSelectedMake(blankLevelInfo);
         setAvailableMakes([]);
         setAvailableTrims([]);
-
-        if (selectedYear) {
+        
+        if (!isBlankLevelInfo(selectedYear)) {
             setIsMakeDropdownLoading(true)
             const fetchMakeData = async () => {
-                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedYear.id))
+                const results = await fetchMakeList(proxyUrl, parseInt(selectedYear.handle))
+                console.log('results', results)
                 setAvailableMakes(results)
                 setIsMakeDropdownLoading(false);
             }
@@ -57,15 +65,15 @@ const DependentDropdowns: React.FC<{
     }, [selectedYear, proxyUrl])
 
     useEffect(() => {
-        setSelectedModel('');
-        setSelectedTrim('');
+        setSelectedModel(blankLevelInfo);
+        setSelectedTrim(blankLevelInfo);
         setAvailableModels([]);
         setAvailableTrims([]);
 
-        if (selectedMake) {
+        if (!isBlankLevelInfo(selectedMake)) {
             setIsModelDropdownLoading(true)
             const fetchModelData = async () => {
-                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedMake.id))
+                const results = await fetchModelList(proxyUrl, selectedYear.handle, selectedMake.handle)
                 setAvailableModels(results)
                 setIsModelDropdownLoading(false);
             }
@@ -74,12 +82,12 @@ const DependentDropdowns: React.FC<{
     }, [selectedMake, proxyUrl])
 
     useEffect(() => {
-        setSelectedTrim('');
+        setSelectedTrim(blankLevelInfo);
         setAvailableTrims([]);
-        if (selectedModel) {
+        if (!isBlankLevelInfo(selectedModel)) {
             setIsTrimDropdownLoading(true)
             const fetchTrimData = async () => {
-                const results = await fetchCarCoverHierarchy(proxyUrl,parseInt(selectedModel.id))
+                const results = await fetchTrimList(proxyUrl, selectedYear.handle, selectedMake.handle, selectedModel.handle)
                 setAvailableTrims(results)
                 setIsTrimDropdownLoading(false);
                 maybeRedirect(results.length)
@@ -89,7 +97,7 @@ const DependentDropdowns: React.FC<{
     }, [selectedModel, proxyUrl])
 
     useEffect(() => {
-        if (selectedTrim) {
+        if (!isBlankLevelInfo(selectedTrim)) {
             maybeRedirect()
         }
     }, [selectedTrim])
@@ -174,10 +182,10 @@ const DependentDropdowns: React.FC<{
                     className={selectClassName(selectedYear.id, 'year')}
                     disabled={!availableYears.length}
                 >
-                    <option value="">{isYearDropdownLoading ? 'Loading...' : 'Select Year'}</option>
-                    {!isYearDropdownLoading && availableYears && availableYears
+                    <option value="">Select Year</option>
+                    {availableYears && availableYears
                         .map((item: LevelInfo) => (
-                            <option key={item.id} value={item.id} data-item={JSON.stringify(item)}>
+                            <option key={item.handle} value={item.handle} data-item={JSON.stringify(item)}>
                                 {item.name}
                             </option>
                         ))}
@@ -190,7 +198,7 @@ const DependentDropdowns: React.FC<{
                     2. | Select Make
                 </label>
                 <select
-                    value={selectedMake.id}
+                    value={selectedMake.handle}
                     onChange={handleMakeChange}
                     className={selectClassName(selectedMake.id, 'make')}
                     disabled={!availableMakes.length}
@@ -198,7 +206,7 @@ const DependentDropdowns: React.FC<{
                     <option value="">{isMakeDropdownLoading ? 'Loading...' : 'Select Make'}</option>
                     {!isMakeDropdownLoading && availableMakes && availableMakes
                         .map((item: LevelInfo) => (
-                            <option key={item.id} value={item.id} data-item={JSON.stringify(item)}>
+                            <option key={item.handle} value={item.handle} data-item={JSON.stringify(item)}>
                                 {item.name}
                             </option>
                         ))}
@@ -256,10 +264,10 @@ interface SearchBoxProps {
 }
 
 export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
-    const [selectedYear, setSelectedYear] = useState<LevelInfo>({id: '', handle: '', name: ''});
-    const [selectedMake, setSelectedMake] = useState<LevelInfo>({id: '', handle: '', name: ''});
-    const [selectedModel, setSelectedModel] = useState<LevelInfo>({id: '', handle: '', name: ''});
-    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>({id: '', handle: '', name: ''});
+    const [selectedYear, setSelectedYear] = useState<LevelInfo>({ id: '', handle: '', name: '' });
+    const [selectedMake, setSelectedMake] = useState<LevelInfo>({ id: '', handle: '', name: '' });
+    const [selectedModel, setSelectedModel] = useState<LevelInfo>({ id: '', handle: '', name: '' });
+    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>({ id: '', handle: '', name: '' });
 
     const handleSubmit = () => {
         if (!selectedYear.handle || !selectedModel.handle || !selectedModel.handle || !selectedTrim.handle) {
