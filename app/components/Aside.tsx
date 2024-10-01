@@ -1,6 +1,6 @@
 import {createContext, type ReactNode, useContext, useState} from 'react';
 
-type AsideType = 'search' | 'cart' | 'mobile' | 'closed';
+type AsideType = 'search' | 'cart' | 'mobile' | 'closed' | 'hamburger';
 type AsideContextValue = {
   type: AsideType;
   open: (mode: AsideType) => void;

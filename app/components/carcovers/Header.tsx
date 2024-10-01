@@ -8,6 +8,7 @@ import HamburgerIcon from './icons/HamburgerIcon';
 import CartIcon from './icons/CartIcon';
 import { PromotionBoxes } from './PromotionBoxes';
 import { HeaderInfo } from './HeaderInfo';
+import { useDrawer } from './Drawer';
 
 
 interface HeaderProps {
@@ -77,11 +78,11 @@ function Logo() {
 }
 
 function HeaderMenuMobileToggle() {
-    const { open } = useAside();
+    const { open } = useDrawer();
     return (
         <button
             className=""
-            onClick={() => open('mobile')}
+            onClick={() => open('hamburger')}
         >
             <HamburgerIcon />
         </button>

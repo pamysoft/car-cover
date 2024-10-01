@@ -4,7 +4,7 @@ import {type CartViewPayload, useAnalytics} from '@shopify/hydrogen';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 
-interface HeaderProps {
+export interface HeaderProps {
   header: HeaderQuery;
   cart: Promise<CartApiQueryFragment | null>;
   isLoggedIn: Promise<boolean>;
@@ -174,7 +174,7 @@ function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
   );
 }
 
-const FALLBACK_HEADER_MENU = {
+export const FALLBACK_HEADER_MENU = {
   id: 'gid://shopify/Menu/199655587896',
   items: [
     {

@@ -8,7 +8,7 @@ export default {
 
       // default breakpoints but with 40px removed
       screens: {
-        'nw': '375px',
+        'nw': '100%',
         'sm': '640px',
         'md': '768px',
         'ml': '992px',
