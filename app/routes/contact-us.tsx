@@ -1,31 +1,21 @@
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useFetcher } from "@remix-run/react";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/server-runtime";
-import { useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { useProxyUrl } from "~/components/carcovers/PageWrapper";
 import TextField from "~/components/carcovers/TextField";
 import TextareaField from "~/components/carcovers/TextareaField"; // Import the TextareaField component
 import { sendContact } from "~/lib/functions";
+import {ResponseResult} from '~lib/type'
 
 // Action function to handle form submission
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ context, request }: ActionFunctionArgs) {
   // Extract form data
   const proxyUrl = context.env.PROXY_URL;
   const payload = await request.formData();
 
-  
+  const response = await sendContact(proxyUrl, payload);
 
-  try {
-    // Send data to external API
-    const response = await sendContact(proxyUrl, payload)
-    console.log('response: ',response);
-    if (!response.ok) {
-      throw new Error("Failed to submit form.");
-    }
-
-    // Redirect or return a success message if the submission is successful
-    return redirect("/thank-you");
-  } catch (error) {
-    return json({ error: error.message }, { status: 500 });
-  }
+  return json(response, { status: 200 });
 }
 
 export default function ContactUs() {
@@ -33,13 +23,32 @@ export default function ContactUs() {
   const [email, setEmail] = useState(""); // Updated to 'email'
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState(""); // State for the comment
-  const actionData = useActionData(); // Get action data for error handling
+  const actionData = useActionData(); // Get action data for error handling  
+  const [isLoading, setIsLoading] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null);
+  const fetcher = useFetcher<ResponseResult>();
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [message, setMessage] = useState(false)
+
+  useEffect(() => {
+    console.log(fetcher.state)
+    setIsLoading(fetcher.state == 'submitting')
+  }, [fetcher.state]);
+
+  useEffect(() => {
+    const responseData = fetcher.data
+    if (responseData) {
+      setIsSuccess(responseData.success)
+      setMessage(responseData.message)
+    }
+  }, [fetcher.data])
 
   return (
     <div className="m-auto w-[726px] max-w-full pb-[100px]">
       <h1 className="text-[52px]">Contact</h1>
       <div className="mt-[50px]">
-        <Form method="post" className="w-full max-w-none">
+        { }
+        <fetcher.Form ref={formRef} method="post" action="" className="w-full max-w-none">
           <div className="flex flex-col gap-[20px]">
             <div className="grid grid-cols-1 gap-[15px] lg:grid-cols-2">
               {/* Name Field */}
@@ -91,7 +100,9 @@ export default function ContactUs() {
                 type="submit"
                 className="mt-[20px] min-h-[45px] w-[120px] rounded bg-primary py-2 text-white"
               >
-                Send
+                {
+                  isLoading ? 'Sending...' : 'Send'
+                }
               </button>
             </div>
           </div>
@@ -100,7 +111,7 @@ export default function ContactUs() {
           {actionData?.error && (
             <p className="mt-4 text-red-500">{actionData.error}</p>
           )}
-        </Form>
+        </fetcher.Form>
       </div>
     </div>
   );

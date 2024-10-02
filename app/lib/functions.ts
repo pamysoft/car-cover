@@ -10,16 +10,14 @@ export function toTitleCase(str: string): string {
 }
 
 
-export const sendContact = async(proxyUrl: string, payload: FormData) => {
+export const sendContact = async(proxyUrl: string, payload: FormData): ResponseResult => {
     let appProxyUrl = proxyUrl + `send-contact/?shop=1`;
+    let errorMessage = ''
 
     try {
         const response = await fetch(appProxyUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
+            method: 'POST',            
+            body: payload,
         });
         if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);
@@ -30,12 +28,14 @@ export const sendContact = async(proxyUrl: string, payload: FormData) => {
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.log('callproxyerror:', error.message);
+            errorMessage = error.message
         } else {
             console.log('callproxyerror: An unknown error occurred');
+            errorMessage = 'An unknown error occurred'
         }
     }
 
-    return []
+    return {success:false, message:errorMessage}
 }
 
 export const fetchMakeList = async(proxyUrl: string, year: string) => {

@@ -43,3 +43,9 @@ export type VehicalData = {
     level: number;
     urlPath: string;
 }
+
+
+export type ResponseResult = {
+    success: Boolean;
+    message: string;
+  }
