@@ -78,7 +78,7 @@ export function Footer() {
                                 <li className="py-[5px]"><a className="font-heading text-[18px]" href="/pages/warranty-policy" title="Warranty Policy">Warranty Policy</a></li>
                                 <li className="py-[5px]"><a className="font-heading text-[18px]" href="/pages/privacy-policy" title="Privacy Policy">Privacy Policy</a></li>
                                 <li className="py-[5px]"><a className="font-heading text-[18px]" href="/pages/terms-and-conditions" title="Terms and Conditions">Terms and Conditions</a></li>
-                                <li className="py-[5px]"><a className="font-heading text-[18px]" href="/pages/contact" title="Contact Us">Contact Us</a></li>
+                                <li className="py-[5px]"><a className="font-heading text-[18px]" href="/contact-us" title="Contact Us">Contact Us</a></li>
                             </ul>
                         </div>
                         <div className="rv-collapse group bg-[#292b2f] px-[15px] py-[3px] md:bg-transparent lg:px-0">

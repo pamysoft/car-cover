@@ -8,7 +8,7 @@ export function TopBar() {
                 <li className="border-r-solid mb-0 border-r-[1px] border-r-[#ffffff26] px-[20px] py-[0px] leading-[1]">
                     <a title="Login" href="/account/login">Login</a>
                 </li>
-                <li className="mb-0 py-[0px] pl-[20px] pr-0 leading-[1]"><a title="Contact Us" href="/pages/contact">Contact Us</a></li>
+                <li className="mb-0 py-[0px] pl-[20px] pr-0 leading-[1]"><a title="Contact Us" href="/contact-us">Contact Us</a></li>
             </ul>
         </div>
     </div>

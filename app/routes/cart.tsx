@@ -87,10 +87,6 @@ export default function Cart() {
 
   return (
     <div className="container">
-      <div className='my-[30px] flex flex-wrap items-baseline justify-between'>
-        <h1 className='text-[30px] md:text-[40px]'>Your Cart</h1>
-        <button className='text-[15px] underline'>Continue shopping</button>
-      </div>
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await
           resolve={rootData.cart}
