@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { CollectionInfo, LevelInfo } from '~/lib/types';
+import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
 import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
 import { useProxyUrl } from './PageWrapper';
 
-const blankLevelInfo: LevelInfo = {
-    id: '',
-    handle: '',
-    name: ''
-};
 
 const DependentDropdowns: React.FC<{
     selectedYear: LevelInfo;
@@ -264,10 +259,10 @@ interface SearchBoxProps {
 }
 
 export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
-    const [selectedYear, setSelectedYear] = useState<LevelInfo>({ id: '', handle: '', name: '' });
-    const [selectedMake, setSelectedMake] = useState<LevelInfo>({ id: '', handle: '', name: '' });
-    const [selectedModel, setSelectedModel] = useState<LevelInfo>({ id: '', handle: '', name: '' });
-    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>({ id: '', handle: '', name: '' });
+    const [selectedYear, setSelectedYear] = useState<LevelInfo>(blankLevelInfo);
+    const [selectedMake, setSelectedMake] = useState<LevelInfo>(blankLevelInfo);
+    const [selectedModel, setSelectedModel] = useState<LevelInfo>(blankLevelInfo);
+    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>(blankLevelInfo);
 
     const handleSubmit = () => {
         if (!selectedYear.handle || !selectedModel.handle || !selectedModel.handle || !selectedTrim.handle) {

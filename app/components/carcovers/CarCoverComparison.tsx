@@ -1,3 +1,6 @@
+import image1Url from '~/assets/compare/gold-shield-5l-car-cover.jpg'
+import image2Url from '~/assets/compare/silver-shield-3l-car-cover.jpg'
+
 export function CarCoverComparison() {
     return <>
         <div className="container">
@@ -9,14 +12,14 @@ export function CarCoverComparison() {
                             <th className="text-white"><span className="text-white">Product Name</span></th>
                             <th className="px-[60px]">
                                 <div className="flex items-center justify-center gap-[20px]">
-                                    <img src="" width="44" height="55" />
-                                        <span className="text-white">Gold Shield 5L - RV Cover</span>
+                                    <img src={image1Url} width="44" height="55" />
+                                    <span className="text-white">Gold Shield 5L - RV Cover</span>
                                 </div>
                             </th>
                             <th className="px-[60px]">
                                 <div className="flex items-center justify-center gap-[20px]">
-                                    <img src="" width="44" height="55" />
-                                        <span className="text-white">Silver Shield 3L - RV Cover</span>
+                                    <img src={image2Url} width="44" height="55" />
+                                    <span className="text-white">Silver Shield 3L - RV Cover</span>
                                 </div>
                             </th>
                         </tr>
@@ -28,22 +31,22 @@ export function CarCoverComparison() {
                                 <div className="py-[30px]">
                                     <div className="text-[14px] font-normal text-[#727272]">
                                         <div className="">Starting Price:</div>
-                                        <div className="text-[44px] font-bold leading-[54px] text-white">CA$379.99</div>
+                                        <div className="text-[20px] font-bold leading-[54px] text-primary">CA$379.99</div>
                                         <div>Regular Price: CA$949.99</div>
                                         <div>You Save: CA$570.00 (60% Off)</div>
                                     </div>
-                                    <a href="#" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
+                                    <a href="/" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Shop Now</a>
                                 </div>
                             </div></td>
                             <td><div className="flex items-center justify-center">
                                 <div className="py-[30px]">
                                     <div className="text-[14px] font-normal text-[#727272]">
                                         <div className="">Starting Price:</div>
-                                        <div className="text-[44px] font-bold leading-[54px] text-white">CA$339.99</div>
+                                        <div className="text-[20px] font-bold leading-[54px] text-primary">CA$339.99</div>
                                         <div>Regular Price: CA$849.99</div>
                                         <div>You Save: CA$510.00 (60% Off)</div>
                                     </div>
-                                    <a href="#" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Add to Cart</a>
+                                    <a href="/" className="rvcover-js-show-search twRounded-[4px] mt-[25px] flex h-[48px] w-[312px] items-center justify-center bg-primary text-[16px] text-white">Shop Now</a>
                                 </div>
                             </div></td>
                         </tr>
@@ -138,7 +141,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Water</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +160,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +182,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Snow/Ice</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -198,7 +201,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -220,7 +223,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Sun/UV Rays</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +242,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -261,7 +264,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Dirt/Dust</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -280,7 +283,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -302,7 +305,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Thickness</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -321,7 +324,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -343,7 +346,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Hail</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -362,7 +365,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -384,7 +387,7 @@ export function CarCoverComparison() {
                         <tr>
                             <th><span className="text-white">Cover Fit</span></th>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -403,7 +406,7 @@ export function CarCoverComparison() {
                                 </div>
                             </td>
                             <td>
-                                
+
                                 <div className="flex items-center justify-center">
                                     <div className="flex gap-[5px]">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">

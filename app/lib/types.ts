@@ -21,6 +21,12 @@ export type LevelInfo = {
     name: string;
 }
 
+export const blankLevelInfo: LevelInfo = {
+    id: '',
+    handle: '',
+    name: ''
+};
+
 export type PathwayInfo = {
     handle: string;
     name: string;
@@ -48,4 +54,9 @@ export type VehicalData = {
 export type ResponseResult = {
     success: Boolean;
     message: string;
+  }
+
+  export enum DisplayLayout {
+    ListProducts = 0,
+    StaticContent = 1
   }
