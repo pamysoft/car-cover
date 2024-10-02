@@ -166,7 +166,7 @@ export const RVCoversSearchBox: React.FC<SearchBoxProps> = ({ className }) => {
         }
 
         // Construct the URL based on the selected options
-        const url = `/${selectedSize.handle}/${selectedSize.handle}/${selectedType.handle}/${selectedSize.handle}`;
+        const url = `/rv-covers/${selectedType.handle}/${selectedSize.handle}`;
 
         // Redirect to the constructed URL
         window.location.href = url;
