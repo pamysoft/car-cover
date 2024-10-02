@@ -30,7 +30,7 @@ export function CartLineItem({
 
   return (
     <tr key={id} className="cv-cart-line">
-      <td className='w-[104px] pt-[20px] align-top'>
+      <td className='w-[105px] pt-[20px] align-top'>
         <img src={noImageUrl} width={85} height={85} className='rounded-[5px]' />
       </td>
       <td className='hidden'></td>

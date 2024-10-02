@@ -30,8 +30,8 @@ export function CartLineItemPage({
 
   return (
     <tr key={id} className="cv-cart-line">
-      <td className='pt-[20px] align-top'>
-        <img src={noImageUrl} width={85} height={85} className='rounded-[5px]' />
+      <td className='w-[105px] pt-[20px] align-top md:w-[168px]'>
+        <img src={noImageUrl} className='w-[85px] rounded-[5px] md:w-[120px]' />
       </td>
       <td className='pl-[10px] pt-[20px] align-top'>
         <Link
@@ -48,9 +48,14 @@ export function CartLineItemPage({
         <div className='text-[13px] text-[#121212BF]'>
           <ProductPrice price={line?.cost?.totalAmount} />
         </div>
+        <div className='md:hidden'>
+          <CartLineQuantity line={line} />
+        </div>
+      </td>
+      <td className='hidden md:table-cell md:w-[200px] lg:w-[350px]'>
         <CartLineQuantity line={line} />
       </td>
-      <td className='pl-[10px] pt-[20px] text-right align-top text-[13px] text-[#121212BF]'>
+      <td className='w-[109px] pl-[10px] pt-[20px] text-right align-top text-[13px] text-[#121212BF]'>
         <ProductPrice price={line?.cost?.totalAmount} />
       </td>      
     </tr>

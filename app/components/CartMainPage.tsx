@@ -7,6 +7,7 @@ import { CartSummary } from './CartSummary';
 import { useDrawer } from './carcovers/Drawer';
 import LightCloseIcon from './carcovers/icons/LightCloseIcon';
 import { CartSummaryPage } from './CartSummaryPage';
+import { CartLineItemPage } from './CartLineItemPage';
 
 export type CartLayout = 'page' | 'aside';
 
@@ -40,14 +41,13 @@ export function CartMainPage({ layout, cart: originalCart }: CartMainPageProps) 
           <thead>
             <tr>
               <th className='border-b-[1px] border-solid border-[#12121214] pb-[15px] text-left text-[10px] font-normal uppercase text-[#121212BF]' colSpan={2}>Product</th>
-              <th className='hidden border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Total</th>
-              <th className='hidden border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Quantity</th>
+              <th className='hidden border-b-[1px] border-solid border-[#12121214] pb-[15px] text-left text-[10px] font-normal uppercase text-[#121212BF] md:table-cell'>Quantity</th>
               <th className='border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Total</th>
             </tr>
           </thead>
           <tbody>
             {(cart?.lines?.nodes ?? []).map((line) => (
-              <CartLineItem key={line.id} line={line} layout={layout} />
+              <CartLineItemPage key={line.id} line={line} layout={layout} />
             ))}
           </tbody>
         </table>
