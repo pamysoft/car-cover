@@ -9,6 +9,35 @@ export function toTitleCase(str: string): string {
         .join(' ');    // Join the words back into a string
 }
 
+
+export const sendContact = async(proxyUrl: string, payload: FormData) => {
+    let appProxyUrl = proxyUrl + `send-contact/?shop=1`;
+
+    try {
+        const response = await fetch(appProxyUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        return await response.json();
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log('callproxyerror:', error.message);
+        } else {
+            console.log('callproxyerror: An unknown error occurred');
+        }
+    }
+
+    return []
+}
+
 export const fetchMakeList = async(proxyUrl: string, year: string) => {
     let appProxyUrl = proxyUrl + `get-make-list/${year}/?shop=1`;
 
