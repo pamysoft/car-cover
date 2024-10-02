@@ -59,7 +59,6 @@ const DependentDropdowns: React.FC<{
         parts.push('rv-covers')
         if (selectedSize.handle && selectedType.handle) {
             parts.push(selectedType.handle)
-            parts.push(selectedSize.handle)
 
             totalSizes = totalSizes || availableSizes.length
 
