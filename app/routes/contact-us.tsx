@@ -5,7 +5,7 @@ import { useProxyUrl } from "~/components/carcovers/PageWrapper";
 import TextField from "~/components/carcovers/TextField";
 import TextareaField from "~/components/carcovers/TextareaField"; // Import the TextareaField component
 import { sendContact } from "~/lib/functions";
-import {ResponseResult} from '~lib/type'
+import { ResponseResult } from '~lib/type'
 
 // Action function to handle form submission
 export async function action({ context, request }: ActionFunctionArgs) {
@@ -28,7 +28,7 @@ export default function ContactUs() {
   const formRef = useRef<HTMLFormElement>(null);
   const fetcher = useFetcher<ResponseResult>();
   const [isSuccess, setIsSuccess] = useState(false)
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     console.log(fetcher.state)
@@ -40,14 +40,20 @@ export default function ContactUs() {
     if (responseData) {
       setIsSuccess(responseData.success)
       setMessage(responseData.message)
+    } else {
+      setIsSuccess(false)
+      setMessage('')
     }
   }, [fetcher.data])
+
 
   return (
     <div className="m-auto w-[726px] max-w-full pb-[100px]">
       <h1 className="text-[52px]">Contact</h1>
       <div className="mt-[50px]">
-        { }
+        {message && <>
+          <div className={'mb-[15px] text-[14px] font-medium' + ' ' + ((isSuccess == true) ? 'text-green-900' : 'text-primary')}>{message}</div>
+        </>}
         <fetcher.Form ref={formRef} method="post" action="" className="w-full max-w-none">
           <div className="flex flex-col gap-[20px]">
             <div className="grid grid-cols-1 gap-[15px] lg:grid-cols-2">
