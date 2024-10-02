@@ -16,7 +16,7 @@ type CartLine = OptimisticCartLine<CartApiQueryFragment>;
  * A single line item in the cart. It displays the product image, title, price.
  * It also provides controls to update the quantity or remove the line item.
  */
-export function CartLineItem({
+export function CartLineItemPage({
   layout,
   line,
 }: {
@@ -30,10 +30,9 @@ export function CartLineItem({
 
   return (
     <tr key={id} className="cv-cart-line">
-      <td className='w-[104px] pt-[20px] align-top'>
+      <td className='pt-[20px] align-top'>
         <img src={noImageUrl} width={85} height={85} className='rounded-[5px]' />
       </td>
-      <td className='hidden'></td>
       <td className='pl-[10px] pt-[20px] align-top'>
         <Link
           prefetch="intent"
@@ -53,44 +52,7 @@ export function CartLineItem({
       </td>
       <td className='pl-[10px] pt-[20px] text-right align-top text-[13px] text-[#121212BF]'>
         <ProductPrice price={line?.cost?.totalAmount} />
-      </td>
-      {/* {image && (
-        <Image
-          alt={title}
-          aspectRatio="1/1"
-          data={image}
-          height={100}
-          loading="lazy"
-          width={100}
-        />
-      )}
-
-      <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
-        >
-          <p>
-            <strong>{product.title}</strong>
-          </p>
-        </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
-        <ul>
-          {selectedOptions.map((option) => (
-            <li key={option.name}>
-              <small>
-                {option.name}: {option.value}
-              </small>
-            </li>
-          ))}
-        </ul>
-        <CartLineQuantity line={line} />
-      </div> */}
+      </td>      
     </tr>
   );
 }

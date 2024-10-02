@@ -90,7 +90,7 @@ function HeaderMenuMobileToggle() {
 }
 
 function CartBadge({ count }: { count: number | null }) {
-    const { open } = useAside();
+    const { open } = useDrawer();
     const { publish, shop, cart, prevCart } = useAnalytics();
 
     return (

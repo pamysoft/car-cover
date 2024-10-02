@@ -22,6 +22,7 @@ import { CollectionInfo } from '~/lib/types';
 import { PageWrapper } from './carcovers/PageWrapper';
 import { Drawer } from './carcovers/Drawer';
 import HamburgerDrawer from './carcovers/HamburgerDrawer';
+import LightCloseIcon from './carcovers/icons/LightCloseIcon';
 
 export interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -46,7 +47,7 @@ export function PageLayout({
     <PageWrapper.Provider data={{ "breadcrumbs": [], "proxyUrl": proxyUrl }}>
       <Drawer.Provider>
         <Aside.Provider>
-          <CartAside cart={cart} />
+          <CartDrawer cart={cart} />
           <SearchAside />
           {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
           <HamburgerDrawer header={header} isLoggedIn={isLoggedIn} />
@@ -74,6 +75,20 @@ export function PageLayout({
         </Aside.Provider>
       </Drawer.Provider>
     </PageWrapper.Provider>
+  );
+}
+
+function CartDrawer({ cart }: { cart: PageLayoutProps['cart'] }) {
+  return (
+    <Drawer type="cart">
+        <Suspense fallback={<p>Loading cart ...</p>}>
+          <Await resolve={cart}>
+            {(cart) => {
+              return <CartMain cart={cart} layout="aside" />;
+            }}
+          </Await>
+        </Suspense>
+    </Drawer>
   );
 }
 

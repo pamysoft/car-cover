@@ -11,7 +11,16 @@ export function Drawer({ children, type }: { children?: React.ReactNode, type: D
     const { type: activeType, close } = useDrawer();
     const expanded = type === activeType;
 
-    const drawerDecoration = `w-[351px] max-w-full fixed left-[-1px] top-0 z-[999] h-full bg-white transition-transform duration-300 ease-in-out ${expanded ? "translate-x-0" : "-translate-x-full"}`;
+    let drawerDecoration = `w-[351px] top-0 max-w-full fixed  z-[999] h-full bg-white transition-transform duration-300 ease-in-out `;
+    const drawerFromLeft = `left-[-1px] ${expanded ? "translate-x-0" : "-translate-x-full"}`;
+    const drawerFromRight = `w-[400px] right-[-1px] ${expanded ? "-translate-x-0" : "translate-x-full"}`;
+
+    if (type=='cart') {
+        drawerDecoration = drawerDecoration + drawerFromRight
+    } else {
+        drawerDecoration = drawerDecoration + drawerFromLeft
+    }
+
     return (<div className={drawerDecoration}>
         {children}
     </div>)

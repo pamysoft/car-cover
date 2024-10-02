@@ -5,6 +5,7 @@ import {CartForm} from '@shopify/hydrogen';
 import {json, type ActionFunctionArgs} from '@shopify/remix-oxygen';
 import {CartMain} from '~/components/CartMain';
 import type {RootLoader} from '~/root';
+import { CartMainPage } from '~/components/CartMainPage';
 
 export const meta: MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
@@ -85,15 +86,18 @@ export default function Cart() {
   if (!rootData) return null;
 
   return (
-    <div className="cart">
-      <h1>Cart</h1>
+    <div className="container">
+      <div className='my-[30px] flex flex-wrap items-baseline justify-between'>
+        <h1 className='text-[30px]'>Your Cart</h1>
+        <button className='text-[15px] underline'>Continue shopping</button>
+      </div>
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await
           resolve={rootData.cart}
           errorElement={<div>An error occurred</div>}
         >
           {(cart) => {
-            return <CartMain layout="page" cart={cart} />;
+            return <CartMainPage layout="page" cart={cart} />;
           }}
         </Await>
       </Suspense>

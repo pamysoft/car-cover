@@ -6,10 +6,11 @@ import { CartLineItem } from '~/components/CartLineItem';
 import { CartSummary } from './CartSummary';
 import { useDrawer } from './carcovers/Drawer';
 import LightCloseIcon from './carcovers/icons/LightCloseIcon';
+import { CartSummaryPage } from './CartSummaryPage';
 
 export type CartLayout = 'page' | 'aside';
 
-export type CartMainProps = {
+export type CartMainPageProps = {
   cart: CartApiQueryFragment | null;
   layout: CartLayout;
 };
@@ -18,7 +19,7 @@ export type CartMainProps = {
  * The main cart component that displays the cart items and summary.
  * It is used by both the /cart route and the cart aside dialog.
  */
-export function CartMain({ layout, cart: originalCart }: CartMainProps) {
+export function CartMainPage({ layout, cart: originalCart }: CartMainPageProps) {
   // The useOptimisticCart hook applies pending actions to the cart
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
@@ -32,18 +33,15 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
   const cartHasItems = cart?.totalQuantity! > 0;
 
   return (
-    <div className='flex h-full flex-col px-[15px]'>
-      <div className='flex items-center justify-between py-[15px]'>
-        <h2 className='text-[20px]'>Your cart</h2>
-        <button onClick={close}><LightCloseIcon width='20' height='20' /></button>
-      </div>
-
+    <div>
       <div className={'mt-[15px] flex-shrink flex-grow basis-0 border-b-[1px] border-solid border-[#12121214] pb-[20px]'+' '+className}>
         <CartEmpty hidden={linesCount} layout={layout} />
         <table className="cv-cart-details w-full">
           <thead>
             <tr>
               <th className='border-b-[1px] border-solid border-[#12121214] pb-[15px] text-left text-[10px] font-normal uppercase text-[#121212BF]' colSpan={2}>Product</th>
+              <th className='hidden border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Total</th>
+              <th className='hidden border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Quantity</th>
               <th className='border-b-[1px] border-solid border-[#12121214] pb-[15px] text-right text-[10px] font-normal uppercase text-[#121212BF]'>Total</th>
             </tr>
           </thead>
@@ -55,8 +53,8 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
         </table>
       </div>
         
-      <div className='mt-[20px] pt-[10px]'>
-      {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+      <div className='mt-[20px] flex justify-center pt-[10px] md:justify-end'>
+        {cartHasItems && <CartSummaryPage cart={cart} layout={layout} />}
       </div>
     </div>
   );
@@ -66,7 +64,7 @@ function CartEmpty({
   hidden = false,
 }: {
   hidden: boolean;
-  layout?: CartMainProps['layout'];
+  layout?: CartMainPageProps['layout'];
 }) {
   const { close } = useDrawer();
   return (
