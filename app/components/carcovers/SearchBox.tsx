@@ -99,7 +99,7 @@ const DependentDropdowns: React.FC<{
 
     const maybeRedirect = (totalTrims?: number) => {
         let parts = []
-        let collectionUrl = ''
+        let collectionUrl = '/car-covers/'
         if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
             parts.push(selectedMake.handle)
             parts.push(selectedModel.handle)
@@ -108,12 +108,12 @@ const DependentDropdowns: React.FC<{
             totalTrims = totalTrims || availableTrims.length
 
             if (totalTrims < 2) {
-                collectionUrl = '/' + parts.join('/')
+                collectionUrl = collectionUrl + parts.join('/')
                 window.location.href = collectionUrl
             } else {
                 if (selectedTrim.handle) {
                     parts.push(selectedTrim.handle)
-                    collectionUrl = '/' + parts.join('/')
+                    collectionUrl = collectionUrl + parts.join('/')
                     window.location.href = collectionUrl
                 }
             }
@@ -271,7 +271,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
         }
 
         // Construct the URL based on the selected options
-        const url = `/${selectedMake.handle}/${selectedModel.handle}/${selectedYear.handle}/${selectedTrim.handle}`;
+        const url = `/car-covers/${selectedMake.handle}/${selectedModel.handle}/${selectedYear.handle}/${selectedTrim.handle}`;
 
         // Redirect to the constructed URL
         window.location.href = url;

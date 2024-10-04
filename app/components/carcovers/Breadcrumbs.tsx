@@ -57,7 +57,7 @@ Breadcrumbs.Provider = function BreadcrumbsProvider({ children }: { children: Re
         return
       }
 
-      let currentUrl = '/'
+      let currentUrl = '/car-covers/'
       if (vehicleData.makeHandle) {
         currentUrl = currentUrl + vehicleData.makeHandle
 
