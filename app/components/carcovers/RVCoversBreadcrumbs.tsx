@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { fetchRVCoversBreadcrumbs, fetchCarCoverHierarchyByHandle, fetchVehicleByPath, stripSlashes } from "~/lib/functions"
+import { stripSlashes, fetchRvcoverBreadcrumbs } from "~/lib/functions"
 import { PathwayInfo } from "~/lib/types"
 import { useProxyUrl } from "./PageWrapper"
 import { useLocation } from "@remix-run/react"
@@ -54,54 +54,39 @@ RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }
       let pathwayData: PathwayInfo[] = []
       pathwayData = []
       setIsLoading(true)
-      const vehicleData = await fetchVehicleByPath(proxyUrl, path)
+      const vehicleData = await fetchRvcoverBreadcrumbs(proxyUrl, path)
       if (vehicleData == null) {
         setIsLoading(false)
         return
       }
 
       let currentUrl = '/'
-      if (vehicleData.makeHandle) {
-        currentUrl = currentUrl + vehicleData.makeHandle
+      if (vehicleData.typeHandle) {
+        currentUrl = currentUrl + vehicleData.typeHandle
 
         pathwayData.push({
-          name: vehicleData.makeTitle,
+          name: vehicleData.typeTitle,
           handle: currentUrl
         })
       }
-      if (vehicleData.modelHandle) {
-        currentUrl = currentUrl + '/' + vehicleData.modelHandle
+      if (vehicleData.sizeHandle) {
+        currentUrl = currentUrl + '/' + vehicleData.sizeHandle
 
         pathwayData.push({
-          name: vehicleData.modelTitle || '',
+          name: vehicleData.sizeTitle || '',
           handle: currentUrl
         })
       }
-      if (vehicleData.year) {
-        currentUrl = currentUrl + '/' + vehicleData.year
-
-        pathwayData.push({
-          name: vehicleData.year,
-          handle: currentUrl
-        })
-      }
-      if (vehicleData.trimHandle) {
-        currentUrl = currentUrl + '/' + vehicleData.trimHandle
-
-        pathwayData.push({
-          name: vehicleData.trimTitle || '',
-          handle: currentUrl
-        })
-      }
+      
       setPathway(pathwayData)
 
-      if (pathwayData.length == 4) {
+      if (pathwayData.length == 3) {
         setTrimText(pathwayData[pathwayData.length - 1].name)
       }
 
       let categoryTitles = pathwayData.slice(0, 3)
       const categoryTitleNames = categoryTitles.map(item => item.name)
-      categoryTitleNames.push('Car Covers')
+      categoryTitleNames.push('RV Cover Covers')
       setCatalogTitle(categoryTitleNames.join(' '))
 
       setIsLoading(false)

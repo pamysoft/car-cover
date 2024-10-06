@@ -98,6 +98,11 @@ export const fetchBreadcrumbs = async (proxyUrl: string, path: string) => {
     return await fetchData(proxyUrl, endpoint);
 };
 
+export const fetchRvcoverBreadcrumbs = async (proxyUrl: string, path: string) => {
+    const endpoint = `rvcovers-get-breadcrumbs/${encodeURIComponent(path)}?shop=1`;
+    return await fetchData(proxyUrl, endpoint);
+};
+
 
 export const fetchVehicleByPath = async (proxyUrl: string, path: string): Promise<VehicalData | null> => {
     const endpoint = `get-vehicle-by-path/${encodeURIComponent(path)}?shop=1`;
