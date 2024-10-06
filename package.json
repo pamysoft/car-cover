@@ -16,7 +16,7 @@
   "prettier": "@shopify/prettier-config",
   "dependencies": {
     "@prisma/client": "^5.19.1",
-    "@remix-run/react": "^2.10.0",
+    "@remix-run/react": "^2.10.1",
     "@remix-run/server-runtime": "^2.10.1",
     "@shopify/cli-hydrogen": "*",
     "@shopify/hydrogen": "^2024.7.8",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.2",
-    "@remix-run/dev": "^2.1.0",
+    "@remix-run/dev": "^2.10.1",
     "@remix-run/eslint-config": "^2.10.1",
     "@shopify/cli": "^3.68.0",
     "@shopify/hydrogen-codegen": "^0.3.1",
