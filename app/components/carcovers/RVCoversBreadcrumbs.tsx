@@ -52,32 +52,9 @@ RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }
   useEffect(() => {
     const fetchData = async () => {
       let pathwayData: PathwayInfo[] = []
-      pathwayData = []
       setIsLoading(true)
-      const vehicleData = await fetchRvcoverBreadcrumbs(proxyUrl, path)
-      if (vehicleData == null) {
-        setIsLoading(false)
-        return
-      }
+      pathwayData = await fetchRvcoverBreadcrumbs(proxyUrl, path)
 
-      let currentUrl = '/'
-      if (vehicleData.typeHandle) {
-        currentUrl = currentUrl + vehicleData.typeHandle
-
-        pathwayData.push({
-          name: vehicleData.typeTitle,
-          handle: currentUrl
-        })
-      }
-      if (vehicleData.sizeHandle) {
-        currentUrl = currentUrl + '/' + vehicleData.sizeHandle
-
-        pathwayData.push({
-          name: vehicleData.sizeTitle || '',
-          handle: currentUrl
-        })
-      }
-      
       setPathway(pathwayData)
 
       if (pathwayData.length == 3) {
