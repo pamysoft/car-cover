@@ -61,12 +61,12 @@ export const fetchTrimList = async (proxyUrl: string, year: string, make: string
 
 
 // Common fetch utility function
-export const fetchData = async (
+export const fetchData = async <T>(
     proxyUrl: string,
     endpoint: string,
     method: string = 'GET',
     headers: Record<string, string> = { 'Content-Type': 'application/json' }
-) => {
+): Promise<T | unknown> => {
     const appProxyUrl = proxyUrl + endpoint;
 
     try {
@@ -80,16 +80,14 @@ export const fetchData = async (
         }
 
         return await response.json();
-
-    } catch (error: unknown) {
+    } catch (error) {
         if (error instanceof Error) {
             console.error('fetchData error:', error.message);
         } else {
             console.error('fetchData error: An unknown error occurred');
         }
+        return null;
     }
-
-    return [];
 };
 
 
@@ -199,37 +197,27 @@ function isArrayOfStrings(variable: any): variable is string[] {
     return Array.isArray(variable) && variable.every(item => typeof item === 'string');
 }
 
-export const fetchShopifyProductsByPath = async (proxyUrl: string, path: string): Promise<string[]> => {
-    let appProxyUrl = proxyUrl + `shopify-products-by-path/?shop=1`;
+// Function to fetch Shopify products by path
+export const fetchShopifyProductsByPath = async (
+    proxyUrl: string, 
+    path: string
+): Promise<string[]> => {
+    const endpoint = `shopify-products-by-path/?shop=1&path=${encodeURIComponent(path)}`;
+    const result = await fetchData<string[]>(proxyUrl, endpoint);
 
-    appProxyUrl = appProxyUrl + `&path=${path}`
+    return result && isArrayOfStrings(result) ? result : [];
+};
 
-    try {
-        const response = await fetch(appProxyUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
-        }
+// Function to fetch Shopify products by path
+export const fetchRvcoverShopifyProductsByPath = async (
+    proxyUrl: string, 
+    path: string
+): Promise<string[]> => {
+    const endpoint = `rvcovers-shopify-products-by-path/${encodeURIComponent(path)}?shop=1`;
+    const result = await fetchData<string[]>(proxyUrl, endpoint);
 
-        const result = await response.json();
-        if (isArrayOfStrings(result)) {
-            return result
-        }
-
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.log('callproxyerror:', error.message);
-        } else {
-            console.log('callproxyerror: An unknown error occurred');
-        }
-    }
-    
-    return []
-}
+    return result && isArrayOfStrings(result) ? result : [];
+};
 
 export function stripSlashes(text: string): string {
     return text.replace(/^\/+|\/+$/g, '');

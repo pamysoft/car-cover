@@ -10,7 +10,7 @@ import { RVCoversBreadcrumbs } from '~/components/carcovers/RVCoversBreadcrumbs'
 import { RVCoversCategoryStaticContent } from '~/components/carcovers/RVCoversCategoryStaticContent';
 import { RVCoversFilteredProducts } from '~/components/carcovers/RVCoversFilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
+import { fetchRvcoverShopifyProductsByPath, fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
 
@@ -31,7 +31,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   
   const proxyUrl = context.env.PROXY_URL;
 
-  const productIds = await fetchShopifyProductsByPath(proxyUrl, pathname);
+  const productIds = await fetchRvcoverShopifyProductsByPath(proxyUrl, pathname);
 
   const shopifyProductIds = productIds.map(productId => "gid://shopify/Product/" + productId)
 
@@ -48,10 +48,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   return json({ products: sortedProducts, theFilter, pathname });
 }
-
-
-
-
 
 export default function () {
   const { products, theFilter, pathname } = useLoaderData();
