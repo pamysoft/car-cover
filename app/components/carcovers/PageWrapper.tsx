@@ -5,7 +5,9 @@ import { CollectionInfo } from '~/lib/types';
 
 export enum CategoryType {
   CarCovers = 'car-covers',
+  CarCoversChildren = 'car-covers-children',
   RvCovers = 'rv-covers',
+  RvCoversChildren = 'rv-covers-children',
 }
 
 type PageWrapperContextValue = {
@@ -25,9 +27,17 @@ function detectCategory(pathname: string) {
     const slug = parts[0]
     switch (slug) {
       case 'car-covers':
-        return CategoryType.CarCovers
+        if (parts.length > 1) {
+          return CategoryType.CarCoversChildren
+        } else {
+          return CategoryType.CarCovers
+        }
       case 'rv-covers':
+        if (parts.length > 1) {
+          return CategoryType.RvCoversChildren
+        } else {
           return CategoryType.RvCovers
+        }
     }
   }
   return CategoryType.CarCovers

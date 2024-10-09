@@ -12,13 +12,20 @@ const StaticContentContext = createContext<StaticContentContextValue | null>(nul
 
 function getAppProxyUrl(proxyUrl: string, category: CategoryType): string
 {
+    console.log('category', category)
     let pageId: Number;
     switch (category) {
         case CategoryType.RvCovers:
             pageId = 2;
             break;
+        case CategoryType.RvCoversChildren:
+            pageId = 4;
+            break;
         case CategoryType.CarCovers:
             pageId = 1;
+            break;
+        case CategoryType.CarCoversChildren:
+            pageId = 3;
             break;
         default:
             pageId = 1;
