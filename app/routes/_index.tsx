@@ -15,6 +15,7 @@ import { CarCoverTypes } from '~/components/carcovers/CarCoverTypes';
 import { CarCoverComparison } from '~/components/carcovers/CarCoverComparison';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '~/lib/fragments';
 import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
+import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -67,6 +68,7 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
+    <Breadcrumbs.Provider>
     <div className="home pb-[60px]">
         <div className='container mt-[20px] lg:mt-0'>
           <div className='md:gap-0 ml:flex'>
@@ -76,5 +78,6 @@ export default function Homepage() {
         </div>
         <CategoryStaticContent />
     </div>
+    </Breadcrumbs.Provider>
   );
 }
