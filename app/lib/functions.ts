@@ -10,13 +10,13 @@ export function toTitleCase(str: string): string {
 }
 
 
-export const sendContact = async(proxyUrl: string, payload: FormData): ResponseResult => {
+export const sendContact = async (proxyUrl: string, payload: FormData): ResponseResult => {
     let appProxyUrl = proxyUrl + `send-contact/?shop=1`;
     let errorMessage = ''
 
     try {
         const response = await fetch(appProxyUrl, {
-            method: 'POST',            
+            method: 'POST',
             body: payload,
         });
         if (!response.ok) {
@@ -35,7 +35,7 @@ export const sendContact = async(proxyUrl: string, payload: FormData): ResponseR
         }
     }
 
-    return {success:false, message:errorMessage}
+    return { success: false, message: errorMessage }
 }
 
 
@@ -160,7 +160,7 @@ export const fetchCarCoverHierarchyByHandle = async (proxyUrl: string, path: str
             console.log('callproxyerror: An unknown error occurred');
         }
     }
-    
+
     return []
 }
 
@@ -189,7 +189,7 @@ export const fetchCarCoverDataByPath = async (proxyUrl: string, path: string) =>
             console.log('callproxyerror: An unknown error occurred');
         }
     }
-    
+
     return null
 }
 
@@ -199,7 +199,7 @@ function isArrayOfStrings(variable: any): variable is string[] {
 
 // Function to fetch Shopify products by path
 export const fetchShopifyProductsByPath = async (
-    proxyUrl: string, 
+    proxyUrl: string,
     path: string
 ): Promise<string[]> => {
     const endpoint = `shopify-products-by-path/?shop=1&path=${encodeURIComponent(path)}`;
@@ -210,7 +210,7 @@ export const fetchShopifyProductsByPath = async (
 
 // Function to fetch Shopify products by path
 export const fetchRvcoverShopifyProductsByPath = async (
-    proxyUrl: string, 
+    proxyUrl: string,
     path: string
 ): Promise<string[]> => {
     const endpoint = `rvcovers-shopify-products-by-path/${encodeURIComponent(path)}?shop=1`;
@@ -229,33 +229,32 @@ export const isBlankLevelInfo = (levelInfo: LevelInfo): boolean => {
 };
 
 
-export function getValidProducts(productsResponse)
-{
-  const products = productsResponse['nodes'];
-  const validProducts = []
-  for (const product  of products) {
-    if (product ) {
-      const productSku = product.variants.nodes[0].sku
-      product.sku = productSku
-      product.tagline = getProductTagLine(productSku)
-      product.shortDescription = getProductShortDescription(productSku)
+export function getValidProducts(productsResponse) {
+    const products = productsResponse['nodes'];
+    const validProducts = []
+    for (const product of products) {
+        if (product) {
+            const productSku = product.variants.nodes[0].sku
+            product.sku = productSku
+            product.tagline = getProductTagLine(productSku)
+            product.shortDescription = getProductShortDescription(productSku)
 
-      product.trim = product.metafields[0].value
-      product.quality = product.metafields[1].value
-      product.imageurl = `https://cdn.shopify.com/s/files/1/0607/7064/8154/files/${product.trim}${product.quality}.jpg`
+            product.trim = product.metafields[0].value
+            product.quality = product.metafields[1].value
+            product.imageurl = `https://cdn.shopify.com/s/files/1/0607/7064/8154/files/${product.trim}${product.quality}.jpg`
 
-      validProducts.push(product)
+            validProducts.push(product)
+        }
     }
-  }
-  return validProducts
+    return validProducts
 }
 
 export function getProductShortDescription(productSku: string) {
-  let productDescription = '';  // Default value for description
+    let productDescription = '';  // Default value for description
 
-  // Check the start of the SKU and return appropriate description
-  if (productSku.startsWith('5L')) {
-    productDescription = `
+    // Check the start of the SKU and return appropriate description
+    if (productSku.startsWith('5L')) {
+        productDescription = `
       <p>Experience superior protection for your vehicle with our top-of-the-line Gold Shield 5L Car Cover.</p>
       <ul>
         <li>This five (5) layers car cover is expertly crafted to withstand all weather extremities, from desert heat to severe snow storms, ensuring your car is well-protected.</li>
@@ -267,8 +266,8 @@ export function getProductShortDescription(productSku: string) {
       </ul>
       <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
     `;
-  } else if (productSku.startsWith('4BL')) {
-    productDescription = `
+    } else if (productSku.startsWith('4BL')) {
+        productDescription = `
       <p>Introducing the all new Black Satin Car Cover, the ultimate solution for indoor protection of your vehicle.</p>
       <ul>
         <li>The fine woven threads and silky smooth fabric with a glossy finish will preserve the finish and detailing of your car, keeping it looking showroom-new.</li>
@@ -279,8 +278,8 @@ export function getProductShortDescription(productSku: string) {
       </ul>
       <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
     `;
-  } else if (productSku.startsWith('3L')) {
-    productDescription = `
+    } else if (productSku.startsWith('3L')) {
+        productDescription = `
       <p>The Silver Shield 3L Car Cover is designed to offer top-notch protection whether you're storing your vehicle indoors or using it outdoors in typical weather conditions.</p>
       <ul>
         <li>Constructed with three (3) layers of materials, including a Micro-Porous film, this car cover not only securely envelops your vehicle but also allows it to breathe safely.</li>
@@ -291,8 +290,8 @@ export function getProductShortDescription(productSku: string) {
       </ul>
       <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
     `;
-  } else if (productSku.startsWith('2L')) {
-    productDescription = `
+    } else if (productSku.startsWith('2L')) {
+        productDescription = `
       <p>If you're looking for a car cover specifically made for indoor storage that is lightweight, then the Bronze Shield 2L Car Cover is the perfect choice.</p>
       <ul>
         <li>Crafted with two (2) layers of Polypropylene PLUS, this car cover is an ideal choice for basic indoor protection.</li>
@@ -303,40 +302,69 @@ export function getProductShortDescription(productSku: string) {
       </ul>
       <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
     `;
-  }
+    } else if (productSku.startsWith('5RV')) {
+        productDescription = `
+        <p>Experience superior protection for your RV with our top-of-the-line Gold Shield 5L RV Cover.</p>
+        <ul>
+            <li>This premium RV cover is expertly crafted to withstand extreme weather conditions, from desert heat to severe snowstorms, ensuring your RV is well-protected. It features a thick 5-ply fabric on the top and a 3-ply fabric on the sides, providing superior protection for your RV's paint and finish.</li>
+            <li>Its standout feature is the 100% breathable, water-resistant material, which offers robust defense against the elements while maintaining the right balance of air circulation to keep your RV in prime condition.</li>
+            <li>The Gold Shield 5L RV Cover is designed to accommodate up to three AC units on its roof, featuring zippered panels for convenient access at any time and, air vents.</li>
+            <li>Our commitment to quality is backed by our full <strong>Lifetime Warranty</strong>.</li>
+            <li><u>Included with your purchase:</u> Free Shipping, Lifetime Warranty, Storage Bag, Buckles and Straps (front, rear and bottom), Free Patch kit for quick repairs, rain gutter covers, a ladder cap, toss bag and much more!</li>
+        </ul>
+        <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
+    `;
+    } else if (productSku.startsWith('3RV')) {
+        productDescription = `
+        <p>The Silver Shield 3L RV Cover is a great alternative for storing your RV outdoors or indoors under mild weather conditions.</p>
+        <ul>
+            <li>This RV cover is water-resistant, breathable, scratch proof, dust repellent and offers protection against low
+                winds along with calm rain.</li>
+            <li>Its offers a thick 3-ply fabric on the top and a 2-ply fabric on the sides, making sure to protect your RV's
+                paint and finish.</li>
+            <li>The Silver Shield 3L RV Cover is designed to accommodate up to three AC units on its roof, featuring zippered
+                panels for convenient access at any time and, air vents.</li>
+            <li>We are so confident in the quality of our cover that we offer a <strong>5-Year Warranty</strong>, giving you
+                peace of mind with your purchase.</li>
+            <li><u>Included with your purchase:</u> Free Shipping, 5-Year Warranty, Storage Bag, Buckles and Straps (front, rear
+                and bottom), Free Patch kit for quick repairs, rain gutter covers, a ladder cap, toss bag and much more!</li>
+        </ul>
+        <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
+    `;
+    }
 
-  return productDescription;  // Return the product description based on SKU
+    return productDescription;  // Return the product description based on SKU
 }
 
 
 export function getProductTagLine(productSku: string) {
-  let productTagline = '';  // Default value for tagline
+    let productTagline = '';  // Default value for tagline
 
-  // Check the start of the SKU and assign appropriate tagline
-  if (productSku.startsWith('5L')) {
-    productTagline = '100% Water-Resistant Fabric with Super Soft Inner Lining';
-  } else if (productSku.startsWith('4BL')) {
-    productTagline = 'Satin Fabric for Indoor Use Only';
-  } else if (productSku.startsWith('3L')) {
-    productTagline = 'All-Weather Outdoor Protection for Everyday Use';
-  } else if (productSku.startsWith('2L')) {
-    productTagline = 'Made for Indoor Use Only';
-  } else if (productSku.startsWith('5RV') || productSku.startsWith('5FC')) { // RV Covers
-    productTagline = '100% Water-Resistant Fabric for Extreme Weather Conditions';
-  } else if (productSku.startsWith('3RV') || productSku.startsWith('3FC')) { 
-    productTagline = 'All-Weather Protection'
-  }
+    // Check the start of the SKU and assign appropriate tagline
+    if (productSku.startsWith('5L')) {
+        productTagline = '100% Water-Resistant Fabric with Super Soft Inner Lining';
+    } else if (productSku.startsWith('4BL')) {
+        productTagline = 'Satin Fabric for Indoor Use Only';
+    } else if (productSku.startsWith('3L')) {
+        productTagline = 'All-Weather Outdoor Protection for Everyday Use';
+    } else if (productSku.startsWith('2L')) {
+        productTagline = 'Made for Indoor Use Only';
+    } else if (productSku.startsWith('5RV') || productSku.startsWith('5FC')) { // RV Covers
+        productTagline = '100% Water-Resistant Fabric for Extreme Weather Conditions';
+    } else if (productSku.startsWith('3RV') || productSku.startsWith('3FC')) {
+        productTagline = 'All-Weather Protection'
+    }
 
 
-  return productTagline;  // Return the tagline for the given SKU
+    return productTagline;  // Return the tagline for the given SKU
 }
 
 
 export function getSortedProducts(products) {
-  return products.sort((a, b) => {
-    // Compare SKUs in descending order
-    if (a.sku > b.sku) return -1;
-    if (a.sku < b.sku) return 1;
-    return 0;
-  });
+    return products.sort((a, b) => {
+        // Compare SKUs in descending order
+        if (a.sku > b.sku) return -1;
+        if (a.sku < b.sku) return 1;
+        return 0;
+    });
 }
