@@ -1,26 +1,57 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+import { useLocation } from '@remix-run/react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { stripSlashes } from '~/lib/functions';
 import { CollectionInfo } from '~/lib/types';
 
+export enum CategoryType {
+  CarCovers = 'car-covers',
+  RvCovers = 'rv-covers',
+}
+
 type PageWrapperContextValue = {
-    breadcrumbs: CollectionInfo[],
-    proxyUrl: string,
+  breadcrumbs: CollectionInfo[],
+  proxyUrl: string,
+  serverUrl: string,
+  category: CategoryType,
 };
 
-export function PageWrapper({children}: {children?: React.ReactNode}) {
+export function PageWrapper({ children }: { children?: React.ReactNode }) {
   return <>{children}</>
 }
 
+function detectCategory(pathname: string) {
+  const parts = stripSlashes(pathname).split('/')
+  if (parts.length > 0) {
+    const slug = parts[0]
+    switch (slug) {
+      case 'car-covers':
+        return CategoryType.CarCovers
+      case 'rv-covers':
+          return CategoryType.RvCovers
+    }
+  }
+  return CategoryType.CarCovers
+}
+
 const PageWrapperContext = createContext<PageWrapperContextValue | null>(null);
-PageWrapper.Provider = function PageWrapperProvider({children, data}: {children: ReactNode, data: PageWrapperContextValue}) {
-    return (
-        <PageWrapperContext.Provider
-          value={
-            data
-          }
-        >
-          {children}
-        </PageWrapperContext.Provider>
-      );
+PageWrapper.Provider = function PageWrapperProvider({ children, data }: { children: ReactNode, data: PageWrapperContextValue }) {
+  const location = useLocation()
+
+  const [customData, setCustomData] = useState<PageWrapperContextValue>(data)
+  useEffect(() => {
+    const category = detectCategory(location.pathname)   
+    setCustomData({...customData, category: category})
+  }, [location.pathname])
+
+  return (
+    <PageWrapperContext.Provider
+      value={
+        customData
+      }
+    >
+      {children}
+    </PageWrapperContext.Provider>
+  );
 }
 
 export function useProxyUrl() {
@@ -29,4 +60,20 @@ export function useProxyUrl() {
     throw new Error('useProxyUrl must be used within an PageWrapperProvider');
   }
   return wrapper.proxyUrl;
+}
+
+export function useServerUrl() {
+  const wrapper = useContext(PageWrapperContext);
+  if (!wrapper) {
+    throw new Error('useServerUrl must be used within an PageWrapperProvider');
+  }
+  return wrapper.serverUrl;
+}
+
+export function useCategory() {
+  const wrapper = useContext(PageWrapperContext);
+  if (!wrapper) {
+    throw new Error('useServerUrl must be used within an PageWrapperProvider');
+  }
+  return wrapper.category;
 }

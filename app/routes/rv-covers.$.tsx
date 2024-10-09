@@ -63,7 +63,7 @@ export default function () {
     <RVCoversBreadcrumbs.Provider>
       <RVCoversBreadcrumbs />
       {/* Decide the layout */}
-      {(layout === DisplayLayout.ListProducts) ? <RVCoversFilteredProducts theFilter={theFilter} products={products} /> : <RVCoversCategoryStaticContent path={pathname} />}
+      {(layout === DisplayLayout.ListProducts) ? <RVCoversFilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
     </RVCoversBreadcrumbs.Provider>
   );
 }

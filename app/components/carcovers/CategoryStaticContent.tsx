@@ -4,18 +4,19 @@ import { CarCoverTypes } from './CarCoverTypes';
 import { SearchBox } from './SearchBox';
 import { Slideshow } from './Slideshow';
 import { ValueProposition } from './ValuePropostion';
-import { PathwayInfo } from '~/lib/types';
+import { BlockType, HtmlBlockType, PathwayInfo, TextBlockType } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { CarModelYearSelector } from './CarModelYearSelector';
 import { useProxyUrl } from './PageWrapper';
 import { useBreadcrumbs } from './Breadcrumbs';
+import { StaticContentProvider, usePageBlocks } from './StaticContentProvider';
 
 export function CategoryStaticContent() {
     const [dynamicText, setDynamicText] = useState('')
     const proxyUrl = useProxyUrl();
-    const  breadcrumbs = useBreadcrumbs()
+    const breadcrumbs = useBreadcrumbs()
     const path = breadcrumbs.relativeUrl
-    
+
     const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
@@ -29,8 +30,7 @@ export function CategoryStaticContent() {
         fetchData()
     }, [])
 
-
-
+    const blocks = usePageBlocks()
 
     return <>
         <div className='container mt-[20px] lg:mt-0'>
@@ -39,11 +39,26 @@ export function CategoryStaticContent() {
                 <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
             </div>
         </div>
-        <StaticContent dynamicText={dynamicText} />
+        <div className='pb-[100px]'>
+            {blocks && blocks.map(block => {
+                return (
+                    <>
+                        {(block.type == BlockType.HTML) && <div dangerouslySetInnerHTML={{ __html: (block.content as HtmlBlockType).html }} />}
+                        {(block.type == BlockType.Text) && <>
+                            <div className="container">
+                                <h2 className="mb-[20px] mt-[20px] text-[28px] font-medium leading-[1.2]">{(block.content as TextBlockType).title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: (block.content as TextBlockType).text }} />
+                            </div>
+                        </>}
+                    </>
+                )
+            })}
+        </div>
+        {/* <StaticContent dynamicText={dynamicText} />
         <ValueProposition />
         <CarCoverTypes />
         <CarCoverComparison />
-        <CarModelYearSelector path={path} />
+        <CarModelYearSelector path={path} /> */}
     </>
 }
 

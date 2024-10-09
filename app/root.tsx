@@ -1,5 +1,5 @@
-import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
-import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import { useNonce, getShopAnalytics, Analytics } from '@shopify/hydrogen';
+import { defer, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import {
   Links,
   Meta,
@@ -15,9 +15,11 @@ import favicon from '~/assets/favicon.svg';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import customStyles from '~/styles/custom.css?url';
-import {PageLayout} from '~/components/PageLayout';
-import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import { PageLayout } from '~/components/PageLayout';
+import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { CollectionInfo } from './lib/types';
+import { stripSlashes } from './lib/functions';
+import { CategoryType } from './components/carcovers/PageWrapper';
 
 export type RootLoader = typeof loader;
 
@@ -73,9 +75,9 @@ export function links() {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
     },
-    {rel: 'stylesheet', href: resetStyles, as: 'style'},
-    {rel: 'stylesheet', href: appStyles, as: 'style'},
-    {rel: 'stylesheet', href: customStyles, as: 'style'},
+    { rel: 'stylesheet', href: resetStyles, as: 'style' },
+    { rel: 'stylesheet', href: appStyles, as: 'style' },
+    { rel: 'stylesheet', href: customStyles, as: 'style' },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -84,7 +86,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    { rel: 'icon', type: 'image/svg+xml', href: favicon },
   ];
 }
 
@@ -95,7 +97,7 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  const {storefront, env} = args.context;
+  const { storefront, env } = args.context;
 
   return defer({
     ...deferredData,
@@ -118,11 +120,14 @@ export async function loader(args: LoaderFunctionArgs) {
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context}: LoaderFunctionArgs) {
-  const {storefront} = context;
+async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
+  const { storefront } = context;
 
   const proxyUrl = context.env.PROXY_URL;
-  
+
+  const url = new URL(request.url);
+  const serverUrl = url.origin;
+
   const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
@@ -133,10 +138,31 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
+  const pathname = stripSlashes(new URL(request.url).pathname)
+  const category = detectCategory(pathname)
+
   return {
     header,
-    proxyUrl
+    proxyUrl,
+    serverUrl,
+    category,
   };
+}
+
+function detectCategory(pathname: string) {
+  console.log('pathname')
+  console.log(pathname)
+  const parts = pathname.split('/')
+  if (parts.length > 0) {
+    const slug = parts[0]
+    switch (slug) {
+      case 'car-covers':
+        return CategoryType.CarCovers
+      case 'rv-covers':
+          return CategoryType.RvCovers
+    }
+  }
+  return CategoryType.CarCovers
 }
 
 /**
@@ -144,30 +170,16 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context}: LoaderFunctionArgs) {
-  const {storefront, customerAccount, cart} = context;
+function loadDeferredData({ context }: LoaderFunctionArgs) {
+  const { storefront, customerAccount, cart } = context;
 
-  // defer the footer query (below the fold)
-  const footer = storefront
-    .query(FOOTER_QUERY, {
-      cache: storefront.CacheLong(),
-      variables: {
-        footerMenuHandle: 'footer', // Adjust to your footer menu handle
-      },
-    })
-    .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
-      console.error(error);
-      return null;
-    });
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
-    footer,
   };
 }
 
-export function Layout({children}: {children?: React.ReactNode}) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
 

@@ -8,12 +8,12 @@ import { PathwayInfo } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { CarModelYearSelector } from './CarModelYearSelector';
 import { useProxyUrl } from './PageWrapper';
-import { useBreadcrumbs } from './Breadcrumbs';
+import { useRVCoversBreadcrumbs } from './RVCoversBreadcrumbs';
 
 export function RVCoversCategoryStaticContent() {
     const [dynamicText, setDynamicText] = useState('')
     const proxyUrl = useProxyUrl();
-    const  breadcrumbs = useBreadcrumbs()
+    const  breadcrumbs = useRVCoversBreadcrumbs()
     const path = breadcrumbs.relativeUrl
     
     const [isLoading, setIsLoading] = useState(false)
@@ -28,9 +28,6 @@ export function RVCoversCategoryStaticContent() {
         }
         fetchData()
     }, [])
-
-
-
 
     return <>
         <div className='container mt-[20px] lg:mt-0'>

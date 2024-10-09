@@ -9,6 +9,7 @@ import CartIcon from './icons/CartIcon';
 import { PromotionBoxes } from './PromotionBoxes';
 import { HeaderInfo } from './HeaderInfo';
 import { useDrawer } from './Drawer';
+import { useServerUrl } from './PageWrapper';
 
 
 interface HeaderProps {
@@ -32,16 +33,21 @@ export function Header({
         </div>
         <PromotionBoxes />
         <div className='mb-[30px] hidden items-center bg-[#4e4e4e] lg:block'>
-            <DesktopMenu menu={menu} />
+            <DesktopMenu publicStoreDomain={publicStoreDomain} menu={menu} />
         </div>
     </div>;
 }
 
-function DesktopMenu({ menu }: {menu: HeaderProps['header']['menu']}) {
+function DesktopMenu({ menu, publicStoreDomain }: { menu: HeaderProps['header']['menu'], publicStoreDomain: string }) {
+    const serverUrl = useServerUrl()
     return (
         <div className="flex justify-center">
             <ul className="up flex flex-wrap font-[Oswald] text-[14px] uppercase leading-[55px] tracking-tight text-white">
-                {menu?.items.map(item => <li key={item.id} className="mb-0 px-[16px] xl:px-[25px]"><NavLink to={item.url} title={item.title}>{item.title}</NavLink></li>)}
+                {menu?.items.map(item => {
+                    const itemUrl = item.url?.replace('https://'+publicStoreDomain, serverUrl)
+                    return (<li key={item.id} className="mb-0 px-[16px] xl:px-[25px]">
+                        <NavLink to={itemUrl} title={item.title}>{item.title}</NavLink>
+                    </li>)})}
             </ul>
         </div>
     )

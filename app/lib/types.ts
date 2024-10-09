@@ -33,9 +33,9 @@ export type PathwayInfo = {
 }
 
 export function isPathwayInfo(item: any): item is PathwayInfo {
-    return typeof item === 'object' && 
-           typeof item.handle === 'string' && 
-           typeof item.name === 'string';
+    return typeof item === 'object' &&
+        typeof item.handle === 'string' &&
+        typeof item.name === 'string';
 }
 
 export type VehicalData = {
@@ -54,9 +54,41 @@ export type VehicalData = {
 export type ResponseResult = {
     success: Boolean;
     message: string;
-  }
+}
 
-  export enum DisplayLayout {
+export enum DisplayLayout {
     ListProducts = 0,
     StaticContent = 1
-  }
+}
+
+
+// type for page setting data
+export enum BlockType {
+    Text = 'text',
+    HTML = 'html',
+    Other = 'other'
+}
+
+export type AllBlockTypes = TextBlockType | OtherBlockType | HtmlBlockType
+
+export interface Block {
+    id: string;
+    content: AllBlockTypes;
+    order: number;
+    type: BlockType;
+}
+
+export interface TextBlockType {
+    title: string;
+    text: string;
+}
+export interface HtmlBlockType {
+    html: string;
+}
+export interface OtherBlockType {
+    data: string;
+}
+
+export interface PageSettingsData {
+    bannerImage: string;
+}

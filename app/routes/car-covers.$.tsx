@@ -14,18 +14,18 @@ import { DisplayLayout } from '~/lib/types';
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const pathname = stripSlashes(new URL(request.url).pathname)
-  
+
   const variables = getPaginationVariables(request, {
     pageBy: 2,
   });
 
-  
+
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
   const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
 
   const { storefront } = context
-  
+
   const proxyUrl = context.env.PROXY_URL;
 
   const productIds = await fetchShopifyProductsByPath(proxyUrl, pathname);
@@ -37,7 +37,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
       ids: shopifyProductIds
     }
   })
-  
+
   const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
 
   const validProducts = getValidProducts(productsResponse)
@@ -52,19 +52,21 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
 export default function () {
   const { products, theFilter, pathname } = useLoaderData();
-  
+
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
   const { ref, inView, entry } = useInView();
   let layout: DisplayLayout = DisplayLayout.ListProducts
 
-  layout = (pathParts.length>2)?DisplayLayout.ListProducts:DisplayLayout.StaticContent;
+  layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
     <Breadcrumbs.Provider>
       <Breadcrumbs />
       {/* Decide the layout */}
-      {(layout === DisplayLayout.ListProducts) ? <FilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
+      {(layout === DisplayLayout.ListProducts) ?
+        <FilteredProducts theFilter={theFilter} products={products} /> :
+        <CategoryStaticContent path={pathname} />}
     </Breadcrumbs.Provider>
   );
 }

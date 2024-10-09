@@ -19,10 +19,11 @@ import { TopBar } from './carcovers/TopBar';
 import { Header } from './carcovers/Header';
 import { Footer } from './carcovers/Footer';
 import { CollectionInfo } from '~/lib/types';
-import { PageWrapper } from './carcovers/PageWrapper';
+import { CategoryType, PageWrapper } from './carcovers/PageWrapper';
 import { Drawer } from './carcovers/Drawer';
 import HamburgerDrawer from './carcovers/HamburgerDrawer';
 import LightCloseIcon from './carcovers/icons/LightCloseIcon';
+import { StaticContentProvider } from './carcovers/StaticContentProvider';
 
 export interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -32,6 +33,8 @@ export interface PageLayoutProps {
   publicStoreDomain: string;
   children?: React.ReactNode;
   proxyUrl: string;
+  serverUrl: string;
+  category: CategoryType
 }
 
 export function PageLayout({
@@ -41,39 +44,43 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
-  proxyUrl
+  proxyUrl,
+  serverUrl,
+  category
 }: PageLayoutProps) {
   return (
-    <PageWrapper.Provider data={{ "breadcrumbs": [], "proxyUrl": proxyUrl }}>
-      <Drawer.Provider>
-        <Aside.Provider>
-          <CartDrawer cart={cart} />
-          <SearchAside />
-          {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
-          <HamburgerDrawer header={header} isLoggedIn={isLoggedIn} />
+    <PageWrapper.Provider data={{ "breadcrumbs": [], "proxyUrl": proxyUrl, "serverUrl": serverUrl, category: category }}>
+      <StaticContentProvider>
+        <Drawer.Provider>
+          <Aside.Provider>
+            <CartDrawer cart={cart} />
+            <SearchAside />
+            {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
+            <HamburgerDrawer header={header} isLoggedIn={isLoggedIn} />
 
-          <AnnouncementBar />
-          <TopBar />
+            <AnnouncementBar />
+            <TopBar />
 
-          {header && (
-            <Header
-              header={header}
-              cart={cart}
-              isLoggedIn={isLoggedIn}
-              publicStoreDomain={publicStoreDomain}
-            />
-          )}
+            {header && (
+              <Header
+                header={header}
+                cart={cart}
+                isLoggedIn={isLoggedIn}
+                publicStoreDomain={publicStoreDomain}
+              />
+            )}
 
-          <main className='m-0 p-0'>{children}</main>
-          {/* <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      /> */}
-          <Footer />
+            <main className='m-0 p-0'>{children}</main>
+            {/* <Footer
+          footer={footer}
+          header={header}
+          publicStoreDomain={publicStoreDomain}
+        /> */}
+            <Footer />
 
-        </Aside.Provider>
-      </Drawer.Provider>
+          </Aside.Provider>
+        </Drawer.Provider>
+      </StaticContentProvider>
     </PageWrapper.Provider>
   );
 }
@@ -81,13 +88,13 @@ export function PageLayout({
 function CartDrawer({ cart }: { cart: PageLayoutProps['cart'] }) {
   return (
     <Drawer type="cart">
-        <Suspense fallback={<p>Loading cart ...</p>}>
-          <Await resolve={cart}>
-            {(cart) => {
-              return <CartMain cart={cart} layout="aside" />;
-            }}
-          </Await>
-        </Suspense>
+      <Suspense fallback={<p>Loading cart ...</p>}>
+        <Await resolve={cart}>
+          {(cart) => {
+            return <CartMain cart={cart} layout="aside" />;
+          }}
+        </Await>
+      </Suspense>
     </Drawer>
   );
 }
