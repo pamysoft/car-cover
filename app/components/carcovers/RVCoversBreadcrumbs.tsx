@@ -63,7 +63,7 @@ RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }
 
       let categoryTitles = pathwayData.slice(0, 3)
       const categoryTitleNames = categoryTitles.map(item => item.name)
-      categoryTitleNames.push('RV Cover Covers')
+      categoryTitleNames.push('Covers')
       setCatalogTitle(categoryTitleNames.join(' '))
 
       setIsLoading(false)

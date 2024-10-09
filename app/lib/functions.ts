@@ -321,7 +321,12 @@ export function getProductTagLine(productSku: string) {
     productTagline = 'All-Weather Outdoor Protection for Everyday Use';
   } else if (productSku.startsWith('2L')) {
     productTagline = 'Made for Indoor Use Only';
+  } else if (productSku.startsWith('5RV') || productSku.startsWith('5FC')) { // RV Covers
+    productTagline = '100% Water-Resistant Fabric for Extreme Weather Conditions';
+  } else if (productSku.startsWith('3RV') || productSku.startsWith('3FC')) { 
+    productTagline = 'All-Weather Protection'
   }
+
 
   return productTagline;  // Return the tagline for the given SKU
 }

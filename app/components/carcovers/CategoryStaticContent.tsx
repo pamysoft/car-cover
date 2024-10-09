@@ -7,15 +7,17 @@ import { ValueProposition } from './ValuePropostion';
 import { BlockType, HtmlBlockType, PathwayInfo, TextBlockType } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { CarModelYearSelector } from './CarModelYearSelector';
-import { useProxyUrl } from './PageWrapper';
+import { CategoryType, useCategory, useProxyUrl } from './PageWrapper';
 import { useBreadcrumbs } from './Breadcrumbs';
 import { StaticContentProvider, usePageBlocks } from './StaticContentProvider';
+import { RVCoversSearchBox } from './RVCoversSearchBox';
 
 export function CategoryStaticContent() {
     const [dynamicText, setDynamicText] = useState('')
     const proxyUrl = useProxyUrl();
     const breadcrumbs = useBreadcrumbs()
     const path = breadcrumbs.relativeUrl
+    const category = useCategory()
 
     const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
@@ -35,7 +37,8 @@ export function CategoryStaticContent() {
     return <>
         <div className='container mt-[20px] lg:mt-0'>
             <div className='md:gap-0 ml:flex'>
-                <SearchBox className="ml:w-1/4" />
+                {(category == CategoryType.CarCovers || category == CategoryType.CarCoversChildren) && <SearchBox className="ml:w-1/4" />}
+                {(category == CategoryType.RvCovers || category == CategoryType.RvCoversChildren) && <RVCoversSearchBox className="ml:w-1/4" />}
                 <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
             </div>
         </div>
