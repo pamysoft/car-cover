@@ -69,15 +69,7 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <Breadcrumbs.Provider>
-    <div className="home pb-[60px]">
-        <div className='container mt-[20px] lg:mt-0'>
-          <div className='md:gap-0 ml:flex'>
-            <SearchBox className="ml:w-1/4" />
-            <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
-          </div>
-        </div>
         <CategoryStaticContent />
-    </div>
     </Breadcrumbs.Provider>
   );
 }
