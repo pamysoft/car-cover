@@ -331,6 +331,14 @@ export function getProductShortDescription(productSku: string) {
         </ul>
         <p><strong>Take advantage of our current special pricing and free shipping by ordering now!</strong></p>
     `;
+    } else if (productSku.startsWith('5FC')) {
+        productDescription = `
+        <p>When it comes to buying RV Covers, our Gold Shield 5L RV Cover beats all its competitors for many reasons; This RV cover can protect against all types of extreme weather conditions such as: snow storms, desert heat and even hail storms since the cover is 100% water-resistant. The Ultimate RV Cover exclusively offers a thick 5-ply fabric on the top and a 3-ply fabric on the sides, making sure to protect your RV's paint and finish. The Gold Shield 5L RV Cover includes straps and buckles, free storage bag, a free patch kit for quick repairs and much more! Plus, we will ship it to you free of charge. We also back this cover up with our full Lifetime Warranty. This RV Cover is guaranteed to fit perfectly or your money back. Order now and take advantage of our limited-time great pricing!</p>
+    `;
+    } else if (productSku.startsWith('3FC')) {
+        productDescription = `
+        <p>The Silver Shield 3L RV Cover is a great alternative for storing your RV indoors or outdoors under mild weather conditions. This RV cover is water-resistant, breathable, scratch proof, dust repellent and offers protection against low winds along with calm rain. The RV Cover offers a thick 3-ply fabric on the top and a 2-ply fabric on the sides, making sure to protect your RV's paint and finish. The Silver Shield 3L RV Cover includes straps and buckles, free storage bag, a free patch kit for quick repairs and much more! Plus, we will ship it to you free of charge. We also back this cover up with our full Lifetime Warranty. This RV Cover is guaranteed to fit perfectly or your money back. Order now and take advantage of our limited-time great pricing!</p>
+    `;
     }
 
     return productDescription;  // Return the product description based on SKU
