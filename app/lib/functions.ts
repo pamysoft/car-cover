@@ -1,3 +1,4 @@
+import { CategoryType } from "~/components/carcovers/PageWrapper";
 import { isPathwayInfo, LevelInfo, PathwayInfo, VehicalData } from "./types";
 
 export function toTitleCase(str: string): string {
@@ -238,6 +239,7 @@ export function getValidProducts(productsResponse) {
             product.sku = productSku
             product.tagline = getProductTagLine(productSku)
             product.shortDescription = getProductShortDescription(productSku)
+            product.additional_html = getProductAdditionalHtml(productSku)
 
             product.trim = product.metafields[0].value
             product.quality = product.metafields[1].value
@@ -367,6 +369,22 @@ export function getProductTagLine(productSku: string) {
     return productTagline;  // Return the tagline for the given SKU
 }
 
+export function getProductAdditionalHtml(productSku: string) {
+    let html = '';  // Default value for tagline
+
+    // Check the start of the SKU and assign appropriate tagline
+    if (productSku.startsWith('5RV') || productSku.startsWith('5FC')
+     || productSku.startsWith('3RV') || productSku.startsWith('3FC')) {
+        html = `
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            Financing Available
+        </div>
+        `;
+    }
+
+    return html;  // Return the tagline for the given SKU
+}
+
 
 export function getSortedProducts(products) {
     return products.sort((a, b) => {
@@ -376,3 +394,25 @@ export function getSortedProducts(products) {
         return 0;
     });
 }
+
+export function detectCategory(pathname: string) {
+    const parts = stripSlashes(pathname).split('/')
+    if (parts.length > 0) {
+      const slug = parts[0]
+      switch (slug) {
+        case 'car-covers':
+          if (parts.length > 1) {
+            return CategoryType.CarCoversChildren
+          } else {
+            return CategoryType.CarCovers
+          }
+        case 'rv-covers':
+          if (parts.length > 1) {
+            return CategoryType.RvCoversChildren
+          } else {
+            return CategoryType.RvCovers
+          }
+      }
+    }
+    return CategoryType.CarCovers
+  }

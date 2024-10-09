@@ -1,6 +1,6 @@
 import { useLocation } from '@remix-run/react';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { stripSlashes } from '~/lib/functions';
+import { detectCategory, stripSlashes } from '~/lib/functions';
 import { CollectionInfo } from '~/lib/types';
 
 export enum CategoryType {
@@ -21,27 +21,7 @@ export function PageWrapper({ children }: { children?: React.ReactNode }) {
   return <>{children}</>
 }
 
-function detectCategory(pathname: string) {
-  const parts = stripSlashes(pathname).split('/')
-  if (parts.length > 0) {
-    const slug = parts[0]
-    switch (slug) {
-      case 'car-covers':
-        if (parts.length > 1) {
-          return CategoryType.CarCoversChildren
-        } else {
-          return CategoryType.CarCovers
-        }
-      case 'rv-covers':
-        if (parts.length > 1) {
-          return CategoryType.RvCoversChildren
-        } else {
-          return CategoryType.RvCovers
-        }
-    }
-  }
-  return CategoryType.CarCovers
-}
+
 
 const PageWrapperContext = createContext<PageWrapperContextValue | null>(null);
 PageWrapper.Provider = function PageWrapperProvider({ children, data }: { children: ReactNode, data: PageWrapperContextValue }) {

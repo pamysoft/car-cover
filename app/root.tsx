@@ -18,7 +18,7 @@ import customStyles from '~/styles/custom.css?url';
 import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { CollectionInfo } from './lib/types';
-import { stripSlashes } from './lib/functions';
+import { detectCategory, stripSlashes } from './lib/functions';
 import { CategoryType } from './components/carcovers/PageWrapper';
 
 export type RootLoader = typeof loader;
@@ -149,21 +149,6 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
   };
 }
 
-function detectCategory(pathname: string) {
-  console.log('pathname')
-  console.log(pathname)
-  const parts = pathname.split('/')
-  if (parts.length > 0) {
-    const slug = parts[0]
-    switch (slug) {
-      case 'car-covers':
-        return CategoryType.CarCovers
-      case 'rv-covers':
-          return CategoryType.RvCovers
-    }
-  }
-  return CategoryType.CarCovers
-}
 
 /**
  * Load data for rendering content below the fold. This data is deferred and will be

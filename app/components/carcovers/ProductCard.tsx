@@ -45,6 +45,7 @@ export function ProductCard({ product }) {
                   <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
                     Ships <span className="text-[red]">Same</span> Business Day
                   </div>
+                  <div dangerouslySetInnerHTML={{ __html: product.additional_html }} />
                 </div>
                 <div className="mt-[20px] flex flex-col gap-[10px]">
                   <Link key={product.id} to={productUrl} className="block bg-black px-[20px] py-[10px] text-center text-[13px] uppercase text-white hover:no-underline">View Details</Link>
