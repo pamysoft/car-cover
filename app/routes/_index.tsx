@@ -14,6 +14,7 @@ import { ValueProposition } from '~/components/carcovers/ValuePropostion';
 import { CarCoverTypes } from '~/components/carcovers/CarCoverTypes';
 import { CarCoverComparison } from '~/components/carcovers/CarCoverComparison';
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '~/lib/fragments';
+import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -73,11 +74,7 @@ export default function Homepage() {
             <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
           </div>
         </div>
-        <FeaturedCollection />
-        <HeroSection />
-        <ValueProposition />
-        <CarCoverTypes />
-        <CarCoverComparison />
+        <CategoryStaticContent />
     </div>
   );
 }
