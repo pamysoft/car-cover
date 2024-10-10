@@ -241,8 +241,8 @@ export function getValidProducts(productsResponse) {
             product.shortDescription = getProductShortDescription(productSku)
             product.additional_html = getProductAdditionalHtml(productSku)
 
-            product.trim = product.metafields[0].value
-            product.quality = product.metafields[1].value
+            product.trim = product.metafields[0]?.value
+            product.quality = product.metafields[1]?.value
             product.imageurl = `https://cdn.shopify.com/s/files/1/0607/7064/8154/files/${product.trim}${product.quality}.jpg`
 
             validProducts.push(product)
