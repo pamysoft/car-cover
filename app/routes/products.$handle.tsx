@@ -127,78 +127,6 @@ function redirectToFirstVariant({
   );
 }
 
-export function Product_Backup() {
-  const { product, variants } = useLoaderData<typeof loader>();
-  const selectedVariant = useOptimisticVariant(
-    product.selectedVariant,
-    variants,
-  );
-
-  const { title, descriptionHtml } = product;
-
-  return (
-    <div className="container">
-      <div className="product">
-        <ProductImage image={selectedVariant?.image} />
-        <div className="product-main">
-          <h1>{title}</h1>
-          <ProductPrice
-            price={selectedVariant?.price}
-            compareAtPrice={selectedVariant?.compareAtPrice}
-          />
-          <br />
-          <Suspense
-            fallback={
-              <ProductForm
-                product={product}
-                selectedVariant={selectedVariant}
-                variants={[]}
-              />
-            }
-          >
-            <Await
-              errorElement="There was a problem loading product variants"
-              resolve={variants}
-            >
-              {(data) => (
-                <ProductForm
-                  product={product}
-                  selectedVariant={selectedVariant}
-                  variants={data?.product?.variants.nodes || []}
-                />
-              )}
-            </Await>
-          </Suspense>
-          <br />
-          <br />
-          <p>
-            <strong>Description</strong>
-          </p>
-          <br />
-          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-          <br />
-        </div>
-        <Analytics.ProductView
-          data={{
-            products: [
-              {
-                id: product.id,
-                title: product.title,
-                price: selectedVariant?.price.amount || '0',
-                vendor: product.vendor,
-                variantId: selectedVariant?.id || '',
-                variantTitle: selectedVariant?.title || '',
-                quantity: 1,
-              },
-            ],
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-
 export default function Product() {
   const { product, variants } = useLoaderData<typeof loader>();
   const selectedVariant = useOptimisticVariant(
@@ -206,18 +134,43 @@ export default function Product() {
     variants,
   );
 
-  const { title, descriptionHtml } = product;
+  const { title } = product;
+  const descriptionHtml = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`
+  const slideImages = [
+    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/chevrolet-corvette-c8-2020-2021-2022-2023-2024-custom-fit-car-cover-5l.jpg?v=1728514430',
+    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-buckles-and-straps.jpg?v=1728514429',
+    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-cover-composition.png?v=1728514429',
+    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-polypropylene-outer-layer.jpg?v=1728514429',
+  ];
 
-  return <div className='container'>
-    <div className='flex flex-col'>
-      <ProductImageSlider></ProductImageSlider>
+  return <div className='container pb-[60px] pt-[30px]'>
+    <div className='flex flex-col md:grid md:grid-cols-2 md:gap-[40px]'>
       <div>
-        <div>Tag line</div>
-        <h1 className=''>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
+        <div className='md:hidden'>
+          <ProductImageSlider slideImages={slideImages} />
+        </div>
+        <div className='hidden gap-[10px] md:flex md:flex-col'>
+          <div>
+            <img src={slideImages[0]} />
+          </div>
+          <div className='md:grid md:grid-cols-2 md:gap-[10px]'>
+            {slideImages?.length>0 && slideImages.map(slideImage => {
+              return (
+                <img src={slideImage} />
+              )
+            })}
+          </div>
+        </div>
+      </div>
+      <div className='mt-[30px] md:mt-0'>
+        <div className='text-[10px] uppercase text-[#121212BF]'>CarCovers.com</div>
+        <h1 className='text-[30px] md:text-[40px] md:leading-[52px]'>{title}</h1>
+        <div className='mt-[20px] md:text-[18px]'>
+          <ProductPrice
+            price={selectedVariant?.price}
+            compareAtPrice={selectedVariant?.compareAtPrice}
+          />
+        </div>
         <Suspense
           fallback={
             <ProductForm
@@ -240,6 +193,13 @@ export default function Product() {
             )}
           </Await>
         </Suspense>
+        <div className='[&>div>p]:text-[15px] md:[&>div>p]:text-[16px] [&>div>p]:leading-[1.8] mt-[20px] text-[#121212BF]'>
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+        </div>
+
+        <div className='mt-[35px]'>
+          <ShareButton />
+        </div>
       </div>
     </div>
   </div>
@@ -247,32 +207,44 @@ export default function Product() {
 
 
 import useEmblaCarousel from 'embla-carousel-react'
+import ShareButton from '~/components/carcovers/ShareButton';
+import { NextButton, PrevButton, usePrevNextButtons } from '~/components/carcovers/EmblaCarouselArrowButtons';
+import { SelectedSnapDisplay, useSelectedSnapDisplay } from '~/components/carcovers/EmblaCarouselSelectedSnapDisplay';
 
 
-const ProductImageSlider = () => {
-  const [emblaRef] = useEmblaCarousel()
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-  const slideImages = [
-    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/chevrolet-corvette-c8-2020-2021-2022-2023-2024-custom-fit-car-cover-5l.jpg?v=1728514430',
-    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-buckles-and-straps.jpg?v=1728514429',
-    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-cover-composition.png?v=1728514429',
-    'https://cdn.shopify.com/s/files/1/0607/7064/8154/files/gold-shield-5-layers-polypropylene-outer-layer.jpg?v=1728514429',
-  ];
+const ProductImageSlider = ({ slideImages }: { slideImages: string[] }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({})
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick
+  } = usePrevNextButtons(emblaApi)
+
+  const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi)
+
+
+
+
 
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container">
-      {slideImages.map((slideImage, index) => (
-          <div className='embla__slide relative h-[480px] w-[480px] max-w-full' key={index}>
-            <img className='absolute h-full min-h-[300px]' src={slideImage} />
-          </div>
-      ))}
+    <div className='embla'>
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container">
+          {slideImages.map((slideImage, index) => (
+            <div className='embla__slide relative h-[340px] w-[340px] max-w-full' key={index}>
+              <img className='absolute left-[50%] h-full min-h-[300px] translate-x-[-50%]' src={slideImage} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="embla__controls mx-auto mt-[33px] flex items-center justify-center gap-[30px]">
+        <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+        <SelectedSnapDisplay
+          selectedSnap={selectedSnap}
+          snapCount={snapCount}
+        />
+        <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
       </div>
     </div>
   );

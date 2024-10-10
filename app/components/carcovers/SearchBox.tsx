@@ -85,7 +85,12 @@ const DependentDropdowns: React.FC<{
                 const results = await fetchTrimList(proxyUrl, selectedYear.handle, selectedMake.handle, selectedModel.handle)
                 setAvailableTrims(results)
                 setIsTrimDropdownLoading(false);
-                maybeRedirect(results.length)
+                
+                if (results.length==1) {
+                    setSelectedTrim(results[0])
+                } else {
+                    maybeRedirect(results.length)
+                }
             }
             fetchTrimData()
         }
@@ -238,7 +243,7 @@ const DependentDropdowns: React.FC<{
                     value={selectedTrim.id}
                     onChange={handleTrimChange}
                     className={selectClassName(selectedTrim.id, 'trim')}
-                    disabled={!availableTrims.length}
+                    disabled={availableTrims.length < 2}
                 >
                     <option value="">{isTrimDropdownLoading ? 'Loading...' : 'Select Trim'}</option>
                     {!isTrimDropdownLoading && availableTrims && availableTrims

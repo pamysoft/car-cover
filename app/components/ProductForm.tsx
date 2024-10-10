@@ -6,6 +6,9 @@ import type {
 } from 'storefrontapi.generated';
 import {AddToCartButton} from '~/components/AddToCartButton';
 import {useAside} from '~/components/Aside';
+import QuantityInput from './carcovers/QuantityInput';
+import { useState } from 'react';
+import ShareButton from './carcovers/ShareButton';
 
 export function ProductForm({
   product,
@@ -16,9 +19,10 @@ export function ProductForm({
   selectedVariant: ProductFragment['selectedVariant'];
   variants: Array<ProductVariantFragment>;
 }) {
+  const [quantity, setQuantity] = useState(1)
   const {open} = useAside();
   return (
-    <div className="product-form">
+    <div className="product-form max-w-[440px]">
       <VariantSelector
         handle={product.handle}
         options={product.options.filter((option) => option.values.length > 1)}
@@ -26,26 +30,32 @@ export function ProductForm({
       >
         {({option}) => <ProductOptions key={option.name} option={option} />}
       </VariantSelector>
-      <br />
-      <AddToCartButton
-        disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => {
-          open('cart');
-        }}
-        lines={
-          selectedVariant
-            ? [
-                {
-                  merchandiseId: selectedVariant.id,
-                  quantity: 1,
-                  selectedVariant,
-                },
-              ]
-            : []
-        }
-      >
-        {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
-      </AddToCartButton>
+      <div className='mt-[30px]'>        
+        <label className='mb-[5px] block text-[13px] text-[#121212BF]'>Quantity</label>
+        <QuantityInput initialQuantity={quantity} onQuantityChange={setQuantity} />
+      </div>
+      <div className='mt-[25px]'>
+        <AddToCartButton
+          className='min-h-[47px] w-full max-w-full border-[2px] border-solid border-[#121212BF] bg-[white] px-[20px] py-[10px] text-[15px] text-black'
+          disabled={!selectedVariant || !selectedVariant.availableForSale}
+          onClick={() => {
+            open('cart');
+          }}
+          lines={
+            selectedVariant
+              ? [
+                  {
+                    merchandiseId: selectedVariant.id,
+                    quantity: quantity,
+                    selectedVariant,
+                  },
+                ]
+              : []
+          }
+        >
+          {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+        </AddToCartButton>
+      </div>
     </div>
   );
 }
