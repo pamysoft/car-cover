@@ -140,7 +140,6 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
 
   const pathname = stripSlashes(new URL(request.url).pathname)
   const category = detectCategory(pathname)
-
   return {
     header,
     proxyUrl,
