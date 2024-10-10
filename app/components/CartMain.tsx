@@ -22,14 +22,19 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
   // The useOptimisticCart hook applies pending actions to the cart
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
+
+  console.log('cart:',cart)
+
   const { close } = useDrawer()
 
-  const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
+  
   const withDiscount =
     cart &&
     Boolean(cart?.discountCodes?.filter((code) => code.applicable)?.length);
   const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
   const cartHasItems = cart?.totalQuantity! > 0;
+
+  console.log(cart?.totalQuantity)
 
   return (
     <div className='flex h-full flex-col px-[15px]'>
@@ -38,7 +43,7 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
         <button onClick={close}><LightCloseIcon width='20' height='20' /></button>
       </div>
 
-      <CartEmpty hidden={linesCount} layout={layout} />
+      {!cartHasItems && <CartEmpty layout={layout} />}
       {cartHasItems &&
         (<>
           <div className={'mt-[15px] flex-shrink flex-grow basis-0 border-b-[1px] border-solid border-[#12121214] pb-[20px]' + ' ' + className}>

@@ -41,7 +41,7 @@ export function CartMainPage({ layout, cart: originalCart }: CartMainPageProps) 
           <button className='text-[15px] underline'>Continue shopping</button>
         </div>
       }
-      <CartEmpty hidden={linesCount} layout={layout} />
+      {!cartHasItems && <CartEmpty layout={layout} />}
       {cartHasItems &&
         <div className='pb-[50px]'>
           <div className={'mt-[15px] flex-shrink flex-grow basis-0 border-b-[1px] border-solid border-[#12121214] pb-[20px]' + ' ' + className}>
