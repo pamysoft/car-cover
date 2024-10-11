@@ -154,9 +154,9 @@ export default function Product() {
             <img src={slideImages[0]} />
           </div>
           <div className='md:grid md:grid-cols-2 md:gap-[10px]'>
-            {slideImages?.length>0 && slideImages.map(slideImage => {
+            {slideImages?.length>0 && slideImages.map((slideImage, index) => {
               return (
-                <img src={slideImage} />
+                <img key={index} src={slideImage} />
               )
             })}
           </div>
@@ -193,13 +193,15 @@ export default function Product() {
             )}
           </Await>
         </Suspense>
-        <div className='[&>div>p]:text-[15px] md:[&>div>p]:text-[16px] [&>div>p]:leading-[1.8] mt-[20px] text-[#121212BF]'>
+        {/* <div className='[&>div>p]:text-[15px] md:[&>div>p]:text-[16px] [&>div>p]:leading-[1.8] mt-[20px] text-[#121212BF]'>
           <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-        </div>
+        </div> */}
 
         <div className='mt-[35px]'>
           <ShareButton />
         </div>
+
+        <ProductAccordion />
       </div>
     </div>
   </div>
@@ -210,6 +212,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import ShareButton from '~/components/carcovers/ShareButton';
 import { NextButton, PrevButton, usePrevNextButtons } from '~/components/carcovers/EmblaCarouselArrowButtons';
 import { SelectedSnapDisplay, useSelectedSnapDisplay } from '~/components/carcovers/EmblaCarouselSelectedSnapDisplay';
+import { ProductAccordion } from '~/components/carcovers/ProductAccordion';
 
 
 const ProductImageSlider = ({ slideImages }: { slideImages: string[] }) => {
