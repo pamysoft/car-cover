@@ -9,6 +9,7 @@ import {useAside} from '~/components/Aside';
 import QuantityInput from './carcovers/QuantityInput';
 import { useState } from 'react';
 import ShareButton from './carcovers/ShareButton';
+import { useDrawer } from './carcovers/Drawer';
 
 export function ProductForm({
   product,
@@ -20,7 +21,7 @@ export function ProductForm({
   variants: Array<ProductVariantFragment>;
 }) {
   const [quantity, setQuantity] = useState(1)
-  const {open} = useAside();
+  const {open} = useDrawer();
   return (
     <div className="product-form max-w-[440px]">
       <VariantSelector

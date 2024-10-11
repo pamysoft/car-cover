@@ -1,9 +1,10 @@
 import { AddToCartButton } from "../AddToCartButton";
 import { useAside } from "../Aside";
+import { useDrawer } from "./Drawer";
 
 
 export default function LoopProductAddToCartButton({product}) {
-  const {open} = useAside();
+  const { open } = useDrawer();
   const selectedVariant = product.variants.nodes[0];
 
   return <AddToCartButton 
