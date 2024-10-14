@@ -9,6 +9,8 @@ import { useDrawer } from './carcovers/Drawer';
 import noImageUrl from '~/assets/no_image.svg'
 import RemoveIcon from './carcovers/icons/RemoveIcon';
 import PlusIcon from './carcovers/icons/PlusIcon';
+import { useEffect, useState } from 'react';
+import { useServerUrl } from './carcovers/PageWrapper';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 
@@ -27,11 +29,36 @@ export function CartLineItem({
   const { product, title, image, selectedOptions } = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const { close } = useDrawer();
+  const serverUrl = useServerUrl()
+  
+
+  const [productImageUrl, setProductImageUrl] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(`${serverUrl}/api/get_product/${encodeURIComponent(product.id)}`)
+      const {product: {
+        metafields,
+        variants: {
+          nodes
+        }
+      }} = await result.json()
+      
+      let imageUrl: string = nodes[0].image
+      if (!imageUrl) {
+        const productTrim = metafields[0]?.value
+        const productQuality = metafields[1]?.value
+        imageUrl = `https://cdn.shopify.com/s/files/1/0607/7064/8154/files/${productTrim}${productQuality}.jpg`    
+      }
+      setProductImageUrl(imageUrl)
+    }
+    fetchData()
+  }, [product.id])
 
   return (
     <tr key={id} className="cv-cart-line">
       <td className='w-[105px] pt-[20px] align-top'>
-        <img src={noImageUrl} width={85} height={85} className='rounded-[5px]' />
+        <img src={productImageUrl} width={85} height={85} className='rounded-[5px]' />
       </td>
       <td className='hidden'></td>
       <td className='pl-[10px] pt-[20px] align-top'>
