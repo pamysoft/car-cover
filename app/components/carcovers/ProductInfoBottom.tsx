@@ -57,6 +57,28 @@ const getProductRatings = (productSku) => {
             "Dirt/Dust": 5,
             "Thickness": 2,
         };
+    } else if (productSku.startsWith("5RV") || productSku.startsWith("5FC")) {
+        ratings = {
+            "Outdoor": 5,
+            "Indoor": 5,
+            "Water": 5,
+            "Breathability": 5,
+            "Snow/Ice": 5,
+            "Sun/UV Rays": 5,
+            "Winter": 5,
+            "Summer": 5,
+        };
+    } else if (productSku.startsWith("3RV") || productSku.startsWith("3FC")) {
+        ratings = {
+            "Outdoor": 4,
+            "Indoor": 5,
+            "Water": 4,
+            "Breathability": 5,
+            "Snow/Ice": 4,
+            "Sun/UV Rays": 4,
+            "Winter": 4,
+            "Summer": 4,
+        };
     }
 
     return ratings;
