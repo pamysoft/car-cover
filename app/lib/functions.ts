@@ -375,17 +375,17 @@ export function getProductAdditionalHtml(productSku: string) {
     // Check the start of the SKU and assign appropriate tagline
     if (productSku.startsWith('5RV') || productSku.startsWith('5FC')) {
         html = `
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">Free</span> Shipping
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">Free</span> Shipping
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">In</span> Stock
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">In</span> Stock
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">Lifetime</span> Warranty
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">Lifetime</span> Warranty
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            Ships <span className="text-[red]">Same</span> Business Day
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            Ships <span class="text-[red]">Same</span> Business Day
         </div>
         <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
             Financing Available
@@ -393,17 +393,17 @@ export function getProductAdditionalHtml(productSku: string) {
         `;
      } else if (productSku.startsWith('3RV') || productSku.startsWith('3FC')) {
         html = `
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">Free</span> Shipping
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">Free</span> Shipping
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">In</span> Stock
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">In</span> Stock
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">5-Year</span> Warranty
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">5-Year</span> Warranty
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            Ships <span className="text-[red]">Same</span> Business Day
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            Ships <span class="text-[red]">Same</span> Business Day
         </div>
         <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
             Financing Available
@@ -411,17 +411,17 @@ export function getProductAdditionalHtml(productSku: string) {
         `;
     } else {
         html = `
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">Free</span> Shipping
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">Free</span> Shipping
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">In</span> Stock
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">In</span> Stock
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            <span className="text-[red]">Lifetime</span> Warranty
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            <span class="text-[red]">Lifetime</span> Warranty
         </div>
-        <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-            Ships <span className="text-[red]">Same</span> Business Day
+        <div class="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+            Ships <span class="text-[red]">Same</span> Business Day
         </div>
         `;
     }

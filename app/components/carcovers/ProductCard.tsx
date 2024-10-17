@@ -33,17 +33,19 @@ export function ProductCard({ product }) {
                   <LoopProductPrice price={product.variants.nodes[0].price} compareAtPrice={product.variants.nodes[0].compareAtPrice}></LoopProductPrice>
                 </div>
                 <div className="mt-[15px]">
-                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                    <span className="text-[red]">Free</span> Shipping
-                  </div>
-                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                    <span className="text-[red]">In</span> Stock
-                  </div>
-                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                    <span className="text-[red]">Lifetime</span> Warranty
-                  </div>
-                  <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
-                    Ships <span className="text-[red]">Same</span> Business Day
+                  <div className="hidden">
+                    <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                      <span className="text-[red]">Free</span> Shipping
+                    </div>
+                    <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                      <span className="text-[red]">In</span> Stock
+                    </div>
+                    <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                      <span className="text-[red]">Lifetime</span> Warranty
+                    </div>
+                    <div className="mb-[5px] font-[Oswald] text-[16px] font-medium tracking-normal text-black">
+                      Ships <span className="text-[red]">Same</span> Business Day
+                    </div>
                   </div>
                   <div dangerouslySetInnerHTML={{ __html: product.additional_html }} />
                 </div>
