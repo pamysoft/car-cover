@@ -3,22 +3,15 @@ import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
-import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
-import { FilteredProducts } from '~/components/carcovers/FilteredProducts';
+import { Breadcrumbs } from '~/components/scooters/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/scooters/CategoryStaticContent';
+import { FilteredProducts } from '~/components/scooters/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
 import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
-
-
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const pathname = stripSlashes(new URL(request.url).pathname)
-
-  const variables = getPaginationVariables(request, {
-    pageBy: 2,
-  });
-
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
@@ -45,10 +38,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   return json({ products: sortedProducts, theFilter, pathname });
 }
-
-
-
-
 
 export default function () {
   const { products, theFilter, pathname } = useLoaderData();
