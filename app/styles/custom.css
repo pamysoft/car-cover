@@ -2,85 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {    
-    body {
-        @apply font-text;
-    }
-    h1,h2,h3,h4,h5,h6 {
-        @apply font-heading;
-    }
-    p {
-        @apply mb-[10px];
-    }
+@layer base {
+  html ::-webkit-scrollbar {
+    width: 5px;
+    height: 4px;
+    border-radius: 0;
+  }
 
-    .rv-comparison-table-wrapper {
-        width: 100%;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
-      }
-      
-      .rv-comparison-table th,
-          .rv-comparison-table td {
-        padding: 8px;
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-        border-top: 1px solid #D5E6FF;
-      }
-      
-      .rv-comparison-table th {
-        background-color: #363636;
-        font-size: 14px;
-        font-weight: 600;
-      }
-      
-      .rv-comparison-table td {
-        background: #F7F7F7;
-      }
-      
-      .rv-comparison-table > thead th {
-        border-top: none!important;
-        padding: 20px 0!important;
-      }
-      
-      .rv-comparison-table > thead th:first-child {
-        background-color: #1B4A91!important;
-        border-radius: 20px 0 0 0;
-        width: 315px;
-      }
-      
-      .rv-comparison-table > thead th:last-child {
-        border-radius: 0 20px 0 0;
-      }
-      
-      .rv-comparison-table > tbody th {
-        padding: 17px;
-      }
-      
-      .rv-comparison-table > tbody > tr:last-child th {
-        border-radius: 0 0 0 20px;
-      }
-      
-      .rv-comparison-table > tbody > tr:last-child td:last-child {
-        border-radius: 0 0 20px 0;
-      }
-      
-      .rv-comparison-table > tbody td {
-        font-size: 14px;
-        color: #000;
-        font-weight: 600;
-      }
+  html ::-webkit-scrollbar-thumb {
+    background: #d7d7d7;
+    border-radius: 0;
+  }
 
-      .embla {
-        overflow: hidden;
-      }
-      .embla__container {
-        display: flex;
-      }
-      .embla__slide {
-        flex: 0 0 100%;
-        min-width: 0;
-      }
-      
+  html ::-webkit-scrollbar-track {
+    background: #f5f5f5;
+  }
+
+  body {
+    @apply font-text;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+
+  p {
+    @apply mb-[10px];
+  }
+
+  .rv-comparison-table-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+
+  .rv-comparison-table th,
+  .rv-comparison-table td {
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    border-top: 1px solid #D5E6FF;
+  }
+
+  .rv-comparison-table th {
+    background-color: #363636;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .rv-comparison-table td {
+    background: #F7F7F7;
+  }
+
+  .rv-comparison-table>thead th {
+    border-top: none !important;
+    padding: 20px 0 !important;
+  }
+
+  .rv-comparison-table>thead th:first-child {
+    background-color: #1B4A91 !important;
+    border-radius: 20px 0 0 0;
+    width: 315px;
+  }
+
+  .rv-comparison-table>thead th:last-child {
+    border-radius: 0 20px 0 0;
+  }
+
+  .rv-comparison-table>tbody th {
+    padding: 17px;
+  }
+
+  .rv-comparison-table>tbody>tr:last-child th {
+    border-radius: 0 0 0 20px;
+  }
+
+  .rv-comparison-table>tbody>tr:last-child td:last-child {
+    border-radius: 0 0 20px 0;
+  }
+
+  .rv-comparison-table>tbody td {
+    font-size: 14px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .embla {
+    overflow: hidden;
+  }
+
+  .embla__container {
+    display: flex;
+  }
+
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
 }
