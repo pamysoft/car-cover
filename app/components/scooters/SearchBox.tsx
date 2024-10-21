@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
-import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
+import { fetchCarCoverHierarchy, fetchData, isBlankLevelInfo } from '~/lib/functions';
 import { useProxyUrl } from '../carcovers/PageWrapper';
+
+
+
+const fetchMakeList = async (proxyUrl: string, year: string) => {
+    const endpoint = `scooters/get-make-list/${encodeURIComponent(year)}/?shop=1`;
+    return await fetchData(proxyUrl, endpoint);
+};
+
+const fetchModelList = async (proxyUrl: string, year: string, make: string) => {
+    const endpoint = `scooters/get-model-list/${encodeURIComponent(year)}/${encodeURIComponent(make)}?shop=1`;
+    return await fetchData(proxyUrl, endpoint);
+};
 
 
 const DependentDropdowns: React.FC<{
@@ -78,26 +90,28 @@ const DependentDropdowns: React.FC<{
         }
     }, [selectedModel])
 
-    const maybeRedirect = (totalTrims?: number) => {
+    const maybeRedirect = (totalModels?: number) => {
         let parts = []
         let collectionUrl = '/scooter-covers/'
         if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
             parts.push(selectedMake.handle)
-            parts.push(selectedModel.handle)
-            parts.push(selectedYear.handle)
-
-            // totalTrims = totalTrims || availableTrims.length
-
-            // if (totalTrims < 2) {
-            //     collectionUrl = collectionUrl + parts.join('/')
-            //     window.location.href = collectionUrl
-            // } else {
-            //     if (selectedTrim.handle) {
-            //         parts.push(selectedTrim.handle)
-            //         collectionUrl = collectionUrl + parts.join('/')
-            //         window.location.href = collectionUrl
-            //     }
-            // }
+            
+            totalModels = totalModels || availableModels.length
+            
+            if (totalModels < 2) {
+                parts.push(selectedModel.handle)
+                parts.push(selectedYear.handle)
+                
+                collectionUrl = collectionUrl + parts.join('/')
+                window.location.href = collectionUrl
+            } else {
+                if (selectedModel.handle) {
+                    parts.push(selectedModel.handle)
+                    parts.push(selectedYear.handle)
+                    collectionUrl = collectionUrl + parts.join('/')
+                    window.location.href = collectionUrl
+                }
+            }
         }
     }
 

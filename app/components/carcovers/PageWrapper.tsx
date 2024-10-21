@@ -8,6 +8,7 @@ export enum CategoryType {
   CarCoversChildren = 'car-covers-children',
   RvCovers = 'rv-covers',
   RvCoversChildren = 'rv-covers-children',
+  ScootersCovers = 'rv-covers',
 }
 
 type PageWrapperContextValue = {
@@ -20,7 +21,6 @@ type PageWrapperContextValue = {
 export function PageWrapper({ children }: { children?: React.ReactNode }) {
   return <>{children}</>
 }
-
 
 
 const PageWrapperContext = createContext<PageWrapperContextValue | null>(null);

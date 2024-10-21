@@ -60,6 +60,13 @@ export function StaticContentProvider({ children }: { children?: React.ReactNode
             setData(result)
         }
         fetchData();
+        
+        // setData({
+        //     blocks:[],
+        //     settings:{
+        //         bannerImage:''
+        //     }
+        // })
     }, [, category])
 
     const Loading = <div>Loading static content...</div>
