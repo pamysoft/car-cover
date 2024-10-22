@@ -1,9 +1,11 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {useLoaderData, type MetaFunction} from '@remix-run/react';
 
-import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '~/lib/fragments';
 import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
 import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
+import { StaticContentProvider } from '~/components/common/StaticContentProvider';
+import { Suspense } from 'react';
+import { Loading } from '~/components/common/Loading';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -24,14 +26,7 @@ export async function loader(args: LoaderFunctionArgs) {
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
 async function loadCriticalData({context}: LoaderFunctionArgs) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
-  ]);
-
-  return {
-    featuredCollection: collections.nodes[0],
-  };
+  return {}
 }
 
 /**
@@ -47,8 +42,12 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <Breadcrumbs.Provider>
-        <CategoryStaticContent />
-    </Breadcrumbs.Provider>
+    <StaticContentProvider>
+      <Breadcrumbs.Provider>
+        <Suspense fallback={<Loading />}>        
+          <CategoryStaticContent />
+        </Suspense>
+      </Breadcrumbs.Provider>
+    </StaticContentProvider>
   );
 }

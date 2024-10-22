@@ -128,7 +128,7 @@ const DependentDropdowns: React.FC<{
             {/* Trim Dropdown */}
             <div className="mb-[12px] mt-[10px]">
                 <label className="block font-[Oswald] text-[14px] tracking-tight text-[#222] ml:hidden">
-                    4. | Select Size
+                    2. | Select Size
                 </label>
                 <select
                     value={selectedSize.id}

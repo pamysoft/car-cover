@@ -14,7 +14,6 @@ import { fetchRvcoverShopifyProductsByPath, fetchShopifyProductsByPath, getSorte
 import { DisplayLayout } from '~/lib/types';
 
 
-
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const pathname = stripSlashes(new URL(request.url).pathname)
 
@@ -60,12 +59,10 @@ export default function () {
   layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
-    <Breadcrumbs.Provider>
       <RVCoversBreadcrumbs.Provider>
         <RVCoversBreadcrumbs />
         {/* Decide the layout */}
         {(layout === DisplayLayout.ListProducts) ? <RVCoversFilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
       </RVCoversBreadcrumbs.Provider>
-    </Breadcrumbs.Provider>
   );
 }

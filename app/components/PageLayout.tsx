@@ -15,7 +15,7 @@ import { Footer } from './common/Footer';
 import { CategoryType, PageWrapper } from './common/PageWrapper';
 import { Drawer } from './common/Drawer';
 import HamburgerDrawer from './common/HamburgerDrawer';
-import { StaticContentProvider } from './common/StaticContentProvider';
+import { Loading } from './common/Loading';
 
 export interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -42,11 +42,9 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <PageWrapper.Provider data={{ "breadcrumbs": [], "proxyUrl": proxyUrl, "serverUrl": serverUrl, category: category }}>
-      <StaticContentProvider>
         <Drawer.Provider>
           
             <CartDrawer cart={cart} />
-            {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
             <HamburgerDrawer header={header} isLoggedIn={isLoggedIn} />
 
             <AnnouncementBar />
@@ -61,16 +59,13 @@ export function PageLayout({
               />
             )}
 
-            <main className='m-0 p-0'>{children}</main>
-            {/* <Footer
-          footer={footer}
-          header={header}
-          publicStoreDomain={publicStoreDomain}
-        /> */}
+            <Suspense fallback={<Loading />}>        
+              <main className='m-0 p-0'>{children}</main>
+            </Suspense>
+            
             <Footer />
 
         </Drawer.Provider>
-      </StaticContentProvider>
     </PageWrapper.Provider>
   );
 }
