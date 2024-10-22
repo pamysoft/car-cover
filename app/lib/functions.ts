@@ -1,4 +1,4 @@
-import { CategoryType } from "~/components/carcovers/PageWrapper";
+import { CategoryType } from "~/components/common/PageWrapper";
 import { isPathwayInfo, LevelInfo, PathwayInfo, VehicalData } from "./types";
 
 export function toTitleCase(str: string): string {

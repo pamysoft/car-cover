@@ -4,10 +4,11 @@ import { useNavigate } from '@remix-run/react';
 import { useInView } from 'react-intersection-observer';
 import { toTitleCase } from '~/lib/functions';
 import { ProductCard } from '../common/ProductCard';
-import { useBreadcrumbs } from './Breadcrumbs';
+import { useBreadcrumbs } from '../cars/Breadcrumbs';
+import { useRVCoversBreadcrumbs } from './RVCoversBreadcrumbs';
 
-export function FilteredProducts({ products }) {
-  const breadcrumbs = useBreadcrumbs()
+export function RVCoversFilteredProducts({ products }) {
+  const breadcrumbs = useRVCoversBreadcrumbs()
   
   return <>
     <div className="container">

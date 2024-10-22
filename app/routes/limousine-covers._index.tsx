@@ -3,9 +3,9 @@ import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
-import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
-import { FilteredProducts } from '~/components/carcovers/FilteredProducts';
+import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
+import { FilteredProducts } from '~/components/cars/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
 import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';

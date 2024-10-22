@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { stripSlashes, fetchRvcoverBreadcrumbs } from "~/lib/functions"
 import { PathwayInfo } from "~/lib/types"
-import { useProxyUrl } from "./PageWrapper"
+import { useProxyUrl } from "../common/PageWrapper"
 import { useLocation } from "@remix-run/react"
 
 export function RVCoversBreadcrumbs() {

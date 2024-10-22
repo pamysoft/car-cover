@@ -1,9 +1,9 @@
 import { Form, useActionData, useFetcher } from "@remix-run/react";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/server-runtime";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { useProxyUrl } from "~/components/carcovers/PageWrapper";
-import TextField from "~/components/carcovers/TextField";
-import TextareaField from "~/components/carcovers/TextareaField"; // Import the TextareaField component
+import { useProxyUrl } from "~/components/common/PageWrapper";
+import TextField from "~/components/common/TextField";
+import TextareaField from "~/components/common/TextareaField"; // Import the TextareaField component
 import { sendContact } from "~/lib/functions";
 import { ResponseResult } from '~lib/type'
 

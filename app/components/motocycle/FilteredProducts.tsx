@@ -3,7 +3,7 @@ import { Pagination } from '@shopify/hydrogen';
 import { useNavigate } from '@remix-run/react';
 import { useInView } from 'react-intersection-observer';
 import { toTitleCase } from '~/lib/functions';
-import { ProductCard } from './ProductCard';
+import { ProductCard } from '../cars/ProductCard';
 import { useBreadcrumbs } from './Breadcrumbs';
 
 export function FilteredProducts({ products }) {

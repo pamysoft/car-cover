@@ -19,7 +19,7 @@ import { PageLayout } from '~/components/PageLayout';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { CollectionInfo } from './lib/types';
 import { detectCategory, stripSlashes } from './lib/functions';
-import { CategoryType } from './components/carcovers/PageWrapper';
+import { CategoryType } from './components/common/PageWrapper';
 
 export type RootLoader = typeof loader;
 

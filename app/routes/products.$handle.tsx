@@ -10,9 +10,7 @@ import {
 import type { SelectedOption } from '@shopify/hydrogen/storefront-api-types';
 import { getVariantUrl } from '~/lib/variants';
 import { ProductPrice } from '~/components/ProductPrice';
-import { ProductImage } from '~/components/ProductImage';
 import { ProductForm } from '~/components/ProductForm';
-import SliderComponent from '~/components/carcovers/SliderComponent';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: `Hydrogen | ${data?.product.title ?? ''}` }];
@@ -209,10 +207,10 @@ export default function Product() {
 
 
 import useEmblaCarousel from 'embla-carousel-react'
-import ShareButton from '~/components/carcovers/ShareButton';
-import { NextButton, PrevButton, usePrevNextButtons } from '~/components/carcovers/EmblaCarouselArrowButtons';
-import { SelectedSnapDisplay, useSelectedSnapDisplay } from '~/components/carcovers/EmblaCarouselSelectedSnapDisplay';
-import { ProductAccordion } from '~/components/carcovers/ProductAccordion';
+import ShareButton from '~/components/common/ShareButton';
+import { NextButton, PrevButton, usePrevNextButtons } from '~/components/common/EmblaCarouselArrowButtons';
+import { SelectedSnapDisplay, useSelectedSnapDisplay } from '~/components/common/EmblaCarouselSelectedSnapDisplay';
+import { ProductAccordion } from '~/components/common/ProductAccordion';
 
 
 const ProductImageSlider = ({ slideImages }: { slideImages: string[] }) => {
@@ -225,9 +223,6 @@ const ProductImageSlider = ({ slideImages }: { slideImages: string[] }) => {
   } = usePrevNextButtons(emblaApi)
 
   const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi)
-
-
-
 
 
   return (

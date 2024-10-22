@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
 import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchSizeList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
-import { useProxyUrl } from './PageWrapper';
+import { useProxyUrl } from '../common/PageWrapper';
 
 const DependentDropdowns: React.FC<{
     selectedType: LevelInfo;    

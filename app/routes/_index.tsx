@@ -1,21 +1,9 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
-import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
-import type {
-  FeaturedCollectionFragment,
-  RecommendedProductsQuery,
-} from 'storefrontapi.generated';
-import { SearchBox } from '~/components/carcovers/SearchBox';
-import { Slideshow } from '~/components/carcovers/Slideshow';
-import { FeaturedCollection } from '~/components/carcovers/FeaturedCollection';
-import { HeroSection } from '~/components/carcovers/HeroSection';
-import { ValueProposition } from '~/components/carcovers/ValuePropostion';
-import { CarCoverTypes } from '~/components/carcovers/CarCoverTypes';
-import { CarCoverComparison } from '~/components/carcovers/CarCoverComparison';
+import {useLoaderData, type MetaFunction} from '@remix-run/react';
+
 import { FEATURED_COLLECTION_QUERY, RECOMMENDED_PRODUCTS_QUERY } from '~/lib/fragments';
-import { CategoryStaticContent } from '~/components/carcovers/CategoryStaticContent';
-import { Breadcrumbs } from '~/components/carcovers/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
+import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -52,16 +40,7 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
 function loadDeferredData({context}: LoaderFunctionArgs) {
-  const recommendedProducts = context.storefront
-    .query(RECOMMENDED_PRODUCTS_QUERY)
-    .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
-      console.error(error);
-      return null;
-    });
-
   return {
-    recommendedProducts,
   };
 }
 

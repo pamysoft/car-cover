@@ -5,12 +5,12 @@ import { useVariantUrl } from '~/lib/variants';
 import { Link } from '@remix-run/react';
 import { ProductPrice } from './ProductPrice';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useDrawer } from './carcovers/Drawer';
+import { useDrawer } from './common/Drawer';
 import noImageUrl from '~/assets/no_image.svg'
-import RemoveIcon from './carcovers/icons/RemoveIcon';
-import PlusIcon from './carcovers/icons/PlusIcon';
+import RemoveIcon from './common/icons/RemoveIcon';
+import PlusIcon from './common/icons/PlusIcon';
 import { useEffect, useState } from 'react';
-import { useServerUrl } from './carcovers/PageWrapper';
+import { useServerUrl } from './common/PageWrapper';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 

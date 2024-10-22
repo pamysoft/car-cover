@@ -1,7 +1,7 @@
 import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
-import AccountIcon from '~/components/carcovers/icons/AccountIcon';
+import AccountIcon from '~/components/common/icons/AccountIcon';
 
 export function shouldRevalidate() {
   return true;

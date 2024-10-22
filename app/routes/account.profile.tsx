@@ -14,11 +14,11 @@ import {
   useOutletContext,
   type MetaFunction,
 } from '@remix-run/react';
-import EditIcon from '~/components/carcovers/icons/EditIcon';
-import Modal from '~/components/carcovers/Modal';
+import EditIcon from '~/components/common/icons/EditIcon';
+import Modal from '~/components/common/Modal';
 import { useEffect, useRef, useState } from 'react';
-import TextField from '~/components/carcovers/TextField';
-import { Addresses } from '../components/carcovers/Addresses';
+import TextField from '~/components/common/TextField';
+import { Addresses } from '../components/common/Addresses';
 
 
 export type ActionResponse = {

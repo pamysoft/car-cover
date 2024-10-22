@@ -6,10 +6,10 @@ import type {
 } from 'storefrontapi.generated';
 import {AddToCartButton} from '~/components/AddToCartButton';
 import {useAside} from '~/components/Aside';
-import QuantityInput from './carcovers/QuantityInput';
+import QuantityInput from './common/QuantityInput';
 import { useState } from 'react';
-import ShareButton from './carcovers/ShareButton';
-import { useDrawer } from './carcovers/Drawer';
+import ShareButton from './cars/ShareButton';
+import { useDrawer } from './common/Drawer';
 
 export function ProductForm({
   product,

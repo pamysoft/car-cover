@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
 import { fetchCarCoverHierarchy, fetchData, isBlankLevelInfo } from '~/lib/functions';
-import { useProxyUrl } from '../carcovers/PageWrapper';
+import { useProxyUrl } from '../common/PageWrapper';
 
 const fetchMakeList = async (proxyUrl: string, year: string) => {
     const endpoint = `scooters/get-make-list/${encodeURIComponent(year)}/?shop=1`;

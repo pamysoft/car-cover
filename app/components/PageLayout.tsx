@@ -14,16 +14,15 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import { SearchResultsPredictive } from '~/components/SearchResultsPredictive';
-import { AnnouncementBar } from './carcovers/AnnouncementBar';
-import { TopBar } from './carcovers/TopBar';
-import { Header } from './carcovers/Header';
-import { Footer } from './carcovers/Footer';
+import { AnnouncementBar } from './common/AnnouncementBar';
+import { TopBar } from './common/TopBar';
+import { Header } from './common/Header';
+import { Footer } from './common/Footer';
 import { CollectionInfo } from '~/lib/types';
-import { CategoryType, PageWrapper } from './carcovers/PageWrapper';
-import { Drawer } from './carcovers/Drawer';
-import HamburgerDrawer from './carcovers/HamburgerDrawer';
-import LightCloseIcon from './carcovers/icons/LightCloseIcon';
-import { StaticContentProvider } from './carcovers/StaticContentProvider';
+import { CategoryType, PageWrapper } from './common/PageWrapper';
+import { Drawer } from './common/Drawer';
+import HamburgerDrawer from './common/HamburgerDrawer';
+import { StaticContentProvider } from './common/StaticContentProvider';
 
 export interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;

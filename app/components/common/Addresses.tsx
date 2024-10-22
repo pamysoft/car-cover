@@ -1,12 +1,12 @@
 import { Form, useFetcher, useOutletContext } from "@remix-run/react";
 import { CustomerFragment } from "customer-accountapi.generated";
 import { useEffect, useRef, useState } from "react";
-import CheckboxField from "~/components/carcovers/CheckboxField";
-import AddIcon from "~/components/carcovers/icons/AddIcon";
-import EditIcon from "~/components/carcovers/icons/EditIcon";
-import Modal from "~/components/carcovers/Modal";
-import SelectField from "~/components/carcovers/SelectField";
-import TextField from "~/components/carcovers/TextField";
+import CheckboxField from "~/components/common/CheckboxField";
+import AddIcon from "~/components/common/icons/AddIcon";
+import EditIcon from "~/components/common/icons/EditIcon";
+import Modal from "~/components/common/Modal";
+import SelectField from "~/components/common/SelectField";
+import TextField from "~/components/common/TextField";
 import { Country, State, City } from 'country-state-city';
 
 export function Addresses({ className }: { className?: string }) {

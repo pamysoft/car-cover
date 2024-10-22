@@ -1,13 +1,13 @@
 import { fetchCarCoverHierarchyByHandle, toTitleCase } from '~/lib/functions';
-import { CarCoverComparison } from './CarCoverComparison';
-import { CarCoverTypes } from './CarCoverTypes';
-import { SearchBox } from './SearchBox';
-import { Slideshow } from './Slideshow';
-import { ValueProposition } from './ValuePropostion';
+import { CarCoverComparison } from '../common/CarCoverComparison';
+import { CarCoverTypes } from '../common/CarCoverTypes';
+import { SearchBox } from '../cars/SearchBox';
+import { Slideshow } from '../common/Slideshow';
+import { ValueProposition } from '../common/ValuePropostion';
 import { PathwayInfo } from '~/lib/types';
 import { useEffect, useState } from 'react';
-import { CarModelYearSelector } from './CarModelYearSelector';
-import { useProxyUrl } from './PageWrapper';
+import { CarModelYearSelector } from '../common/CarModelYearSelector';
+import { useProxyUrl } from '../common/PageWrapper';
 import { useRVCoversBreadcrumbs } from './RVCoversBreadcrumbs';
 
 export function RVCoversCategoryStaticContent() {

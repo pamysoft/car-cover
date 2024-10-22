@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
-import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
-import { useProxyUrl } from './PageWrapper';
+import { fetchCarCoverHierarchy, fetchData, isBlankLevelInfo } from '~/lib/functions';
+import { useProxyUrl } from '../common/PageWrapper';
+
+const fetchMakeList = async (proxyUrl: string, year: string) => {
+    const endpoint = `scooters/get-make-list/${encodeURIComponent(year)}/?shop=1`;
+    return await fetchData(proxyUrl, endpoint);
+};
+
+const fetchModelList = async (proxyUrl: string, year: string, make: string) => {
+    const endpoint = `scooters/get-model-list/${encodeURIComponent(year)}/${encodeURIComponent(make)}?shop=1`;
+    return await fetchData(proxyUrl, endpoint);
+};
 
 
 const DependentDropdowns: React.FC<{
+    baseUrl: string;
     selectedYear: LevelInfo;
     selectedMake: LevelInfo;
     selectedModel: LevelInfo;
-    selectedTrim: LevelInfo;
     setSelectedYear: React.Dispatch<React.SetStateAction<LevelInfo>>;
     setSelectedMake: React.Dispatch<React.SetStateAction<LevelInfo>>;
     setSelectedModel: React.Dispatch<React.SetStateAction<LevelInfo>>;
-    setSelectedTrim: React.Dispatch<React.SetStateAction<LevelInfo>>;
-}> = ({ selectedYear, selectedMake, selectedModel, selectedTrim, setSelectedYear, setSelectedMake, setSelectedModel, setSelectedTrim }) => {
+}> = ({ baseUrl, selectedYear, selectedMake, selectedModel, setSelectedYear, setSelectedMake, setSelectedModel }) => {
     const [availableYears, setAvailableYears] = useState<LevelInfo[]>([]);
     const [availableMakes, setAvailableMakes] = useState<LevelInfo[]>([]);
     const [availableModels, setAvailableModels] = useState<LevelInfo[]>([]);
-    const [availableTrims, setAvailableTrims] = useState<LevelInfo[]>([]);
+    
     const [invalidSelect, setInvalidSelect] = useState<string | null>(null);
 
     // loading variables
     const [isYearDropdownLoading, setIsYearDropdownLoading] = useState(false);
     const [isMakeDropdownLoading, setIsMakeDropdownLoading] = useState(false);
     const [isModelDropdownLoading, setIsModelDropdownLoading] = useState(false);
-    const [isTrimDropdownLoading, setIsTrimDropdownLoading] = useState(false);
+    
 
     const proxyUrl = useProxyUrl();
 
@@ -45,7 +54,6 @@ const DependentDropdowns: React.FC<{
     useEffect(() => {
         setSelectedMake(blankLevelInfo);
         setAvailableMakes([]);
-        setAvailableTrims([]);
         
         if (!isBlankLevelInfo(selectedYear)) {
             setIsMakeDropdownLoading(true)
@@ -61,9 +69,7 @@ const DependentDropdowns: React.FC<{
 
     useEffect(() => {
         setSelectedModel(blankLevelInfo);
-        setSelectedTrim(blankLevelInfo);
         setAvailableModels([]);
-        setAvailableTrims([]);
 
         if (!isBlankLevelInfo(selectedMake)) {
             setIsModelDropdownLoading(true)
@@ -75,49 +81,32 @@ const DependentDropdowns: React.FC<{
             fetchModelData()
         }
     }, [selectedMake, proxyUrl])
+    
 
     useEffect(() => {
-        setSelectedTrim(blankLevelInfo);
-        setAvailableTrims([]);
         if (!isBlankLevelInfo(selectedModel)) {
-            setIsTrimDropdownLoading(true)
-            const fetchTrimData = async () => {
-                const results = await fetchTrimList(proxyUrl, selectedYear.handle, selectedMake.handle, selectedModel.handle)
-                setAvailableTrims(results)
-                setIsTrimDropdownLoading(false);
-                
-                if (results.length==1) {
-                    setSelectedTrim(results[0])
-                } else {
-                    maybeRedirect(results.length)
-                }
-            }
-            fetchTrimData()
-        }
-    }, [selectedModel, proxyUrl])
-
-    useEffect(() => {
-        if (!isBlankLevelInfo(selectedTrim)) {
             maybeRedirect()
         }
-    }, [selectedTrim])
+    }, [selectedModel])
 
-    const maybeRedirect = (totalTrims?: number) => {
+    const maybeRedirect = (totalModels?: number) => {
         let parts = []
-        let collectionUrl = '/car-covers/'
+        let collectionUrl = `${baseUrl}/`
         if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
             parts.push(selectedMake.handle)
-            parts.push(selectedModel.handle)
-            parts.push(selectedYear.handle)
-
-            totalTrims = totalTrims || availableTrims.length
-
-            if (totalTrims < 2) {
+            
+            totalModels = totalModels || availableModels.length
+            
+            if (totalModels < 2) {
+                parts.push(selectedModel.handle)
+                parts.push(selectedYear.handle)
+                
                 collectionUrl = collectionUrl + parts.join('/')
                 window.location.href = collectionUrl
             } else {
-                if (selectedTrim.handle) {
-                    parts.push(selectedTrim.handle)
+                if (selectedModel.handle) {
+                    parts.push(selectedModel.handle)
+                    parts.push(selectedYear.handle)
                     collectionUrl = collectionUrl + parts.join('/')
                     window.location.href = collectionUrl
                 }
@@ -144,11 +133,6 @@ const DependentDropdowns: React.FC<{
         setSelectedModel(JSON.parse(dataItem));
     };
 
-    const handleTrimChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOption = event.target.options[event.target.selectedIndex];
-        const dataItem = selectedOption.getAttribute('data-item');
-        setSelectedTrim(JSON.parse(dataItem));
-    };
 
 
     const selectClassName = (fieldValue: string, fieldName: string) =>
@@ -162,11 +146,9 @@ const DependentDropdowns: React.FC<{
             setInvalidSelect('make');
         } else if (!selectedModel.handle) {
             setInvalidSelect('model');
-        } else if (!selectedTrim.handle) {
-            setInvalidSelect('trim');
         }
 
-    }, [selectedYear, selectedMake, selectedModel, selectedTrim]);
+    }, [selectedYear, selectedMake, selectedModel]);
 
 
     return (
@@ -233,27 +215,6 @@ const DependentDropdowns: React.FC<{
                         ))}
                 </select>
             </div>
-
-            {/* Trim Dropdown */}
-            <div className="mb-[12px] mt-[10px]">
-                <label className="block font-[Oswald] text-[14px] tracking-tight text-[#222] ml:hidden">
-                    4. | Select Trim
-                </label>
-                <select
-                    value={selectedTrim.id}
-                    onChange={handleTrimChange}
-                    className={selectClassName(selectedTrim.id, 'trim')}
-                    disabled={availableTrims.length < 2}
-                >
-                    <option value="">{isTrimDropdownLoading ? 'Loading...' : 'Select Trim'}</option>
-                    {!isTrimDropdownLoading && availableTrims && availableTrims
-                        .map((item: LevelInfo) => (
-                            <option key={item.id} value={item.id} data-item={JSON.stringify(item)}>
-                                {item.name}
-                            </option>
-                        ))}
-                </select>
-            </div>
         </div>
     );
 };
@@ -261,22 +222,23 @@ const DependentDropdowns: React.FC<{
 
 interface SearchBoxProps {
     className: string;
+    baseUrl: string;
+    heading: string;
 }
 
-export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
+export const SearchBox: React.FC<SearchBoxProps> = ({ className, baseUrl, heading }) => {
     const [selectedYear, setSelectedYear] = useState<LevelInfo>(blankLevelInfo);
     const [selectedMake, setSelectedMake] = useState<LevelInfo>(blankLevelInfo);
     const [selectedModel, setSelectedModel] = useState<LevelInfo>(blankLevelInfo);
-    const [selectedTrim, setSelectedTrim] = useState<LevelInfo>(blankLevelInfo);
 
     const handleSubmit = () => {
-        if (!selectedYear.handle || !selectedModel.handle || !selectedModel.handle || !selectedTrim.handle) {
+        if (!selectedYear.handle || !selectedModel.handle || !selectedModel.handle ) {
             alert('Please select all options before searching.');
             return;
         }
 
         // Construct the URL based on the selected options
-        const url = `/car-covers/${selectedMake.handle}/${selectedModel.handle}/${selectedYear.handle}/${selectedTrim.handle}`;
+        const url = `${baseUrl}/${selectedMake.handle}/${selectedModel.handle}/${selectedYear.handle}`;
 
         // Redirect to the constructed URL
         window.location.href = url;
@@ -289,17 +251,16 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
                     <div className="flex h-full flex-col justify-between gap-[35px]">
                         <div>
                             <div className="flex h-[35px] items-center justify-center bg-[#ff0000] p-[3px] text-center font-[Oswald] text-[18px] text-[#ffffff]">
-                                VEHICLE COVER SEARCH
+                                {heading?heading:'SCOOTER COVER SEARCH'}
                             </div>
                             <DependentDropdowns
+                                baseUrl={baseUrl}
                                 selectedYear={selectedYear}
                                 selectedMake={selectedMake}
-                                selectedModel={selectedModel}
-                                selectedTrim={selectedTrim}
+                                selectedModel={selectedModel}                                
                                 setSelectedYear={setSelectedYear}
                                 setSelectedMake={setSelectedMake}
                                 setSelectedModel={setSelectedModel}
-                                setSelectedTrim={setSelectedTrim}
                             />
                         </div>
                         <div className="flex justify-between ml:mt-0">

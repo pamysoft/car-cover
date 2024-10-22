@@ -3,12 +3,12 @@ import { Link, useLoaderData, type MetaFunction } from '@remix-run/react';
 import { Money, Image, flattenConnection } from '@shopify/hydrogen';
 import type { OrderLineItemFullFragment } from 'customer-accountapi.generated';
 import { CUSTOMER_ORDER_QUERY } from '~/graphql/customer-account/CustomerOrderQuery';
-import BasketIcon from '~/components/carcovers/icons/BasketIcon';
-import ArrowDownIcon from '~/components/carcovers/icons/ArrowDownIcon';
+import BasketIcon from '~/components/common/icons/BasketIcon';
+import ArrowDownIcon from '~/components/common/icons/ArrowDownIcon';
 import { useEffect, useState } from 'react';
-import ArrowUpIcon from '~/components/carcovers/icons/ArrowUpIcon';
-import BackIcon from '~/components/carcovers/icons/BackIcon';
-import CheckedIcon from '~/components/carcovers/icons/CheckedIcon';
+import ArrowUpIcon from '~/components/common/icons/ArrowUpIcon';
+import BackIcon from '~/components/common/icons/BackIcon';
+import CheckedIcon from '~/components/common/icons/CheckedIcon';
 import noImageUrl from '~/assets/no_image.svg'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

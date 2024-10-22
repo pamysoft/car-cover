@@ -1,14 +1,14 @@
 import { fetchCarCoverHierarchyByHandle } from '~/lib/functions';
 
 import { SearchBox } from './SearchBox';
-import { Slideshow } from '../carcovers/Slideshow';
+import { Slideshow } from '../common/Slideshow';
 
 import { BlockType, HtmlBlockType, PathwayInfo, TextBlockType } from '~/lib/types';
 import { useEffect, useState } from 'react';
 
-import { useCategory, useProxyUrl } from '../carcovers/PageWrapper';
+import { useCategory, useProxyUrl } from '../common/PageWrapper';
 import { useBreadcrumbs } from './Breadcrumbs';
-import { usePageBlocks } from '../carcovers/StaticContentProvider';
+import { usePageBlocks } from '../common/StaticContentProvider';
 
 
 export function CategoryStaticContent() {

@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react"
-import { StarRating } from "./StarRating"
+import { StarRating } from "../common/StarRating"
 import { ProductInfoBottom } from "./ProductInfoBottom"
 import { LoopProductPrice } from "./LoopProductPrice"
 import LoopProductAddToCartButton from "./LoopProductAddToCartButton"
