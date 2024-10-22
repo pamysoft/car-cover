@@ -3,6 +3,7 @@ import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
+import { StaticContentProvider } from '~/components/common/StaticContentProvider';
 import { Breadcrumbs } from '~/components/scooters/Breadcrumbs';
 import { CategoryStaticContent } from '~/components/scooters/CategoryStaticContent';
 import { FilteredProducts } from '~/components/scooters/FilteredProducts';
@@ -31,16 +32,14 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     }
   })
 
-  const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
-
   const validProducts = getValidProducts(productsResponse)
   const sortedProducts = getSortedProducts(validProducts)
 
-  return json({ products: sortedProducts, theFilter, pathname });
+  return json({ products: sortedProducts, pathname });
 }
 
 export default function () {
-  const { products, theFilter, pathname } = useLoaderData();
+  const { products, pathname } = useLoaderData();
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
@@ -50,12 +49,14 @@ export default function () {
   layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
-    <Breadcrumbs.Provider>
-      <Breadcrumbs />
-      {/* Decide the layout */}
-      {(layout === DisplayLayout.ListProducts) ?
-        <FilteredProducts theFilter={theFilter} products={products} /> :
-        <CategoryStaticContent path={pathname} />}
-    </Breadcrumbs.Provider>
+    <StaticContentProvider>
+      <Breadcrumbs.Provider>
+        <Breadcrumbs />
+        {/* Decide the layout */}
+        {(layout === DisplayLayout.ListProducts) ?
+          <FilteredProducts products={products} /> :
+          <CategoryStaticContent path={pathname} />}
+      </Breadcrumbs.Provider>
+    </StaticContentProvider>
   );
 }

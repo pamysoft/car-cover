@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
-import { Pagination } from '@shopify/hydrogen';
-import { useNavigate } from '@remix-run/react';
-import { useInView } from 'react-intersection-observer';
-import { toTitleCase } from '~/lib/functions';
 import { ProductCard } from '../common/ProductCard';
-import { useBreadcrumbs } from '../cars/Breadcrumbs';
-import { useRVCoversBreadcrumbs } from './RVCoversBreadcrumbs';
+import { useBreadcrumbs } from './Breadcrumbs';
 
-export function RVCoversFilteredProducts({ products }) {
-  const breadcrumbs = useRVCoversBreadcrumbs()
+export function FilteredProducts({ products }) {
+  const breadcrumbs = useBreadcrumbs()
   
   return <>
     <div className="container">

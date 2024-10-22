@@ -3,7 +3,7 @@ import { SearchBox } from './SearchBox';
 import { Slideshow } from '../common/Slideshow';
 import { BlockType, HtmlBlockType, TextBlockType } from '~/lib/types';
 import { Suspense, useEffect, useState } from 'react';
-import { CategoryType, useCategory, useProxyUrl } from '../common/PageWrapper';
+import { useCategory, useProxyUrl } from '../common/PageWrapper';
 import { useBreadcrumbs } from './Breadcrumbs';
 import { usePageBlocks } from '../common/StaticContentProvider';
 import { Loading } from '../common/Loading';
@@ -40,7 +40,7 @@ export function CategoryStaticContent() {
                 <>
                     <div className='container mt-[20px] lg:mt-0'>
                         <div className='md:gap-0 ml:flex'>
-                            {(category == CategoryType.CarCovers || category == CategoryType.CarCoversChildren) && <SearchBox className="ml:w-1/4" />}
+                            <SearchBox className="ml:w-1/4" />
                             <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
                         </div>
                     </div>

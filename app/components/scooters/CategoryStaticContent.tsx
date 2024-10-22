@@ -36,14 +36,14 @@ export function CategoryStaticContent() {
     return <>
         <div className='container mt-[20px] lg:mt-0'>
             <div className='md:gap-0 ml:flex'>
-                <SearchBox heading='SCOOTER COVER SEARCH' baseUrl='/scooters-cover' className="ml:w-1/4" />                
+                <SearchBox heading='SCOOTER COVER SEARCH' baseUrl='/scooter-covers' className="ml:w-1/4" />                
                 <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
             </div>
         </div>
         <div className='pb-[100px]'>
             {blocks && blocks.map(block => {
                 return (
-                    <>
+                    <div key={block.id}>
                         {(block.type == BlockType.HTML) && <div dangerouslySetInnerHTML={{ __html: (block.content as HtmlBlockType).html }} />}
                         {(block.type == BlockType.Text) && <>
                             <div className="container">
@@ -51,7 +51,7 @@ export function CategoryStaticContent() {
                                 <div dangerouslySetInnerHTML={{ __html: (block.content as TextBlockType).text }} />
                             </div>
                         </>}
-                    </>
+                    </div>
                 )
             })}
         </div>

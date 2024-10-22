@@ -43,6 +43,7 @@ export function StaticContentProvider({ children }: { children?: React.ReactNode
     useEffect(() => {
         // loading data
         console.log('Fetchdata....')
+        console.log('appProxyUrl=',appProxyUrl)
         const fetchData = async () => {
             const response = await fetch(appProxyUrl, {
                 method: 'GET',

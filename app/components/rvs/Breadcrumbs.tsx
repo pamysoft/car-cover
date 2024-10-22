@@ -4,10 +4,10 @@ import { PathwayInfo } from "~/lib/types"
 import { useProxyUrl } from "../common/PageWrapper"
 import { useLocation } from "@remix-run/react"
 
-export function RVCoversBreadcrumbs() {
-  const rvcoversbreadcrumbs = useRVCoversBreadcrumbs()
-  const pathway = rvcoversbreadcrumbs.pathway
-  const isLoading = rvcoversbreadcrumbs.isLoading
+export function Breadcrumbs() {
+  const breadcrumbs = useBreadcrumbs()
+  const pathway = breadcrumbs.pathway
+  const isLoading = breadcrumbs.isLoading
 
   return <>{pathway && <div className="container font-[Oswald] text-[#666]">
     <ul className="mb-[20px] mt-[20px] flex flex-wrap lg:mt-0">
@@ -31,16 +31,16 @@ export function RVCoversBreadcrumbs() {
 }
 
 
-type RVCoversBreadcrumbContextValue = {
+type BreadcrumbContextValue = {
   pathway: PathwayInfo[];
   isLoading: boolean;
   relativeUrl: string;
   catalogTitle: string;
   trimText: string;
 };
-const RVCoversBreadcrumbContext = createContext<RVCoversBreadcrumbContextValue | null>(null);
+const BreadcrumbContext = createContext<BreadcrumbContextValue | null>(null);
 
-RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }: { children: ReactNode }) {
+Breadcrumbs.Provider = function BreadcrumbsProvider({ children }: { children: ReactNode }) {
   const [pathway, setPathway] = useState<PathwayInfo[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const proxyUrl = useProxyUrl();
@@ -72,7 +72,7 @@ RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }
   }, [proxyUrl])
 
   return (
-    <RVCoversBreadcrumbContext.Provider
+    <BreadcrumbContext.Provider
       value={{
         pathway: pathway,
         isLoading: isLoading,
@@ -82,14 +82,14 @@ RVCoversBreadcrumbs.Provider = function RVCoversBreadcrumbsProvider({ children }
       }}
     >
       {children}
-    </RVCoversBreadcrumbContext.Provider>
+    </BreadcrumbContext.Provider>
   );
 };
 
-export function useRVCoversBreadcrumbs() {
-  const rvcoversbreadcrumbs = useContext(RVCoversBreadcrumbContext);
-  if (!rvcoversbreadcrumbs) {
-    throw new Error('useRVCoversBreadcrumbs must be used within an RVCoversBreadcrumbsProvider');
+export function useBreadcrumbs() {
+  const breadcrumbs = useContext(BreadcrumbContext);
+  if (!breadcrumbs) {
+    throw new Error('useBreadcrumbs must be used within an BreadcrumbsProvider');
   }
-  return rvcoversbreadcrumbs;
+  return breadcrumbs;
 }

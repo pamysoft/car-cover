@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { blankLevelInfo, CollectionInfo, LevelInfo } from '~/lib/types';
-import { fetchCarCoverHierarchy, fetchMakeList, fetchModelList, fetchSizeList, fetchTrimList, isBlankLevelInfo } from '~/lib/functions';
+import { blankLevelInfo, LevelInfo } from '~/lib/types';
+import { fetchSizeList, isBlankLevelInfo } from '~/lib/functions';
 import { useProxyUrl } from '../common/PageWrapper';
 
 const DependentDropdowns: React.FC<{
@@ -154,7 +154,7 @@ interface SearchBoxProps {
     className: string;
 }
 
-export const RVCoversSearchBox: React.FC<SearchBoxProps> = ({ className }) => {
+export const SearchBox: React.FC<SearchBoxProps> = ({ className }) => {
     const [selectedType, setSelectedType] = useState<LevelInfo>(blankLevelInfo);
     const [selectedSize, setSelectedSize] = useState<LevelInfo>(blankLevelInfo);
 

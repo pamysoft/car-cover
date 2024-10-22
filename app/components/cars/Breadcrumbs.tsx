@@ -106,7 +106,9 @@ Breadcrumbs.Provider = function BreadcrumbsProvider({ children }: { children: Re
 
       setIsLoading(false)
     }
-    fetchData()
+    if (path) {
+      fetchData()
+    }
   }, [proxyUrl])
 
   return (

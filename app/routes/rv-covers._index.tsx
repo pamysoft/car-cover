@@ -3,14 +3,12 @@ import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
-import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
-import { FilteredProducts } from '~/components/cars/FilteredProducts';
-import { RVCoversBreadcrumbs } from '~/components/rvs/RVCoversBreadcrumbs';
-import { RVCoversCategoryStaticContent } from '~/components/rvs/RVCoversCategoryStaticContent';
-import { RVCoversFilteredProducts } from '~/components/rvs/RVCoversFilteredProducts';
+import { CategoryStaticContent } from '~/components/rvs/CategoryStaticContent';
+import { StaticContentProvider } from '~/components/common/StaticContentProvider';
+import { Breadcrumbs } from '~/components/rvs/Breadcrumbs';
+import { FilteredProducts } from '~/components/rvs/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchRvcoverShopifyProductsByPath, fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
+import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
 
@@ -30,7 +28,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   const proxyUrl = context.env.PROXY_URL;
 
-  const productIds = await fetchRvcoverShopifyProductsByPath(proxyUrl, pathname);
+  const productIds = await fetchShopifyProductsByPath(proxyUrl, pathname);
 
   const shopifyProductIds = productIds.map(productId => "gid://shopify/Product/" + productId)
 
@@ -49,7 +47,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export default function () {
-  const { products, theFilter, pathname } = useLoaderData();
+  const { products, pathname } = useLoaderData();
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
@@ -59,10 +57,12 @@ export default function () {
   layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
-      <RVCoversBreadcrumbs.Provider>
-        <RVCoversBreadcrumbs />
+    <StaticContentProvider>
+      <Breadcrumbs.Provider>
+        <Breadcrumbs />
         {/* Decide the layout */}
-        {(layout === DisplayLayout.ListProducts) ? <RVCoversFilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
-      </RVCoversBreadcrumbs.Provider>
+        <CategoryStaticContent path={pathname} />
+      </Breadcrumbs.Provider>
+    </StaticContentProvider>
   );
 }
