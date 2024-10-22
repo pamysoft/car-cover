@@ -2,13 +2,11 @@ import { json, Link, useLoaderData, useLocation, useNavigate } from '@remix-run/
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
-import { useInView } from "react-intersection-observer";
-import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
-import { FilteredProducts } from '~/components/cars/FilteredProducts';
-import { RVCoversBreadcrumbs } from '~/components/rvs/Breadcrumbs';
-import { RVCoversCategoryStaticContent } from '~/components/rvs/CategoryStaticContent';
-import { RVCoversFilteredProducts } from '~/components/rvs/FilteredProducts';
+import { useInView } from "react-intersection-observer";import { StaticContentProvider } from '~/components/common/StaticContentProvider';
+;
+import { Breadcrumbs } from '~/components/rvs/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/rvs/CategoryStaticContent';
+import { FilteredProducts } from '~/components/rvs/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
 import { fetchRvcoverShopifyProductsByPath, fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
@@ -60,12 +58,12 @@ export default function () {
   layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
-    <Breadcrumbs.Provider>
-      <RVCoversBreadcrumbs.Provider>
-        <RVCoversBreadcrumbs />
+    <StaticContentProvider>
+      <Breadcrumbs.Provider>
+        <Breadcrumbs />
         {/* Decide the layout */}
-        {(layout === DisplayLayout.ListProducts) ? <RVCoversFilteredProducts theFilter={theFilter} products={products} /> : <CategoryStaticContent path={pathname} />}
-      </RVCoversBreadcrumbs.Provider>
-    </Breadcrumbs.Provider>
+        {(layout === DisplayLayout.ListProducts) ? <FilteredProducts products={products} /> : <CategoryStaticContent path={pathname} />}
+      </Breadcrumbs.Provider>
+    </StaticContentProvider>
   );
 }
