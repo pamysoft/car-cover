@@ -1,6 +1,5 @@
-import { AddToCartButton } from "../AddToCartButton";
-import { useAside } from "../Aside";
-import { useDrawer } from "../common/Drawer";
+import { AddToCartButton } from "./AddToCartButton";
+import { useDrawer } from "./Drawer";
 
 
 export default function LoopProductAddToCartButton({product}) {

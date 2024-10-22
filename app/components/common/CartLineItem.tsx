@@ -1,16 +1,16 @@
 import type { CartLineUpdateInput } from '@shopify/hydrogen/storefront-api-types';
-import type { CartLayout } from '~/components/CartMain';
+import type { CartLayout } from './CartMain';
 import { CartForm, Image, type OptimisticCartLine } from '@shopify/hydrogen';
 import { useVariantUrl } from '~/lib/variants';
 import { Link } from '@remix-run/react';
 import { ProductPrice } from './ProductPrice';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useDrawer } from './common/Drawer';
+import { useDrawer } from './Drawer';
 import noImageUrl from '~/assets/no_image.svg'
-import RemoveIcon from './common/icons/RemoveIcon';
-import PlusIcon from './common/icons/PlusIcon';
+import RemoveIcon from './icons/RemoveIcon';
+import PlusIcon from './icons/PlusIcon';
 import { useEffect, useState } from 'react';
-import { useServerUrl } from './common/PageWrapper';
+import { useServerUrl } from './PageWrapper';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 
@@ -18,7 +18,7 @@ type CartLine = OptimisticCartLine<CartApiQueryFragment>;
  * A single line item in the cart. It displays the product image, title, price.
  * It also provides controls to update the quantity or remove the line item.
  */
-export function CartLineItemPage({
+export function CartLineItem({
   layout,
   line,
 }: {
@@ -29,7 +29,6 @@ export function CartLineItemPage({
   const { product, title, image, selectedOptions } = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const { close } = useDrawer();
-
   const serverUrl = useServerUrl()
   
 
@@ -58,9 +57,11 @@ export function CartLineItemPage({
 
   return (
     <tr key={id} className="cv-cart-line">
-      <td className='w-[105px] pt-[20px] align-top md:w-[168px]'>
-        <img src={productImageUrl} className='w-[85px] rounded-[5px] md:w-[120px]' />
+      <td className='w-[105px] pt-[20px] align-top'>
+        {productImageUrl && <img src={productImageUrl} width={85} height={85} className='rounded-[5px]' />}
+        {!productImageUrl && <img src={noImageUrl} width={85} height={85} className='rounded-[5px]' />}
       </td>
+      <td className='hidden'></td>
       <td className='pl-[10px] pt-[20px] align-top'>
         <Link
           prefetch="intent"
@@ -76,16 +77,48 @@ export function CartLineItemPage({
         <div className='text-[13px] text-[#121212BF]'>
           <ProductPrice price={line?.cost?.totalAmount} />
         </div>
-        <div className='md:hidden'>
-          <CartLineQuantity line={line} />
-        </div>
-      </td>
-      <td className='hidden md:table-cell md:w-[200px] lg:w-[350px]'>
         <CartLineQuantity line={line} />
       </td>
-      <td className='w-[109px] pl-[10px] pt-[20px] text-right align-top text-[13px] text-[#121212BF]'>
+      <td className='pl-[10px] pt-[20px] text-right align-top text-[13px] text-[#121212BF]'>
         <ProductPrice price={line?.cost?.totalAmount} />
-      </td>      
+      </td>
+      {/* {image && (
+        <Image
+          alt={title}
+          aspectRatio="1/1"
+          data={image}
+          height={100}
+          loading="lazy"
+          width={100}
+        />
+      )}
+
+      <div>
+        <Link
+          prefetch="intent"
+          to={lineItemUrl}
+          onClick={() => {
+            if (layout === 'aside') {
+              close();
+            }
+          }}
+        >
+          <p>
+            <strong>{product.title}</strong>
+          </p>
+        </Link>
+        <ProductPrice price={line?.cost?.totalAmount} />
+        <ul>
+          {selectedOptions.map((option) => (
+            <li key={option.name}>
+              <small>
+                {option.name}: {option.value}
+              </small>
+            </li>
+          ))}
+        </ul>
+        <CartLineQuantity line={line} />
+      </div> */}
     </tr>
   );
 }

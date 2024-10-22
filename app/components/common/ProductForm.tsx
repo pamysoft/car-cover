@@ -4,12 +4,12 @@ import type {
   ProductFragment,
   ProductVariantFragment,
 } from 'storefrontapi.generated';
-import {AddToCartButton} from '~/components/AddToCartButton';
-import {useAside} from '~/components/Aside';
-import QuantityInput from './common/QuantityInput';
+import {AddToCartButton} from '~/components/common/AddToCartButton';
+import {useAside} from '~/components/unused/Aside';
+import QuantityInput from './QuantityInput';
 import { useState } from 'react';
-import ShareButton from './cars/ShareButton';
-import { useDrawer } from './common/Drawer';
+import ShareButton from './ShareButton';
+import { useDrawer } from './Drawer';
 
 export function ProductForm({
   product,

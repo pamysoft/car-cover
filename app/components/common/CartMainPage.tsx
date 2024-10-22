@@ -1,11 +1,7 @@
 import { useOptimisticCart } from '@shopify/hydrogen';
 import { Link } from '@remix-run/react';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useAside } from '~/components/Aside';
-import { CartLineItem } from '~/components/CartLineItem';
-import { CartSummary } from './CartSummary';
-import { useDrawer } from './common/Drawer';
-import LightCloseIcon from './common/icons/LightCloseIcon';
+import { useDrawer } from './Drawer';
 import { CartSummaryPage } from './CartSummaryPage';
 import { CartLineItemPage } from './CartLineItemPage';
 

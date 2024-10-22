@@ -9,8 +9,8 @@ import {
 } from '@shopify/hydrogen';
 import type { SelectedOption } from '@shopify/hydrogen/storefront-api-types';
 import { getVariantUrl } from '~/lib/variants';
-import { ProductPrice } from '~/components/ProductPrice';
-import { ProductForm } from '~/components/ProductForm';
+import { ProductPrice } from '~/components/common/ProductPrice';
+import { ProductForm } from '~/components/common/ProductForm';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: `Hydrogen | ${data?.product.title ?? ''}` }];

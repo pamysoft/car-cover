@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Await, NavLink } from '@remix-run/react';
 import { type CartViewPayload, useAnalytics } from '@shopify/hydrogen';
 import type { HeaderQuery, CartApiQueryFragment } from 'storefrontapi.generated';
-import { useAside } from '~/components/Aside';
+import { useAside } from '~/components/unused/Aside';
 import logoUrl from '~/assets/logo.png';
 import HamburgerIcon from './icons/HamburgerIcon';
 import CartIcon from './icons/CartIcon';
