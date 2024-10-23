@@ -15,14 +15,13 @@ const fetchModelList = async (proxyUrl: string, year: string, make: string) => {
 
 
 const DependentDropdowns: React.FC<{
-    baseUrl: string;
     selectedYear: LevelInfo;
     selectedMake: LevelInfo;
     selectedModel: LevelInfo;
     setSelectedYear: React.Dispatch<React.SetStateAction<LevelInfo>>;
     setSelectedMake: React.Dispatch<React.SetStateAction<LevelInfo>>;
     setSelectedModel: React.Dispatch<React.SetStateAction<LevelInfo>>;
-}> = ({ baseUrl, selectedYear, selectedMake, selectedModel, setSelectedYear, setSelectedMake, setSelectedModel }) => {
+}> = ({ selectedYear, selectedMake, selectedModel, setSelectedYear, setSelectedMake, setSelectedModel }) => {
     const [availableYears, setAvailableYears] = useState<LevelInfo[]>([]);
     const [availableMakes, setAvailableMakes] = useState<LevelInfo[]>([]);
     const [availableModels, setAvailableModels] = useState<LevelInfo[]>([]);
@@ -30,7 +29,6 @@ const DependentDropdowns: React.FC<{
     const [invalidSelect, setInvalidSelect] = useState<string | null>(null);
 
     // loading variables
-    const [isYearDropdownLoading, setIsYearDropdownLoading] = useState(false);
     const [isMakeDropdownLoading, setIsMakeDropdownLoading] = useState(false);
     const [isModelDropdownLoading, setIsModelDropdownLoading] = useState(false);
     
@@ -90,28 +88,31 @@ const DependentDropdowns: React.FC<{
     }, [selectedModel])
 
     const maybeRedirect = (totalModels?: number) => {
-        let parts = []
-        let collectionUrl = `${baseUrl}/`
         if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
-            parts.push(selectedMake.handle)
-            
-            totalModels = totalModels || availableModels.length
-            
-            if (totalModels < 2) {
-                parts.push(selectedModel.handle)
-                parts.push(selectedYear.handle)
-                
-                collectionUrl = collectionUrl + parts.join('/')
-                window.location.href = collectionUrl
-            } else {
-                if (selectedModel.handle) {
-                    parts.push(selectedModel.handle)
-                    parts.push(selectedYear.handle)
-                    collectionUrl = collectionUrl + parts.join('/')
-                    window.location.href = collectionUrl
-                }
-            }
+            window.location.href = `/${selectedModel.url}`
         }
+        // let parts = []
+        // let collectionUrl = `${baseUrl}/`
+        // if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
+        //     parts.push(selectedMake.handle)
+            
+        //     totalModels = totalModels || availableModels.length
+            
+        //     if (totalModels < 2) {
+        //         parts.push(selectedModel.handle)
+        //         parts.push(selectedYear.handle)
+                
+        //         collectionUrl = collectionUrl + parts.join('/')
+        //         window.location.href = collectionUrl
+        //     } else {
+        //         if (selectedModel.handle) {
+        //             parts.push(selectedModel.handle)
+        //             parts.push(selectedYear.handle)
+        //             collectionUrl = collectionUrl + parts.join('/')
+        //             window.location.href = collectionUrl
+        //         }
+        //     }
+        // }
     }
 
 
@@ -254,7 +255,6 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ className, baseUrl, headin
                                 {heading?heading:'SCOOTER COVER SEARCH'}
                             </div>
                             <DependentDropdowns
-                                baseUrl={baseUrl}
                                 selectedYear={selectedYear}
                                 selectedMake={selectedMake}
                                 selectedModel={selectedModel}                                

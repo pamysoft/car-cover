@@ -19,12 +19,14 @@ export type LevelInfo = {
     id: string
     handle: string;
     name: string;
+    url: string;
 }
 
 export const blankLevelInfo: LevelInfo = {
     id: '',
     handle: '',
-    name: ''
+    name: '',
+    url: ''
 };
 
 export type PathwayInfo = {
