@@ -22,8 +22,6 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
 
-  console.log('cart:',cart)
-
   const { close } = useDrawer()
 
   

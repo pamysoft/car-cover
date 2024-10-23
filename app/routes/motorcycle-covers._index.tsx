@@ -4,11 +4,9 @@ import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
 import { StaticContentProvider } from '~/components/common/StaticContentProvider';
-import { Breadcrumbs } from '~/components/motocycles/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/motocycles/CategoryStaticContent';
-import { FilteredProducts } from '~/components/motocycles/FilteredProducts';
-import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
+import { Breadcrumbs } from '~/components/motorcycles/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/motorcycles/CategoryStaticContent';
+import { stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -19,13 +17,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
 export default function () {
   const { pathname } = useLoaderData();
-
-  const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
-
-  const { ref, inView, entry } = useInView();
-  let layout: DisplayLayout = DisplayLayout.ListProducts
-
-  layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
 
   return (
     <StaticContentProvider>

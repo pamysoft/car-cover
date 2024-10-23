@@ -36,7 +36,7 @@ export function CategoryStaticContent() {
     return <>
         <div className='container mt-[20px] lg:mt-0'>
             <div className='md:gap-0 ml:flex'>
-                <SearchBox heading='MOTORCYLE COVER SEARCH' baseUrl='/motocycle-covers' className="ml:w-1/4" />                
+                <SearchBox heading='MOTORCYLE COVER SEARCH' baseUrl='/motorcycle-covers' className="ml:w-1/4" />                
                 <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
             </div>
         </div>
