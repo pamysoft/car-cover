@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { fetchBreadcrumbs, fetchCarCoverHierarchyByHandle, fetchVehicleByPath, stripSlashes } from "~/lib/functions"
+import { fetchVehicleByPath, stripSlashes } from "~/lib/functions"
 import { PathwayInfo } from "~/lib/types"
 import { useProxyUrl } from "../common/PageWrapper"
 import { useLocation } from "@remix-run/react"

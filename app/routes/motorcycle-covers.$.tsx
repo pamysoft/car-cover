@@ -4,8 +4,8 @@ import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 import { useInView } from "react-intersection-observer";
 import { StaticContentProvider } from '~/components/common/StaticContentProvider';
-import { Breadcrumbs } from '~/components/scooters/Breadcrumbs';
-import { FilteredProducts } from '~/components/scooters/FilteredProducts';
+import { Breadcrumbs } from '~/components/motorcycles/Breadcrumbs';
+import { FilteredProducts } from '~/components/motorcycles/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
 import { fetchData, getSortedProducts, getValidProducts, isArrayOfStrings, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
