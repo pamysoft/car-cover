@@ -158,7 +158,6 @@ function loadDeferredData({ context }: LoaderFunctionArgs) {
   const { storefront, customerAccount, cart } = context;
 
   const a = cart.get()
-  console.log('cart', a)
   
   return {
     cart: cart.get(),

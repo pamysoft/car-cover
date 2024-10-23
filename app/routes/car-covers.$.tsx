@@ -7,7 +7,7 @@ import { Breadcrumbs } from '~/components/cars/Breadcrumbs';
 import { CategoryStaticContent } from '~/components/cars/CategoryStaticContent';
 import { FilteredProducts } from '~/components/cars/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
+import { fetchData, getSortedProducts, getValidProducts, isArrayOfStrings, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
 
@@ -21,8 +21,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
-
-  const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
 
   const { storefront } = context
 
@@ -38,20 +36,16 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     }
   })
 
-  const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
 
   const validProducts = getValidProducts(productsResponse)
   const sortedProducts = getSortedProducts(validProducts)
 
-  return json({ products: sortedProducts, theFilter, pathname });
+  return json({ products: sortedProducts, pathname });
 }
 
 
-
-
-
 export default function () {
-  const { products, theFilter, pathname } = useLoaderData();
+  const { products, pathname } = useLoaderData();
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
@@ -65,8 +59,19 @@ export default function () {
       <Breadcrumbs />
       {/* Decide the layout */}
       {(layout === DisplayLayout.ListProducts) ?
-        <FilteredProducts theFilter={theFilter} products={products} /> :
+        <FilteredProducts products={products} /> :
         <CategoryStaticContent path={pathname} />}
     </Breadcrumbs.Provider>
   );
 }
+
+
+const fetchShopifyProductsByPath = async (
+  proxyUrl: string,
+  path: string
+): Promise<string[]> => {
+  const endpoint = `cars-shopify-products-by-path/${encodeURIComponent(path)}`;
+  const result = await fetchData<string[]>(proxyUrl, endpoint);
+
+  return result && isArrayOfStrings(result) ? result : [];
+};
