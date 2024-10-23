@@ -15,7 +15,7 @@ export function Breadcrumbs() {
         <a href="/" title="Go to Home Page">CarCover.com</a>
       </li>
       <li className="flex items-center after:mt-[3px] after:inline-block after:font-[icons-blank-theme] after:text-[24px] after:leading-[18px] after:text-[#999] after:content-['\e608']">
-        <a href="/rv-covers" title="RV Covers">Scooter Covers</a>
+        <a href="/scooter-covers" title="Scooter Covers">Scooter Covers</a>
       </li>
       <>
         {isLoading && <li className="flex items-center">Loading..</li>}
