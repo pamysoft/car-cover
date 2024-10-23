@@ -34,7 +34,6 @@ export function CategoryStaticContent() {
     const blocks = usePageBlocks()
 
     return <>
-        <Suspense fallback={<Loading />}>
             {isLoading && <Loading />}
             {!isLoading &&
                 <>
@@ -61,6 +60,5 @@ export function CategoryStaticContent() {
                     </div>
                 </>
             }
-        </Suspense>
     </>
 }

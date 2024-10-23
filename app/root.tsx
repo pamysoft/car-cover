@@ -157,8 +157,6 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
 function loadDeferredData({ context }: LoaderFunctionArgs) {
   const { storefront, customerAccount, cart } = context;
 
-  const a = cart.get()
-  
   return {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),

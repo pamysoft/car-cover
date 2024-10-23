@@ -32,7 +32,6 @@ export interface PageLayoutProps {
 export function PageLayout({
   cart,
   children = null,
-  footer,
   header,
   isLoggedIn,
   publicStoreDomain,
@@ -59,9 +58,7 @@ export function PageLayout({
               />
             )}
 
-            <Suspense fallback={<Loading />}>        
               <main className='m-0 p-0'>{children}</main>
-            </Suspense>
             
             <Footer />
 

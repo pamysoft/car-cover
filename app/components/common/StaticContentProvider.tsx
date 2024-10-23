@@ -1,10 +1,12 @@
 import { createContext, Suspense, useContext, useEffect, useState } from "react";
 import { Block, PageSettingsData } from "~/lib/types";
 import { CategoryType, useCategory, useProxyUrl } from "./PageWrapper";
+import { Loading } from "./Loading";
 
 type StaticContentContextValue = {
     settings: PageSettingsData;
     blocks: Block[];
+    isLoading: boolean;
 };
 
 
@@ -39,18 +41,19 @@ export function StaticContentProvider({ children }: { children?: React.ReactNode
     const category = useCategory()
     const appProxyUrl = getAppProxyUrl(proxyUrl, category);
     const [data, setData] = useState<StaticContentContextValue | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         // loading data
-        console.log('Fetchdata....')
-        console.log('appProxyUrl=',appProxyUrl)
         const fetchData = async () => {
+            setIsLoading(true)
             const response = await fetch(appProxyUrl, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+            setIsLoading(false)
             if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
             }
@@ -70,13 +73,12 @@ export function StaticContentProvider({ children }: { children?: React.ReactNode
         // })
     }, [, category])
 
-    const Loading = <div>Loading static content...</div>
-
-    return <Suspense fallback={Loading}>
+    return (
         <>
-            {data && <StaticContentContext.Provider value={data}>{children}</StaticContentContext.Provider>}
+            {isLoading && <Loading />}
+            {!isLoading && data && <StaticContentContext.Provider value={data}>{children}</StaticContentContext.Provider>}
         </>
-    </Suspense>
+        )
 }
 
 export function usePageBlocks() {

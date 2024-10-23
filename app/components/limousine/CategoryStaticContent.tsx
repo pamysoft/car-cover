@@ -1,20 +1,42 @@
-import { fetchCarCoverHierarchyByHandle, toTitleCase } from '~/lib/functions';
+import { fetchCarCoverHierarchyByHandle } from '~/lib/functions';
+
 import { SearchBox } from './SearchBox';
 import { Slideshow } from '../common/Slideshow';
-import { BlockType, HtmlBlockType, TextBlockType } from '~/lib/types';
-import { Suspense, useEffect, useState } from 'react';
+
+import { BlockType, HtmlBlockType, PathwayInfo, TextBlockType } from '~/lib/types';
+import { useEffect, useState } from 'react';
+
 import { useCategory, useProxyUrl } from '../common/PageWrapper';
 import { useBreadcrumbs } from './Breadcrumbs';
 import { usePageBlocks } from '../common/StaticContentProvider';
-import { Loading } from '../common/Loading';
 
 
 export function CategoryStaticContent() {
+    const [dynamicText, setDynamicText] = useState('')
+    const proxyUrl = useProxyUrl();
+    const breadcrumbs = useBreadcrumbs()
+    const path = breadcrumbs.relativeUrl
+    const category = useCategory()
+
+    const [isLoading, setIsLoading] = useState(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true)
+            const data = await fetchCarCoverHierarchyByHandle(proxyUrl, path)
+            let parts: string[] = []
+            data.forEach(item => parts.push(item.name))
+            setDynamicText(parts.join(' '))
+            setIsLoading(false)
+        }
+        fetchData()
+    }, [])
+
     const blocks = usePageBlocks()
+
     return <>
         <div className='container mt-[20px] lg:mt-0'>
             <div className='md:gap-0 ml:flex'>
-                <SearchBox className="ml:w-1/4" />
+                <SearchBox heading='SCOOTER COVER SEARCH' baseUrl='/scooter-covers' className="ml:w-1/4" />                
                 <Slideshow className="mt-[30px] ml:mt-0 ml:w-3/4 ml:pl-[15px]" />
             </div>
         </div>

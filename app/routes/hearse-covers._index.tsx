@@ -1,6 +1,6 @@
 import { StaticContentProvider } from '~/components/common/StaticContentProvider';
-import { Breadcrumbs } from '~/components/scooters/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/scooters/CategoryStaticContent';
+import { Breadcrumbs } from '~/components/hearse/Breadcrumbs';
+import { CategoryStaticContent } from '~/components/hearse/CategoryStaticContent';
 
 export default function () {
 
