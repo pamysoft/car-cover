@@ -226,7 +226,7 @@ export function stripSlashes(text: string): string {
 
 // Function to check if a LevelInfo object is blank
 export const isBlankLevelInfo = (levelInfo: LevelInfo): boolean => {
-    return levelInfo.id === '' && levelInfo.handle === '' && levelInfo.name === '';
+    return levelInfo?.id === '' && levelInfo?.handle === '' && levelInfo?.name === '';
 };
 
 

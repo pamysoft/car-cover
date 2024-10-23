@@ -43,7 +43,7 @@ export function CategoryStaticContent() {
         <div className='pb-[100px]'>
             {blocks && blocks.map(block => {
                 return (
-                    <>
+                    <div key={block.id}>
                         {(block.type == BlockType.HTML) && <div dangerouslySetInnerHTML={{ __html: (block.content as HtmlBlockType).html }} />}
                         {(block.type == BlockType.Text) && <>
                             <div className="container">
@@ -51,7 +51,7 @@ export function CategoryStaticContent() {
                                 <div dangerouslySetInnerHTML={{ __html: (block.content as TextBlockType).text }} />
                             </div>
                         </>}
-                    </>
+                    </div>
                 )
             })}
         </div>

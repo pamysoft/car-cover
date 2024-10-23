@@ -75,6 +75,11 @@ const DependentDropdowns: React.FC<{
                 const results = await fetchModelList(proxyUrl, selectedYear.handle, selectedMake.handle)
                 setAvailableModels(results)
                 setIsModelDropdownLoading(false);
+                if (results.length==1) {
+                    setSelectedModel(results[0])
+                } else {
+                    maybeRedirect(results.length)
+                }
             }
             fetchModelData()
         }
@@ -87,32 +92,19 @@ const DependentDropdowns: React.FC<{
         }
     }, [selectedModel])
 
-    const maybeRedirect = (totalModels?: number) => {
-        if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
-            window.location.href = `/${selectedModel.url}`
+    const maybeRedirect = (totalModels?: number) => {        
+        if (!isBlankLevelInfo(selectedYear) && !isBlankLevelInfo(selectedMake)) {
+            if (!isBlankLevelInfo(selectedModel)) {
+                window.location.href = `/${selectedModel.url}`
+            } else {
+                totalModels = totalModels || availableModels.length
+                if (totalModels == 1) {
+                    console.log('availableModels',availableModels[0])
+                    // setSelectedModel(availableModels[0])
+                    window.location.href = `/${availableModels[0].url}`
+                }
+            }
         }
-        // let parts = []
-        // let collectionUrl = `${baseUrl}/`
-        // if (selectedMake.handle && selectedModel.handle && selectedYear.handle) {
-        //     parts.push(selectedMake.handle)
-            
-        //     totalModels = totalModels || availableModels.length
-            
-        //     if (totalModels < 2) {
-        //         parts.push(selectedModel.handle)
-        //         parts.push(selectedYear.handle)
-                
-        //         collectionUrl = collectionUrl + parts.join('/')
-        //         window.location.href = collectionUrl
-        //     } else {
-        //         if (selectedModel.handle) {
-        //             parts.push(selectedModel.handle)
-        //             parts.push(selectedYear.handle)
-        //             collectionUrl = collectionUrl + parts.join('/')
-        //             window.location.href = collectionUrl
-        //         }
-        //     }
-        // }
     }
 
 
@@ -202,9 +194,9 @@ const DependentDropdowns: React.FC<{
                     3. | Select Model
                 </label>
                 <select
-                    value={selectedModel.id}
+                    value={selectedModel?.id}
                     onChange={handleModelChange}
-                    className={selectClassName(selectedModel.id, 'model')}
+                    className={selectClassName(selectedModel?.id, 'model')}
                     disabled={!availableModels.length}
                 >
                     <option value="">{isModelDropdownLoading ? 'Loading...' : 'Select Model'}</option>
