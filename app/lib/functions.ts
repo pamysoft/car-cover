@@ -194,7 +194,7 @@ export const fetchCarCoverDataByPath = async (proxyUrl: string, path: string) =>
     return null
 }
 
-function isArrayOfStrings(variable: any): variable is string[] {
+export function isArrayOfStrings(variable: any): variable is string[] {
     return Array.isArray(variable) && variable.every(item => typeof item === 'string');
 }
 
@@ -203,7 +203,7 @@ export const fetchShopifyProductsByPath = async (
     proxyUrl: string,
     path: string
 ): Promise<string[]> => {
-    const endpoint = `shopify-products-by-path/?shop=1&path=${encodeURIComponent(path)}`;
+    const endpoint = `fetch-shopify-products-by-path/${encodeURIComponent(path)}`;
     const result = await fetchData<string[]>(proxyUrl, endpoint);
 
     return result && isArrayOfStrings(result) ? result : [];

@@ -15,46 +15,11 @@ import { DisplayLayout } from '~/lib/types';
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const pathname = stripSlashes(new URL(request.url).pathname)
 
-  const variables = getPaginationVariables(request, {
-    pageBy: 2,
-  });
-
-
-  const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
-
-  const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
-
-  const { storefront } = context
-
-  const proxyUrl = context.env.PROXY_URL;
-
-  const productIds = await fetchShopifyProductsByPath(proxyUrl, pathname);
-
-  const shopifyProductIds = productIds.map(productId => "gid://shopify/Product/" + productId)
-
-  const productsResponse = await storefront.query(FETCH_PRODUCTS_QUERY, {
-    variables: {
-      ids: shopifyProductIds
-    }
-  })
-
-  const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
-
-  const validProducts = getValidProducts(productsResponse)
-  const sortedProducts = getSortedProducts(validProducts)
-
-  return json({ products: sortedProducts, theFilter, pathname });
+  return json({ pathname });
 }
 
 export default function () {
-  const { products, pathname } = useLoaderData();
-
-  const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
-
-  const { ref, inView, entry } = useInView();
-  let layout: DisplayLayout = DisplayLayout.ListProducts
-
-  layout = (pathParts.length > 2) ? DisplayLayout.ListProducts : DisplayLayout.StaticContent;
+  const { pathname } = useLoaderData();
 
   return (
     <StaticContentProvider>

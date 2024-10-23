@@ -5,10 +5,9 @@ import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useInView } from "react-intersection-observer";
 import { StaticContentProvider } from '~/components/common/StaticContentProvider';
 import { Breadcrumbs } from '~/components/scooters/Breadcrumbs';
-import { CategoryStaticContent } from '~/components/scooters/CategoryStaticContent';
 import { FilteredProducts } from '~/components/scooters/FilteredProducts';
 import { FETCH_PRODUCTS_QUERY } from '~/lib/fragments';
-import { fetchShopifyProductsByPath, getSortedProducts, getValidProducts, stripSlashes } from '~/lib/functions';
+import { fetchData, getSortedProducts, getValidProducts, isArrayOfStrings, stripSlashes } from '~/lib/functions';
 import { DisplayLayout } from '~/lib/types';
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -21,8 +20,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
   const pathParts = pathname.split('/').filter(Boolean); // Remove empty strings
 
-  const [urlMake, urlModel, urlYear, urlTrim] = pathParts;
-
+  
   const { storefront } = context
 
   const proxyUrl = context.env.PROXY_URL;
@@ -37,12 +35,11 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     }
   })
 
-  const theFilter = { make: urlMake, year: urlYear, model: urlModel, trim: urlTrim }
-
+  
   const validProducts = getValidProducts(productsResponse)
   const sortedProducts = getSortedProducts(validProducts)
 
-  return json({ products: sortedProducts, theFilter, pathname });
+  return json({ products: sortedProducts, pathname });
 }
 
 
@@ -67,3 +64,14 @@ export default function () {
     </StaticContentProvider>
   );
 }
+
+
+const fetchShopifyProductsByPath = async (
+  proxyUrl: string,
+  path: string
+): Promise<string[]> => {
+  const endpoint = `scooters-shopify-products-by-path/${encodeURIComponent(path)}`;
+  const result = await fetchData<string[]>(proxyUrl, endpoint);
+
+  return result && isArrayOfStrings(result) ? result : [];
+};
