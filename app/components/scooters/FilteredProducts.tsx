@@ -14,7 +14,6 @@ export function FilteredProducts({ products }) {
       <div className='ml:flex ml:gap-[20px]'>
         <div className='pb-[80px] ml:order-2 ml:grow'>
           <h1 className="mt-[10px] text-[30px] font-medium tracking-tight">{breadcrumbs.isLoading?'...':breadcrumbs.catalogTitle} </h1>
-          {breadcrumbs.trimText?<h3 className="mt-[10px] font-heading text-[17px] font-medium"><span>Trim: </span>{breadcrumbs.trimText}</h3>:''}
           <div className='flex flex-col'>
             <div className='mt-[30px]'>
               <LoopProducts products={products} />
